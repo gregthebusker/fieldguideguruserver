@@ -31,7 +31,7 @@ var Main = React.createClass({
     return (
       <div style={containerStyle}>
         <h1>Field Guide Guru</h1>
-        <h2>Explore field guides</h2>
+        <h2>Coming Soon...</h2>
       </div>
     );
   }

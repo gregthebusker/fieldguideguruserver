@@ -24543,7 +24543,7 @@ var Main = React.createClass({displayName: "Main",
     return (
       React.createElement("div", {style: containerStyle}, 
         React.createElement("h1", null, "Field Guide Guru"), 
-        React.createElement("h2", null, "Explore field guides")
+        React.createElement("h2", null, "Coming Soon...")
       )
     );
   }
