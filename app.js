@@ -12,8 +12,8 @@ var app = express();
 
 
 // Preserve gregthebusker.com
-var gregthebusker = require('./routes/gregthebusker');
-app.use('/', gregthebusker);
+// var gregthebusker = require('./routes/gregthebusker');
+// app.use('/', gregthebusker);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
