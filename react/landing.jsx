@@ -33,7 +33,7 @@ var Main = React.createClass({
         bottom: '0',
         top: '0',
         position: 'absolute',
-        backgroundColor: Colors.deepOrange500
+        backgroundColor: Colors.green500
       }}>
         <div style={containerStyle}>
           <h1>Field Guide Guru</h1>
