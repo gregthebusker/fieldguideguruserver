@@ -2,6 +2,8 @@ var React = require('react');
 var ThemeManager = require('material-ui/lib/styles/theme-manager')();
 var Colors = require('material-ui/lib/styles/colors');
 
+mixpanel.track('Landing Page');
+
 var Main = React.createClass({
 
   childContextTypes: {
