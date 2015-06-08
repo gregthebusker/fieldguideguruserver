@@ -33338,8 +33338,10 @@ var ResultList = React.createClass({displayName: "ResultList",
     if (items) {
       papers = items.map(function(item) {
         return (
-          React.createElement(Paper, {key: item.get('ISBN')}, 
-            React.createElement("p", null, item.get('ISBN'))
+          React.createElement(Paper, {className: "search-result-card", key: item.get('ISBN')}, 
+            React.createElement("div", {className: "search-result-content"}, 
+              item.get('title')
+            )
           )
         );
       });

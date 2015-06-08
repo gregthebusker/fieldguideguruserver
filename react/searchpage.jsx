@@ -27,8 +27,10 @@ var ResultList = React.createClass({
     if (items) {
       papers = items.map(function(item) {
         return (
-          <Paper key={item.get('ISBN')}>
-            <p>{item.get('ISBN')}</p>
+          <Paper className="search-result-card" key={item.get('ISBN')}>
+            <div className="search-result-content">
+              {item.get('title')}
+            </div>
           </Paper>
         );
       });
