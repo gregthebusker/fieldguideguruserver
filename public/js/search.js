@@ -33337,9 +33337,15 @@ var ResultList = React.createClass({displayName: "ResultList",
     var papers;
     if (items) {
       papers = items.map(function(item) {
+        var thumb = item.get('thumbnail');
+        var image;
+        if (thumb) {
+          image = React.createElement("img", {src: thumb.url()});
+        }
         return (
           React.createElement(Paper, {className: "search-result-card", key: item.get('ISBN')}, 
             React.createElement("div", {className: "search-result-content"}, 
+              image, 
               item.get('title')
             )
           )

@@ -26,9 +26,15 @@ var ResultList = React.createClass({
     var papers;
     if (items) {
       papers = items.map(function(item) {
+        var thumb = item.get('thumbnail');
+        var image;
+        if (thumb) {
+          image = <img src={thumb.url()} />;
+        }
         return (
           <Paper className="search-result-card" key={item.get('ISBN')}>
             <div className="search-result-content">
+              {image}
               {item.get('title')}
             </div>
           </Paper>
