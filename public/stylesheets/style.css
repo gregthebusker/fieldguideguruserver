@@ -19,3 +19,11 @@ body {
 .search-result-content {
   margin: 10px;
 }
+
+.search-result-image {
+  width: 152px;
+  height: 196px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}

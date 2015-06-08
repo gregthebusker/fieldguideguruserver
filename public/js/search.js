@@ -33340,7 +33340,10 @@ var ResultList = React.createClass({displayName: "ResultList",
         var thumb = item.get('thumbnail');
         var image;
         if (thumb) {
-          image = React.createElement("img", {src: thumb.url()});
+          var style = {
+            backgroundImage: 'url(' + thumb.url() + ')'
+          };
+          image = React.createElement("div", {className: "search-result-image", style: style});
         }
         return (
           React.createElement(Paper, {className: "search-result-card", key: item.get('ISBN')}, 
