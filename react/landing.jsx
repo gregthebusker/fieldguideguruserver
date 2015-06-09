@@ -1,27 +1,9 @@
 var React = require('react');
-var ThemeManager = require('material-ui/lib/styles/theme-manager')();
 var Colors = require('material-ui/lib/styles/colors');
 
 mixpanel.track('Landing Page');
 
 var Main = React.createClass({
-
-  childContextTypes: {
-    muiTheme: React.PropTypes.object
-  },
-
-  getChildContext: function() {
-    return {
-      muiTheme: ThemeManager.getCurrentTheme()
-    };
-  },
-
-  componentWillMount: function() {
-    ThemeManager.setPalette({
-      //accent1Color: Colors.deepOrange500
-    });
-  },
-
   render: function() {
     var containerStyle = {
       textAlign: 'center',

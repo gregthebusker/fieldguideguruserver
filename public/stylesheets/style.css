@@ -31,3 +31,7 @@ body {
 .search-result-loader {
   text-align: center;
 }
+
+.search-icon::before {
+  content: "\1f50d";
+}

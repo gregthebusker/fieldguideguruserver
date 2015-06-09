@@ -1,6 +1,4 @@
 var React = require('react');
-var ThemeManager = require('material-ui/lib/styles/theme-manager')();
-var Colors = require('material-ui/lib/styles/colors');
 var Paper = require('material-ui/lib/paper');
 var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
@@ -64,16 +62,6 @@ var ResultList = React.createClass({
 });
 
 var Search = React.createClass({
-  childContextTypes: {
-    muiTheme: React.PropTypes.object
-  },
-
-  getChildContext: function() {
-    return {
-      muiTheme: ThemeManager.getCurrentTheme()
-    };
-  },
-
   componentWillMount: function() {
     fetchFieldGuides(function(results) {
       this.setState({
