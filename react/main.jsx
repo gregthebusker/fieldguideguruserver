@@ -1,7 +1,7 @@
 (function () {
   var React = require('react/addons');
   var injectTapEventPlugin = require('react-tap-event-plugin');
-  var Landing = require('./landing.jsx'); // Our custom react component
+  var Core = require('./core.jsx');
 
   //Needed for React Developer Tools
   window.React = React;
@@ -12,6 +12,5 @@
   //https://github.com/zilverline/react-tap-event-plugin
   injectTapEventPlugin();
 
-  React.render(<Landing />, document.body);
-
+  React.render(<Core />, document.body);
 })();
