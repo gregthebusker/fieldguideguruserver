@@ -3,14 +3,17 @@ var Paper = require('material-ui/lib/paper');
 var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
 var CircularProgress = require('material-ui/lib/circular-progress');
+var InfiniteScroll = require('react-infinite-scroll')(React);
 
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
 mixpanel.track('Search Results');
 
-function fetchFieldGuides(cb) {
+function fetchFieldGuides(cb, skip) {
+  var skip = skip || 0;
   var FieldGuide = Parse.Object.extend('fieldguide');
   var query = new Parse.Query(FieldGuide);
+  query.skip(skip);
   query.find({
     success: cb,
     error: function(error) {
@@ -42,20 +45,33 @@ var ResultList = React.createClass({
           </Paper>
         );
       });
-    } else if (items) {
-      papers = <h3>No Results</h3>;
-    } else {
-      papers = (
-        <div className="search-result-loader">
-          <CircularProgress mode="indeterminate" />
-        </div>
-      );
     }
+
+    if (!this.props.hasMore) {
+      papers.push(<h3>No More Results</h3>);
+    }
+
+    var loader = (
+      <div className="search-result-loader">
+        <CircularProgress mode="indeterminate" />
+      </div>
+    );
+
+    var scroll = (
+      <InfiniteScroll
+        pageStart={0}
+        loadMore={this.props.onLoadMore}
+        hasMore={this.props.hasMore}
+        loader={loader}
+      >
+        {papers}
+      </InfiniteScroll>
+    );
 
     return (
       <div>
         <h1 className="search-result-heading">{this.props.title}</h1>
-        {papers}
+        {scroll}
       </div>
     );
   }
@@ -63,16 +79,27 @@ var ResultList = React.createClass({
 
 var Search = React.createClass({
   componentWillMount: function() {
+    this.fetchData();
+  },
+
+  fetchData: function(page) {
+    var skip = 0;
+    if (this.state.results) {
+      skip = this.state.results.length;
+    }
+
     fetchFieldGuides(function(results) {
       this.setState({
-        results: results
+        results: this.state.results.concat(results),
+        hasMore: results.length != 0
       });
-    }.bind(this));
+    }.bind(this), skip);
   },
 
   getInitialState: function() {
     return {
-      results: undefined
+      results: [],
+      hasMore: true
     };
   },
 
@@ -81,6 +108,8 @@ var Search = React.createClass({
       <ResultList
         title="Books"
         items={this.state.results}
+        hasMore={this.state.hasMore}
+        onLoadMore={this.fetchData}
       />
     );
   }

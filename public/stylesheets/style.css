@@ -30,6 +30,7 @@ body {
 
 .search-result-loader {
   text-align: center;
+  clear: both;
 }
 
 .search-icon::before {
