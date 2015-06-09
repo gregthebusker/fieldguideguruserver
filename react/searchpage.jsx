@@ -4,6 +4,7 @@ var Colors = require('material-ui/lib/styles/colors');
 var Paper = require('material-ui/lib/paper');
 var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
+var CircularProgress = require('material-ui/lib/circular-progress');
 
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
@@ -24,7 +25,7 @@ var ResultList = React.createClass({
   render: function() {
     var items = this.props.items;
     var papers;
-    if (items) {
+    if (items && items.length) {
       papers = items.map(function(item) {
         var thumb = item.get('thumbnail');
         var image;
@@ -43,8 +44,14 @@ var ResultList = React.createClass({
           </Paper>
         );
       });
-    } else {
+    } else if (items) {
       papers = <h3>No Results</h3>;
+    } else {
+      papers = (
+        <div className="search-result-loader">
+          <CircularProgress mode="indeterminate" />
+        </div>
+      );
     }
 
     return (
