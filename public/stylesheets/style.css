@@ -35,3 +35,7 @@ body {
 .search-icon::before {
   content: "\1f50d";
 }
+
+.search-result-heading {
+  margin-left: 5px;
+}

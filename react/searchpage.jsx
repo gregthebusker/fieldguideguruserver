@@ -54,7 +54,7 @@ var ResultList = React.createClass({
 
     return (
       <div>
-        <h2>{this.props.title}</h2>
+        <h1 className="search-result-heading">{this.props.title}</h1>
         {papers}
       </div>
     );

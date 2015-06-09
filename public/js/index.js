@@ -35033,7 +35033,7 @@ var ResultList = React.createClass({displayName: "ResultList",
 
     return (
       React.createElement("div", null, 
-        React.createElement("h2", null, this.props.title), 
+        React.createElement("h1", {className: "search-result-heading"}, this.props.title), 
         papers
       )
     );
