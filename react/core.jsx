@@ -4,13 +4,14 @@ var Landing = require('./landing.jsx');
 var MaterialAppBar = require('material-ui/lib/app-bar');
 var ThemeManager = require('material-ui/lib/styles/theme-manager')();
 var Colors = require('material-ui/lib/styles/colors');
+var SearchIcon = require('./searchicon.jsx');
 
 var AppBar = React.createClass({
   render: function() {
     return (
       <MaterialAppBar
         title="Field Guide Guru"
-        iconClassNameRight="search-icon"
+        iconElementRight={<SearchIcon />}
       />
     );
   }
