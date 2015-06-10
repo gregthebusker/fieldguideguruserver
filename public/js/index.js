@@ -37074,8 +37074,9 @@ var ParseList = React.createClass({displayName: "ParseList",
 
   fetchData: function() {
     var skip = this.state.results.length;
-
+    var limit = skip == 0 ? 20 : 100;
     this.props.query.skip(skip);
+    this.props.query.limit(limit);
     this.props.query.find({
       success: this.receiveData,
       error: function(e) {
@@ -37149,8 +37150,7 @@ var Search = React.createClass({displayName: "Search",
 var SearchIcon = React.createClass({displayName: "SearchIcon",
   render: function() {
     var fill = ThemeManager.getCurrentTheme()
-      .component
-      .appBar.textColor;
+      .component.appBar.textColor;
     return (
       React.createElement(IconButton, {tooltip: "Search"}, 
         React.createElement(Search, {style: {fill: fill}})
