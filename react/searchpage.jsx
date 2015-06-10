@@ -74,6 +74,7 @@ var Search = React.createClass({
   componentWillMount: function() {
     var Subject = Parse.Object.extend('subject');
     var query = new Parse.Query(Subject);
+    query.ascending('text');
     query.find({
       success: function(results) {
         this.setState({
