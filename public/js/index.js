@@ -37717,7 +37717,7 @@ var MainIcon = React.createClass({displayName: "MainIcon",
     return (
       React.createElement(Binoculars, {style: {
         fill: fill,
-        margin: '5px'
+        marginRight: '5px'
       }})
     );
   }

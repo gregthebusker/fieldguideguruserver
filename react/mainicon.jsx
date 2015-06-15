@@ -21,7 +21,7 @@ var MainIcon = React.createClass({
     return (
       <Binoculars style={{
         fill: fill,
-        margin-right: '5px'
+        marginRight: '5px'
       }}/>
     );
   }
