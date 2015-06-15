@@ -1,6 +1,7 @@
 var React = require('react/addons');
 var Search = require('./searchpage.jsx');
 var Landing = require('./landing.jsx');
+var Start = require('./start.jsx');
 var MaterialAppBar = require('material-ui/lib/app-bar');
 var ThemeManager = require('material-ui/lib/styles/theme-manager')();
 var Colors = require('material-ui/lib/styles/colors');
@@ -44,6 +45,8 @@ var Core = React.createClass({
           <Search />
         </div>
       );
+    } else if (path.indexOf('/start') == 0) {
+      return <Start />;
     } else {
       return <Landing />;
     }
