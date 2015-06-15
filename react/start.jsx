@@ -3,6 +3,7 @@ var Colors = require('material-ui/lib/styles/colors');
 var Typeahead = require('react-typeahead-component');
 var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
+var MainIcon = require('./mainicon.jsx');
 
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
@@ -88,7 +89,10 @@ var Start = React.createClass({
         backgroundColor: Colors.green500
       }}>
         <div style={containerStyle}>
-          <h1>Field Guide Guru</h1>
+          <h1>
+            <MainIcon />
+            Field Guide Guru
+          </h1>
           <Typeahead
             placeholder="Location"
             autoFocus={true}
