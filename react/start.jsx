@@ -11,6 +11,7 @@ Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 mixpanel.track('Start Page');
 
 var optionsCache = {};
+var LIMIT = 5;
 
 
 var Template = React.createClass({
@@ -22,16 +23,59 @@ var Template = React.createClass({
       style.backgroundColor = 'blue';
       style.color = 'white';
     }
+
     return (
       <div style={style}>
-        {this.props.data.get('COUNTRY_NAME_LONG')}
+        {this.props.data.get('SUBNATIONAL1_NAME')}
+      </div>
+    );
+  },
+
+  renderHeader: function(data) {
+    return (
+      <div>
+        "Header"
       </div>
     );
   }
 });
 
+var searchCountry = function(str) {
+  return search(str, 'country', [
+    'LOCAL_ABBREVIATION',
+    'COUNTRY_NAME',
+    'COUNTRY_NAME_LONG'
+  ]);
+}
+
+var search = function(str, className, matches) {
+  var Obj = Parse.Object.extend(className);
+  var queries = matches.map(function(col) {
+    var q = new Parse.Query(Obj);
+    q.matches(col + '_lowercase', str);
+    return q;
+  });
+
+  var query = Parse.Query.or.apply(Parse.Query.or, queries);
+  query.limit(LIMIT);
+  return query;
+}
+
+var searchState = function(str) {
+  return search(str, 'state', [
+    'LOCAL_ABBREVIATION',
+    'SUBNATIONAL1_NAME'
+  ]);
+}
+
+var searchCounty = function(str) {
+  return search(str, 'county', [
+    'SUBNATIONAL2_NAME'
+  ]);
+}
+
 var Start = React.createClass({
-  getOptions(event) {
+  onTextChange(event) {
     var value = event.target.value.toLowerCase();
     this.setState({
       value: event.target.value
@@ -44,16 +88,15 @@ var Start = React.createClass({
       return;
     }
 
-    var Country = Parse.Object.extend('country');
-    var cc = new Parse.Query(Country);
-    cc.matches('LOCAL_ABBREVIATION_lowercase', value);
-    var cn = new Parse.Query(Country);
-    cn.matches('COUNTRY_NAME_lowercase', value);
-    var cnl = new Parse.Query(Country);
-    cnl.matches('COUNTRY_NAME_LONG_lowercase', value);
+    /*
+    var query = new Parse.Query.or(
+      searchCountry(value),
+      searchState(value),
+      searchCounty(value)
+    );
+    */
+    var query = searchState(value);
 
-    var query = new Parse.Query.or(cc, cn, cnl);
-    query.limit(5);
     query.find({
       success: function(results) {
         optionsCache[value] = results;
@@ -96,9 +139,9 @@ var Start = React.createClass({
           <Typeahead
             placeholder="Location"
             autoFocus={true}
+            onChange={this.onTextChange}
             inputValue={this.state.value}
             options={this.state.options}
-            onChange={this.getOptions}
             optionTemplate={Template}
           />
         </div>
