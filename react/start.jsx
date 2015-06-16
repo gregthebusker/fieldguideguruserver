@@ -26,7 +26,7 @@ var Template = React.createClass({
 
     return (
       <div style={style}>
-        {this.props.data.get('SUBNATIONAL1_NAME')}
+        {this.props.data.name}
       </div>
     );
   },
@@ -58,7 +58,7 @@ var search = function(str, className, matches) {
 
   var query = Parse.Query.or.apply(Parse.Query.or, queries);
   query.limit(LIMIT);
-  return query;
+  return query.find();
 }
 
 var searchState = function(str) {
@@ -88,25 +88,39 @@ var Start = React.createClass({
       return;
     }
 
-    /*
-    var query = new Parse.Query.or(
+    var p = Parse.Promise.when(
       searchCountry(value),
       searchState(value),
       searchCounty(value)
     );
-    */
-    var query = searchState(value);
 
-    query.find({
-      success: function(results) {
-        optionsCache[value] = results;
-        if (this.state.value == value) {
-          this.setState({
-            options: results
-          });;
-        }
-      }.bind(this)
-    });
+    p.then(function(results1, results2, results3) {
+      var a = results1.map(function(v, i) {
+        return {
+          index: i,
+          name: v.get('COUNTRY_NAME_LONG')
+        };
+      });
+      var b = results2.map(function(v, i) {
+        return {
+          index: i,
+          name: v.get('SUBNATIONAL1_NAME')
+        };
+      });
+      var c = results3.map(function(v, i) {
+        return {
+          index: i,
+          name: v.get('SUBNATIONAL2_NAME')
+        };
+      });
+      var results = a.concat(b, c)
+      optionsCache[value] = results;
+      if (this.state.value == value) {
+        this.setState({
+          options: results
+        });;
+      }
+    }.bind(this));
   },
 
   getInitialState: function() {
