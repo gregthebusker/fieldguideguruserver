@@ -98,21 +98,21 @@ var Start = React.createClass({
       var a = results1.map(function(v, i) {
         return {
           index: i,
-          className: 'country',
+          className: v.className,
           name: v.get('COUNTRY_NAME_LONG')
         };
       });
       var b = results2.map(function(v, i) {
         return {
           index: i,
-          className: 'state',
+          className: v.className,
           name: v.get('SUBNATIONAL1_NAME')
         };
       });
       var c = results3.map(function(v, i) {
         return {
           index: i,
-          className: 'county',
+          className: v.className,
           name: v.get('SUBNATIONAL2_NAME')
         };
       });
