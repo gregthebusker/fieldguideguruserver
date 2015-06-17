@@ -12,6 +12,11 @@ mixpanel.track('Start Page');
 
 var optionsCache = {};
 var LIMIT = 5;
+var HEADERS = {
+  country: 'Countries',
+  state: 'States',
+  county: 'Counties'
+};
 
 
 var Template = React.createClass({
@@ -25,53 +30,48 @@ var Template = React.createClass({
     }
 
     return (
-      <div style={style}>
-        {this.props.data.name}
+      <div>
+        {this.renderHeader()}
+        <div style={style}>
+          {this.props.data.name}
+       </div>
       </div>
     );
   },
 
-  renderHeader: function(data) {
-    return (
-      <div>
-        "Header"
-      </div>
-    );
+  renderHeader: function() {
+    var data = this.props.data;
+    if (data.index == 0) {
+      return (
+        <div style={{
+          borderBottom: '1px solid black',
+          color: 'black'
+        }}>
+          {HEADERS[data.className]}
+        </div>
+      );
+    }
   }
 });
 
 var searchCountry = function(str) {
-  return search(str, 'country', [
-    'LOCAL_ABBREVIATION',
-    'COUNTRY_NAME',
-    'COUNTRY_NAME_LONG'
-  ]);
+  return search(str, 'country');
 }
 
 var search = function(str, className, matches) {
   var Obj = Parse.Object.extend(className);
-  var queries = matches.map(function(col) {
-    var q = new Parse.Query(Obj);
-    q.matches(col + '_lowercase', str);
-    return q;
-  });
-
-  var query = Parse.Query.or.apply(Parse.Query.or, queries);
+  var query = new Parse.Query(Obj);
+  query.contains('searchable_text', str);
   query.limit(LIMIT);
   return query.find();
 }
 
 var searchState = function(str) {
-  return search(str, 'state', [
-    'LOCAL_ABBREVIATION',
-    'SUBNATIONAL1_NAME'
-  ]);
+  return search(str, 'state');
 }
 
 var searchCounty = function(str) {
-  return search(str, 'county', [
-    'SUBNATIONAL2_NAME'
-  ]);
+  return search(str, 'county');
 }
 
 var Start = React.createClass({
@@ -98,18 +98,21 @@ var Start = React.createClass({
       var a = results1.map(function(v, i) {
         return {
           index: i,
+          className: 'country',
           name: v.get('COUNTRY_NAME_LONG')
         };
       });
       var b = results2.map(function(v, i) {
         return {
           index: i,
+          className: 'state',
           name: v.get('SUBNATIONAL1_NAME')
         };
       });
       var c = results3.map(function(v, i) {
         return {
           index: i,
+          className: 'county',
           name: v.get('SUBNATIONAL2_NAME')
         };
       });
