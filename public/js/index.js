@@ -37996,7 +37996,7 @@ var Template = React.createClass({displayName: "Template",
     var style = {
       color: 'black'
     };
-    if (this.props.data.isSelected) {
+    if (this.props.isSelected) {
       style.backgroundColor = 'blue';
       style.color = 'white';
     }
@@ -38101,15 +38101,8 @@ var Start = React.createClass({displayName: "Start",
   getInitialState: function() {
     return {
       value: '',
-      selectedIndex: 0,
       options: []
     };
-  },
-
-  onKeyDown: function(event, optionData, selectedIndex) {
-    this.setState({
-      selectedIndex: selectedIndex + 1
-    });
   },
 
   render: function() {
@@ -38118,10 +38111,6 @@ var Start = React.createClass({displayName: "Start",
       paddingTop: '200px',
       color: Colors.darkWhite
     };
-
-    if (this.state.options.length) {
-      this.state.options[this.state.selectedIndex].isSelected = true;
-    }
 
     return (
       React.createElement("div", {style: {
@@ -38142,8 +38131,7 @@ var Start = React.createClass({displayName: "Start",
             onChange: this.onTextChange, 
             inputValue: this.state.value, 
             options: this.state.options, 
-            optionTemplate: Template, 
-            onKeyDown: this.onKeyDown}
+            optionTemplate: Template}
           )
         )
       )
