@@ -7,8 +7,22 @@ var ThemeManager = require('material-ui/lib/styles/theme-manager')();
 var Colors = require('material-ui/lib/styles/colors');
 var SearchIcon = require('./searchicon.jsx');
 var EnvironmentStore = require('./environmentstore.jsx');
+var Router = require('react-router');
+var Route = Router.Route;
+var RouteHandler = Router.RouteHandler;
+var DefaultRoute = Router.DefaultRoute;
+var Navigation = Router.Navigation;
 
-var GUIDES_BASE = '/guides'
+var App = React.createClass({
+  render: function() {
+    return (
+      <div>
+        <AppBar />
+        <RouteHandler />
+      </div>
+    );
+  }
+});
 
 var AppBar = React.createClass({
   render: function() {
@@ -22,6 +36,8 @@ var AppBar = React.createClass({
 });
 
 var Core = React.createClass({
+  mixins: [Navigation],
+
   childContextTypes: {
     muiTheme: React.PropTypes.object
   },
@@ -37,41 +53,37 @@ var Core = React.createClass({
       primary1Color: Colors.green500
     });
 
-    window.onpopstate = function(event) {
-      this.forceUpdate();
-    }.bind(this);
-
     EnvironmentStore.register(function(payload) {
       if (payload.action == 'new_location') {
         var obj = payload.data;
-        history.pushState({}, '', this.createGuideUrl(obj));
-        this.setState({
-          location: payload.data
+        this.transitionTo('guides-loc', {
+          locationId: obj.id
         });
       }
     }.bind(this));
   },
 
-  createGuideUrl: function(obj) {
-    return GUIDES_BASE + '/' + obj.id;
-  },
-
   render: function() {
-    var path = window.location.pathname;
-    
-    if (path.indexOf(GUIDES_BASE) == 0) {
-      return (
-        <div>
-          <AppBar />
-          <Search />
-        </div>
-      );
-    } else if (path.indexOf('/start') == 0) {
-      return <Start />;
-    } else {
-      return <Landing />;
-    }
+    return <RouteHandler />
   }
 });
 
-module.exports = Core;
+var routes = (
+  <Route handler={Core}>
+    <DefaultRoute handler={Landing}/>
+    <Route name="guides" path="guides" handler={App}>
+      <Route name="guides-loc" path=":locationId" handler={Search}/>
+    </Route>
+    <Route path="start" handler={Start} />
+  </Route>
+);
+
+function run() {
+  Router.run(routes, Router.HistoryLocation, function(Root) {
+      React.render(<Root/>, document.body);
+  });
+}
+
+module.exports = {
+  run: run
+};

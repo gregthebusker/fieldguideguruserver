@@ -12,5 +12,5 @@
   //https://github.com/zilverline/react-tap-event-plugin
   injectTapEventPlugin();
 
-  React.render(<Core />, document.body);
+  Core.run();
 })();
