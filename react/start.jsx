@@ -4,6 +4,7 @@ var Typeahead = require('./typeahead/typeahead.js');
 var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
 var MainIcon = require('./mainicon.jsx');
+var EnvironmentStore = require('./environmentstore.jsx');
 
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
@@ -95,27 +96,21 @@ var Start = React.createClass({
     );
 
     p.then(function(results1, results2, results3) {
-      var a = results1.map(function(v, i) {
-        return {
-          index: i,
-          className: v.className,
-          name: v.get('COUNTRY_NAME_LONG')
+
+      var getMapFunction = function(name) {
+        return function(v, i) {
+          return {
+            index: i,
+            obj: v,
+            className: v.className,
+            name: v.get(name)
+          };
         };
-      });
-      var b = results2.map(function(v, i) {
-        return {
-          index: i,
-          className: v.className,
-          name: v.get('SUBNATIONAL1_NAME')
-        };
-      });
-      var c = results3.map(function(v, i) {
-        return {
-          index: i,
-          className: v.className,
-          name: v.get('SUBNATIONAL2_NAME')
-        };
-      });
+      };
+
+      var a = results1.map(getMapFunction('COUNTRY_NAME_LONG'));
+      var b = results2.map(getMapFunction('SUBNATIONAL1_NAME'));
+      var c = results3.map(getMapFunction('SUBNATIONAL2_NAME'));
       var results = a.concat(b, c)
       optionsCache[value] = results;
       if (this.state.value == value) {
@@ -131,6 +126,15 @@ var Start = React.createClass({
       value: '',
       options: []
     };
+  },
+
+  onSelectLocation: function(index) {
+    var loc = this.state.options[index];
+    if (!loc) {
+      return;
+    }
+    var obj = loc.obj;
+    EnvironmentStore.setLocation(obj);
   },
 
   render: function() {
@@ -160,6 +164,7 @@ var Start = React.createClass({
             inputValue={this.state.value}
             options={this.state.options}
             optionTemplate={Template}
+            onOptionSelected={this.onSelectLocation}
           />
         </div>
       </div>

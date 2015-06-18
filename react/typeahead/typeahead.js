@@ -369,6 +369,7 @@ module.exports = React.createClass({
         case 'Tab':
             if (isHintVisible && !event.shiftKey) {
                 event.preventDefault();
+                props.onOptionSelected(this.state.selectedIndex);
                 props.onComplete(event, props.handleHint(props.inputValue, props.options));
             }
             break;
@@ -378,6 +379,7 @@ module.exports = React.createClass({
                 dir = getTextDirection(props.inputValue);
 
                 if ((dir === 'ltr' && key === 'ArrowRight') || (dir === 'rtl' && key === 'ArrowLeft')) {
+                    props.onOptionSelected(this.state.selectedIndex);
                     props.onComplete(event, props.handleHint(props.inputValue, props.options));
                 }
             }
@@ -386,6 +388,7 @@ module.exports = React.createClass({
             input.blur();
             _this.hideHint();
             _this.hideDropdown();
+            props.onOptionSelected(this.state.selectedIndex);
             break;
         case 'Escape':
             _this.hideHint();
@@ -443,6 +446,7 @@ module.exports = React.createClass({
         _this.hideDropdown();
         _this.setSelectedIndex(selectedIndex);
         props.onOptionClick(event, props.options[selectedIndex], selectedIndex);
+        props.onOptionSelected(selectedIndex);
     },
 
     handleOptionMouseOver: function(selectedIndex) {
