@@ -1,3 +1,4 @@
+"use strict";
 var React = require('react');
 var Paper = require('material-ui/lib/paper');
 var Toolbar = require('material-ui/lib/toolbar/toolbar');

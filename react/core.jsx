@@ -1,3 +1,4 @@
+"use strict";
 var React = require('react/addons');
 var Search = require('./searchpage.jsx');
 var Landing = require('./landing.jsx');

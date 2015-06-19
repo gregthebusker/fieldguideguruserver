@@ -1,3 +1,4 @@
+"use strict";
 var React = require('react');
 var Colors = require('material-ui/lib/styles/colors');
 var Typeahead = require('./typeahead/typeahead.js');
@@ -7,7 +8,6 @@ var MainIcon = require('./mainicon.jsx');
 var EnvironmentStore = require('./environmentstore.jsx');
 
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
-
 
 mixpanel.track('Start Page');
 

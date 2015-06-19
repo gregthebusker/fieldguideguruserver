@@ -1,3 +1,4 @@
+"use strict";
 var React = require('react');
 var Colors = require('material-ui/lib/styles/colors');
 

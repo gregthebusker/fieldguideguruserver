@@ -1,3 +1,5 @@
+"use strict";
+
 (function () {
   var React = require('react/addons');
   var injectTapEventPlugin = require('react-tap-event-plugin');
