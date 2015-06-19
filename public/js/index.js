@@ -439,7 +439,8 @@ var AppBar = React.createClass({
     iconElementRight: React.PropTypes.element,
     iconStyleRight: React.PropTypes.object,
     title: React.PropTypes.node,
-    zDepth: React.PropTypes.number },
+    zDepth: React.PropTypes.number
+  },
 
   getDefaultProps: function getDefaultProps() {
     return {
@@ -474,7 +475,7 @@ var AppBar = React.createClass({
         margin: 0,
         paddingTop: 0,
         letterSpacing: 0,
-        fontSize: '24px',
+        fontSize: 24,
         fontWeight: Typography.fontWeightNormal,
         color: themeVariables.textColor,
         lineHeight: themeVariables.height + 'px'
@@ -498,7 +499,9 @@ var AppBar = React.createClass({
   render: function render() {
     var styles = this.getStyles();
 
-    var title, menuElementLeft, menuElementRight;
+    var title;
+    var menuElementLeft;
+    var menuElementRight;
     var iconRightStyle = this.mergeAndPrefix(styles.iconButton.style, {
       float: 'right',
       marginRight: -16,
@@ -559,16 +562,21 @@ var AppBar = React.createClass({
         zDepth: this.props.zDepth },
       menuElementLeft,
       title,
-      menuElementRight
+      menuElementRight,
+      this.props.children
     );
   },
 
-  _onLeftIconButtonTouchTap: function _onLeftIconButtonTouchTap(e) {
-    if (this.props.onLeftIconButtonTouchTap) this.props.onLeftIconButtonTouchTap(e);
+  _onLeftIconButtonTouchTap: function _onLeftIconButtonTouchTap(event) {
+    if (this.props.onLeftIconButtonTouchTap) {
+      this.props.onLeftIconButtonTouchTap(event);
+    }
   },
 
-  _onRightIconButtonTouchTap: function _onRightIconButtonTouchTap(e) {
-    if (this.props.onRightIconButtonTouchTap) this.props.onRightIconButtonTouchTap(e);
+  _onRightIconButtonTouchTap: function _onRightIconButtonTouchTap(event) {
+    if (this.props.onRightIconButtonTouchTap) {
+      this.props.onRightIconButtonTouchTap(event);
+    }
   }
 
 });
@@ -635,7 +643,8 @@ var BeforeAfterWrapper = React.createClass({
     return {
       beforeElementType: 'div',
       afterElementType: 'div',
-      elementType: 'div' };
+      elementType: 'div'
+    };
   },
 
   render: function render() {
@@ -679,8 +688,6 @@ function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in ob
 var React = require('react');
 var StylePropable = require('./mixins/style-propable');
 var Transitions = require('./styles/transitions');
-
-var easeInOut = 'cubic-bezier(0.35, 0, 0.25, 1)';
 
 var CircularProgress = React.createClass({
   displayName: 'CircularProgress',
@@ -789,7 +796,9 @@ var CircularProgress = React.createClass({
         margin: margin + 'px',
         display: 'inline-block',
         width: size,
-        height: size },
+        height: size
+
+      },
       wrapper: {
 
         width: size,
@@ -898,7 +907,6 @@ var StylePropable = require('./mixins/style-propable');
 var Transitions = require('./styles/transitions');
 var ClickAwayable = require('./mixins/click-awayable');
 var DropDownArrow = require('./svg-icons/drop-down-arrow');
-var KeyLine = require('./utils/key-line');
 var Paper = require('./paper');
 var Menu = require('./menu/menu');
 var ClearFix = require('./clearfix');
@@ -1000,7 +1008,7 @@ var DropDownMenu = React.createClass({
       },
       underline: {
         borderTop: 'solid 1px ' + accentColor,
-        margin: '0 ' + this.getSpacing().desktopGutter + 'px'
+        margin: '-1px ' + this.getSpacing().desktopGutter + 'px'
       },
       menuItem: {
         paddingRight: this.getSpacing().iconSize + this.getSpacing().desktopGutterLess + this.getSpacing().desktopGutterMini,
@@ -1036,7 +1044,7 @@ var DropDownMenu = React.createClass({
         style: this.mergeAndPrefix(styles.root, this.state.open && styles.rootWhenOpen, this.props.style) },
       React.createElement(
         ClearFix,
-        { style: this.mergeAndPrefix(styles.control), onClick: this._onControlClick },
+        { style: this.mergeAndPrefix(styles.control), onTouchTap: this._onControlClick },
         React.createElement(Paper, { style: this.mergeAndPrefix(styles.controlBg), zDepth: 0 }),
         React.createElement(
           'div',
@@ -1054,7 +1062,7 @@ var DropDownMenu = React.createClass({
         menuItemStyle: this.mergeAndPrefix(styles.menuItem, this.props.menuItemStyle),
         hideable: true,
         visible: this.state.open,
-        onItemClick: this._onMenuItemClick })
+        onItemTap: this._onMenuItemClick })
     );
   },
 
@@ -1076,7 +1084,7 @@ var DropDownMenu = React.createClass({
     this.setState({ selectedIndex: selectedIndex > -1 ? selectedIndex : 0 });
   },
 
-  _onControlClick: function _onControlClick(e) {
+  _onControlClick: function _onControlClick() {
     this.setState({ open: !this.state.open });
   },
 
@@ -1088,11 +1096,11 @@ var DropDownMenu = React.createClass({
     });
   },
 
-  _handleMouseOver: function _handleMouseOver(e) {
+  _handleMouseOver: function _handleMouseOver() {
     this.setState({ isHovered: true });
   },
 
-  _handleMouseOut: function _handleMouseOut(e) {
+  _handleMouseOut: function _handleMouseOut() {
     this.setState({ isHovered: false });
   }
 
@@ -1100,7 +1108,7 @@ var DropDownMenu = React.createClass({
 
 module.exports = DropDownMenu;
 }).call(this,require('_process'))
-},{"./clearfix":8,"./menu/menu":16,"./mixins/click-awayable":18,"./mixins/style-propable":19,"./paper":21,"./styles/transitions":31,"./svg-icons/drop-down-arrow":34,"./utils/key-line":46,"_process":1,"react":267}],10:[function(require,module,exports){
+},{"./clearfix":8,"./menu/menu":16,"./mixins/click-awayable":18,"./mixins/style-propable":19,"./paper":21,"./styles/transitions":31,"./svg-icons/drop-down-arrow":34,"_process":1,"react":267}],10:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -1140,7 +1148,8 @@ var EnhancedButton = React.createClass({
     onMouseOut: React.PropTypes.func,
     onMouseOver: React.PropTypes.func,
     onTouchTap: React.PropTypes.func,
-    onKeyboardFocus: React.PropTypes.func },
+    onKeyboardFocus: React.PropTypes.func
+  },
 
   windowListeners: {
     'keydown': '_handleWindowKeydown',
@@ -1230,7 +1239,8 @@ var EnhancedButton = React.createClass({
       onFocus: this._handleFocus,
       onMouseOver: this._handleMouseOver,
       onMouseOut: this._handleMouseOut,
-      onTouchTap: this._handleTouchTap };
+      onTouchTap: this._handleTouchTap
+    };
 
     if (disabled && linkButton) {
       return React.createElement(
@@ -1242,15 +1252,7 @@ var EnhancedButton = React.createClass({
       );
     }
 
-    return linkButton ? React.createElement(
-      'a',
-      _extends({}, other, buttonProps),
-      buttonChildren
-    ) : React.createElement(
-      'button',
-      _extends({}, other, buttonProps),
-      buttonChildren
-    );
+    return React.createElement(linkButton ? 'a' : 'button', _extends({}, other, buttonProps), buttonChildren);
   },
 
   isKeyboardFocused: function isKeyboardFocused() {
@@ -1350,6 +1352,7 @@ var Transitions = require('./styles/transitions');
 var UniqueId = require('./utils/unique-id');
 var WindowListenable = require('./mixins/window-listenable');
 var Spacing = require('./styles/spacing');
+var ClearFix = require('./clearfix');
 var FocusRipple = require('./ripples/focus-ripple');
 var TouchRipple = require('./ripples/touch-ripple');
 var Paper = require('./paper');
@@ -1374,6 +1377,7 @@ var EnhancedSwitch = React.createClass({
     iconStyle: React.PropTypes.object,
     thumbStyle: React.PropTypes.object,
     trackStyle: React.PropTypes.object,
+    labelStyle: React.PropTypes.object,
     name: React.PropTypes.string,
     value: React.PropTypes.string,
     label: React.PropTypes.string,
@@ -1394,7 +1398,8 @@ var EnhancedSwitch = React.createClass({
   getInitialState: function getInitialState() {
     return {
       isKeyboardFocused: false,
-      parentWidth: 100 };
+      parentWidth: 100
+    };
   },
 
   getEvenWidth: function getEvenWidth() {
@@ -1464,6 +1469,10 @@ var EnhancedSwitch = React.createClass({
         padding: 0,
         margin: 0
       },
+      controls: {
+        width: '100%',
+        height: '100%'
+      },
       label: {
         float: 'left',
         position: 'relative',
@@ -1514,8 +1523,6 @@ var EnhancedSwitch = React.createClass({
 
     var styles = this.getStyles();
 
-    styles.root.cursor = styles.root.input = this.props.disabled ? 'default' : 'pointer';
-
     var wrapStyles = this.mergeAndPrefix(styles.wrap, this.props.iconStyle);
     var rippleStyle = this.mergeAndPrefix(styles.ripple, this.props.rippleStyle);
     var rippleColor = this.props.hasOwnProperty('rippleColor') ? this.props.rippleColor : this.getTheme().primary1Color;
@@ -1527,9 +1534,11 @@ var EnhancedSwitch = React.createClass({
 
     var inputId = this.props.id || UniqueId.generate();
 
+    var labelStyle = this.mergeAndPrefix(styles.label, this.props.labelStyle);
+
     var labelElement = this.props.label ? React.createElement(
       'label',
-      { style: this.mergeAndPrefix(styles.label), htmlFor: inputId },
+      { style: labelStyle, htmlFor: inputId },
       this.props.label
     ) : null;
 
@@ -1599,13 +1608,13 @@ var EnhancedSwitch = React.createClass({
 
     // Position is left if not defined or invalid.
     var elementsInOrder = labelPositionExist && this.props.labelPosition.toUpperCase() === 'RIGHT' ? React.createElement(
-      'div',
-      null,
+      ClearFix,
+      { style: this.mergeAndPrefix(styles.controls) },
       switchElement,
       labelElement
     ) : React.createElement(
-      'div',
-      null,
+      ClearFix,
+      { style: this.mergeAndPrefix(styles.controls) },
       labelElement,
       switchElement
     );
@@ -1679,11 +1688,11 @@ var EnhancedSwitch = React.createClass({
     if (e.button === 0) this.refs.touchRipple.start(e);
   },
 
-  _handleMouseUp: function _handleMouseUp(e) {
+  _handleMouseUp: function _handleMouseUp() {
     this.refs.touchRipple.end();
   },
 
-  _handleMouseOut: function _handleMouseOut(e) {
+  _handleMouseOut: function _handleMouseOut() {
     this.refs.touchRipple.end();
   },
 
@@ -1691,7 +1700,7 @@ var EnhancedSwitch = React.createClass({
     this.refs.touchRipple.start(e);
   },
 
-  _handleTouchEnd: function _handleTouchEnd(e) {
+  _handleTouchEnd: function _handleTouchEnd() {
     this.refs.touchRipple.end();
   },
 
@@ -1718,7 +1727,7 @@ var EnhancedSwitch = React.createClass({
     if (this.props.onFocus) this.props.onFocus(e);
   },
 
-  _handleResize: function _handleResize(e) {
+  _handleResize: function _handleResize() {
     this.setState({ parentWidth: this.getEvenWidth() });
   }
 
@@ -1726,7 +1735,7 @@ var EnhancedSwitch = React.createClass({
 
 module.exports = EnhancedSwitch;
 }).call(this,require('_process'))
-},{"./mixins/style-propable":19,"./mixins/window-listenable":20,"./paper":21,"./ripples/focus-ripple":23,"./ripples/touch-ripple":24,"./styles/spacing":27,"./styles/transitions":31,"./utils/key-code":45,"./utils/unique-id":48,"_process":1,"react":267}],12:[function(require,module,exports){
+},{"./clearfix":8,"./mixins/style-propable":19,"./mixins/window-listenable":20,"./paper":21,"./ripples/focus-ripple":23,"./ripples/touch-ripple":24,"./styles/spacing":27,"./styles/transitions":31,"./utils/key-code":45,"./utils/unique-id":48,"_process":1,"react":267}],12:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -1754,7 +1763,8 @@ var FontIcon = React.createClass({
 
   getInitialState: function getInitialState() {
     return {
-      hovered: false };
+      hovered: false
+    };
   },
 
   getStyles: function getStyles() {
@@ -1838,7 +1848,8 @@ var IconButton = React.createClass({
     onBlur: React.PropTypes.func,
     onFocus: React.PropTypes.func,
     tooltip: React.PropTypes.string,
-    touch: React.PropTypes.bool },
+    touch: React.PropTypes.bool
+  },
 
   getInitialState: function getInitialState() {
     return {
@@ -1925,7 +1936,7 @@ var IconButton = React.createClass({
 
     var styles = this.getStyles();
 
-    if (this.props.tooltip) {
+    if (tooltip) {
       tooltipElement = React.createElement(Tooltip, {
         ref: 'tooltip',
         label: tooltip,
@@ -1950,7 +1961,8 @@ var IconButton = React.createClass({
       React.Children.forEach(this.props.children, function (child) {
         child.props.style = {
           color: this.getDisabledColor(),
-          fill: this.getDisabledColor() };
+          fill: this.getDisabledColor()
+        };
       }, this);
     }
 
@@ -2046,7 +2058,8 @@ var LinkMenuItem = React.createClass({
     text: React.PropTypes.string.isRequired,
     target: React.PropTypes.string,
     disabled: React.PropTypes.bool,
-    className: React.PropTypes.string },
+    className: React.PropTypes.string
+  },
 
   getDefaultProps: function getDefaultProps() {
     return {
@@ -2169,7 +2182,6 @@ var MenuItem = React.createClass({
     toggle: React.PropTypes.bool,
     disabled: React.PropTypes.bool,
     onTouchTap: React.PropTypes.func,
-    onClick: React.PropTypes.func,
     onToggle: React.PropTypes.func,
     selected: React.PropTypes.bool
   },
@@ -2287,7 +2299,7 @@ var MenuItem = React.createClass({
     if (this.props.toggle) {
       var _props = this.props;
       var toggle = _props.toggle;
-      var onClick = _props.onClick;
+      var onTouchTap = _props.onTouchTap;
       var onToggle = _props.onToggle;
       var onMouseOver = _props.onMouseOver;
       var onMouseOut = _props.onMouseOut;
@@ -2295,7 +2307,7 @@ var MenuItem = React.createClass({
       var label = _props.label;
       var style = _props.style;
 
-      var other = _objectWithoutProperties(_props, ['toggle', 'onClick', 'onToggle', 'onMouseOver', 'onMouseOut', 'children', 'label', 'style']);
+      var other = _objectWithoutProperties(_props, ['toggle', 'onTouchTap', 'onToggle', 'onMouseOver', 'onMouseOut', 'children', 'label', 'style']);
 
       toggleElement = React.createElement(Toggle, _extends({}, other, { onToggle: this._handleToggle, style: styles.toggle }));
     }
@@ -2306,7 +2318,6 @@ var MenuItem = React.createClass({
         key: this.props.index,
         className: this.props.className,
         onTouchTap: this._handleTouchTap,
-        onClick: this._handleOnClick,
         onMouseOver: this._handleMouseOver,
         onMouseOut: this._handleMouseOut,
         style: this.mergeAndPrefix(styles.root, this.props.selected && styles.rootWhenSelected, this.state.hovered && !this.props.disabled && styles.rootWhenHovered, this.props.style, this.props.disabled && styles.rootWhenDisabled) },
@@ -2322,10 +2333,6 @@ var MenuItem = React.createClass({
 
   _handleTouchTap: function _handleTouchTap(e) {
     if (!this.props.disabled && this.props.onTouchTap) this.props.onTouchTap(e, this.props.index);
-  },
-
-  _handleOnClick: function _handleOnClick(e) {
-    if (!this.props.disabled && this.props.onClick) this.props.onClick(e, this.props.index);
   },
 
   _handleToggle: function _handleToggle(e, toggled) {
@@ -2382,9 +2389,9 @@ var NestedMenuItem = React.createClass({
     menuItems: React.PropTypes.array.isRequired,
     zDepth: React.PropTypes.number,
     disabled: React.PropTypes.bool,
-    onItemClick: React.PropTypes.func,
     onItemTap: React.PropTypes.func,
-    menuItemStyle: React.PropTypes.object },
+    menuItemStyle: React.PropTypes.object
+  },
 
   getDefaultProps: function getDefaultProps() {
     return {
@@ -2404,7 +2411,7 @@ var NestedMenuItem = React.createClass({
     this._positionNestedMenu();
   },
 
-  componentDidUpdate: function componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate: function componentDidUpdate() {
     this._positionNestedMenu();
   },
 
@@ -2439,13 +2446,13 @@ var NestedMenuItem = React.createClass({
           disabled: this.props.disabled,
           iconRightStyle: iconCustomArrowDropRight,
           iconRightClassName: 'muidocs-icon-custom-arrow-drop-right',
-          onClick: this._onParentItemClick },
+          onTouchTap: this._onParentItemTap },
         this.props.text
       ),
       React.createElement(Menu, _extends({}, other, {
         ref: 'nestedMenu',
         menuItems: this.props.menuItems,
-        onItemClick: this._onMenuItemClick,
+        menuItemStyle: menuItemStyle,
         onItemTap: this._onMenuItemTap,
         hideable: true,
         visible: this.state.open,
@@ -2472,13 +2479,8 @@ var NestedMenuItem = React.createClass({
     if (!this.props.disabled) this.setState({ open: !this.state.open });
   },
 
-  _onParentItemClick: function _onParentItemClick() {
+  _onParentItemTap: function _onParentItemTap() {
     this._toggleNestedMenu();
-  },
-
-  _onMenuItemClick: function _onMenuItemClick(e, index, menuItem) {
-    if (this.props.onItemClick) this.props.onItemClick(e, index, menuItem);
-    this._closeNestedMenu();
   },
 
   _onMenuItemTap: function _onMenuItemTap(e, index, menuItem) {
@@ -2503,7 +2505,6 @@ var Menu = React.createClass({
   propTypes: {
     autoWidth: React.PropTypes.bool,
     onItemTap: React.PropTypes.func,
-    onItemClick: React.PropTypes.func,
     onToggle: React.PropTypes.func,
     menuItems: React.PropTypes.array.isRequired,
     selectedIndex: React.PropTypes.number,
@@ -2515,7 +2516,8 @@ var Menu = React.createClass({
     menuItemStyleLink: React.PropTypes.object,
     menuItemClassName: React.PropTypes.string,
     menuItemClassNameSubheader: React.PropTypes.string,
-    menuItemClassNameLink: React.PropTypes.string },
+    menuItemClassNameLink: React.PropTypes.string
+  },
 
   getInitialState: function getInitialState() {
     return { nestedMenuShown: false };
@@ -2526,7 +2528,8 @@ var Menu = React.createClass({
       autoWidth: true,
       hideable: false,
       visible: true,
-      zDepth: 1 };
+      zDepth: 1
+    };
   },
 
   componentDidMount: function componentDidMount() {
@@ -2535,14 +2538,14 @@ var Menu = React.createClass({
     //Set the menu width
     this._setKeyWidth(el);
 
-    //Save the initial menu height for later
-    this._initialMenuHeight = el.offsetHeight;
+    //Save the initial menu item height for later
+    this._initialMenuItemHeight = el.offsetHeight / Math.max(1, this.props.menuItems.length);
 
     //Show or Hide the menu according to visibility
     this._renderVisibility();
   },
 
-  componentDidUpdate: function componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate: function componentDidUpdate(prevProps) {
     if (this.props.visible !== prevProps.visible) this._renderVisibility();
   },
 
@@ -2611,9 +2614,9 @@ var Menu = React.createClass({
       var attribute = menuItem.attribute;
       var number = menuItem.number;
       var toggle = menuItem.toggle;
-      var onClick = menuItem.onClick;
+      var onTouchTap = menuItem.onTouchTap;
 
-      var other = _objectWithoutProperties(menuItem, ['icon', 'data', 'attribute', 'number', 'toggle', 'onClick']);
+      var other = _objectWithoutProperties(menuItem, ['icon', 'data', 'attribute', 'number', 'toggle', 'onTouchTap']);
 
       switch (menuItem.type) {
 
@@ -2656,8 +2659,7 @@ var Menu = React.createClass({
             menuItems: menuItem.items,
             menuItemStyle: this.props.menuItemStyle,
             zDepth: this.props.zDepth,
-            onItemClick: this._onNestedItemClick,
-            onItemTap: this._onNestedItemClick }));
+            onItemTap: this._onNestedItemTap }));
           this._nestedChildren.push(i);
           break;
 
@@ -2677,7 +2679,6 @@ var Menu = React.createClass({
               toggle: menuItem.toggle,
               onToggle: this.props.onToggle,
               disabled: isDisabled,
-              onClick: this._onItemClick,
               onTouchTap: this._onItemTap }),
             menuItem.text
           );
@@ -2697,6 +2698,13 @@ var Menu = React.createClass({
     });
   },
 
+  _getCurrentHeight: function _getCurrentHeight() {
+    var totalItens = Math.max(1, this.props.menuItems.length);
+    var newHeight = this._initialMenuItemHeight * totalItens;
+
+    return newHeight;
+  },
+
   _renderVisibility: function _renderVisibility() {
     var el;
 
@@ -2707,7 +2715,7 @@ var Menu = React.createClass({
       if (this.props.visible) {
         //Open the menu
         el.style.transition = Transitions.easeOut();
-        el.style.height = this._initialMenuHeight + 'px';
+        el.style.height = this._getCurrentHeight() + 'px';
 
         //Set the overflow to visible after the animation is done so
         //that other nested menus can be shown
@@ -2727,16 +2735,8 @@ var Menu = React.createClass({
     }
   },
 
-  _onNestedItemClick: function _onNestedItemClick(e, index, menuItem) {
-    if (this.props.onItemClick) this.props.onItemClick(e, index, menuItem);
-  },
-
   _onNestedItemTap: function _onNestedItemTap(e, index, menuItem) {
     if (this.props.onItemTap) this.props.onItemTap(e, index, menuItem);
-  },
-
-  _onItemClick: function _onItemClick(e, index) {
-    if (this.props.onItemClick) this.props.onItemClick(e, index, this.props.menuItems[index]);
   },
 
   _onItemTap: function _onItemTap(e, index) {
@@ -2770,7 +2770,8 @@ var SubheaderMenuItem = React.createClass({
     index: React.PropTypes.number.isRequired,
     text: React.PropTypes.string.isRequired,
     firstChild: React.PropTypes.bool,
-    className: React.PropTypes.string },
+    className: React.PropTypes.string
+  },
 
   getTheme: function getTheme() {
     return this.context.muiTheme.component.menuSubheader;
@@ -2850,11 +2851,16 @@ module.exports = {
   },
 
   _bindClickAway: function _bindClickAway() {
-    Events.on(document, 'click', this._checkClickAway);
+    // On touch-enabled devices, both events fire, and the handler is called twice,
+    // but it's fine since all operations for which the mixin is used
+    // are idempotent.
+    Events.on(document, 'mouseup', this._checkClickAway);
+    Events.on(document, 'touchend', this._checkClickAway);
   },
 
   _unbindClickAway: function _unbindClickAway() {
-    Events.off(document, 'click', this._checkClickAway);
+    Events.off(document, 'mouseup', this._checkClickAway);
+    Events.off(document, 'touchend', this._checkClickAway);
   }
 
 };
@@ -2886,22 +2892,14 @@ module.exports = {
   },
 
   /** 
-   * m loops through all properties defined in the first argument, so overrides
+   * loops through all properties defined in the first argument, so overrides
    * of undefined properties will not take place.
    */
   mergeAndPrefix: function mergeAndPrefix() {
-    var args = Array.prototype.slice.call(arguments, 0);
-
-    var base = args[0];
-    for (var i = 1; i < args.length; i++) {
-      if (args[i]) base = Extend(base, args[i]);
-    }
-
-    return AutoPrefix.all(base);
-    // return function(args){
-    //   return AutoPrefix.all()
-    // }.bind()
-  } };
+    var mergedStyles = this.mergeStyles.apply(this, arguments);
+    return AutoPrefix.all(mergedStyles);
+  }
+};
 },{"../styles/auto-prefix":25,"../utils/extend":44,"react/addons":95}],20:[function(require,module,exports){
 'use strict';
 
@@ -3170,7 +3168,8 @@ var TouchRipple = React.createClass({
   propTypes: {
     centerRipple: React.PropTypes.bool,
     color: React.PropTypes.string,
-    opacity: React.PropTypes.number },
+    opacity: React.PropTypes.number
+  },
 
   getInitialState: function getInitialState() {
     return {
@@ -3286,11 +3285,11 @@ var TouchRipple = React.createClass({
     if (e.button === 0) this.start(e, false);
   },
 
-  _handleMouseUp: function _handleMouseUp(e) {
+  _handleMouseUp: function _handleMouseUp() {
     this.end();
   },
 
-  _handleMouseOut: function _handleMouseOut(e) {
+  _handleMouseOut: function _handleMouseOut() {
     this.end();
   },
 
@@ -3298,7 +3297,7 @@ var TouchRipple = React.createClass({
     this.start(e, true);
   },
 
-  _handleTouchEnd: function _handleTouchEnd(e) {
+  _handleTouchEnd: function _handleTouchEnd() {
     this.end();
   },
 
@@ -3698,9 +3697,7 @@ module.exports = {
 },{}],28:[function(require,module,exports){
 'use strict';
 
-var Color = require('./colors');
 var Spacing = require('./spacing');
-var ColorManipulator = require('../utils/color-manipulator');
 var Extend = require('../utils/extend');
 
 var Types = {
@@ -3741,7 +3738,7 @@ var ThemeManager = function ThemeManager() {
 };
 
 module.exports = ThemeManager;
-},{"../utils/color-manipulator":40,"../utils/extend":44,"./colors":26,"./spacing":27,"./themes/dark-theme":29,"./themes/light-theme":30}],29:[function(require,module,exports){
+},{"../utils/extend":44,"./spacing":27,"./themes/dark-theme":29,"./themes/light-theme":30}],29:[function(require,module,exports){
 'use strict';
 
 var Colors = require('../colors');
@@ -3760,7 +3757,8 @@ var DarkTheme = {
     var cardColor = Colors.grey800;
     return {
       floatingActionButton: {
-        disabledColor: ColorManipulator.fade(palette.textColor, 0.12) },
+        disabledColor: ColorManipulator.fade(palette.textColor, 0.12)
+      },
       leftNav: {
         color: cardColor
       },
@@ -3769,14 +3767,17 @@ var DarkTheme = {
         containerBackgroundColor: cardColor
       },
       menuItem: {
-        hoverColor: 'rgba(255, 255, 255, .03)' },
+        hoverColor: 'rgba(255, 255, 255, .03)'
+      },
       menuSubheader: {
-        borderColor: 'rgba(255, 255, 255, 0.3)' },
+        borderColor: 'rgba(255, 255, 255, 0.3)'
+      },
       paper: {
         backgroundColor: cardColor
       },
       raisedButton: {
-        color: Colors.grey500 },
+        color: Colors.grey500
+      },
       toggle: {
         thumbOnColor: Colors.cyan200,
         thumbOffColor: Colors.grey400,
@@ -3784,12 +3785,15 @@ var DarkTheme = {
         thumbRequiredColor: Colors.cyan200,
         trackOnColor: ColorManipulator.fade(Colors.cyan200, 0.5),
         trackOffColor: 'rgba(255, 255, 255, 0.3)',
-        trackDisabledColor: 'rgba(255, 255, 255, 0.1)' },
+        trackDisabledColor: 'rgba(255, 255, 255, 0.1)'
+      },
       slider: {
         trackColor: Colors.minBlack,
         handleColorZero: cardColor,
         handleFillColor: cardColor,
-        selectionColor: Colors.cyan200 } };
+        selectionColor: Colors.cyan200
+      }
+    };
   }
 };
 
@@ -3856,41 +3860,47 @@ var LightTheme = {
         color: palette.canvasColor,
         textColor: palette.textColor,
         primaryTextColor: palette.accent1Color,
-        secondaryTextColor: palette.primary1Color },
+        secondaryTextColor: palette.primary1Color
+      },
       floatingActionButton: {
         buttonSize: 56,
         miniSize: 40,
         color: palette.accent1Color,
         iconColor: Colors.white,
         secondaryColor: palette.primary1Color,
-        secondaryIconColor: Colors.white },
+        secondaryIconColor: Colors.white
+      },
       leftNav: {
         width: Spacing.desktopKeylineIncrement * 4,
         color: Colors.white
       },
       menu: {
         backgroundColor: Colors.white,
-        containerBackgroundColor: Colors.white },
+        containerBackgroundColor: Colors.white
+      },
       menuItem: {
         dataHeight: 32,
         height: 48,
         hoverColor: 'rgba(0, 0, 0, .035)',
         padding: Spacing.desktopGutter,
-        selectedTextColor: palette.accent1Color },
+        selectedTextColor: palette.accent1Color
+      },
       menuSubheader: {
         padding: Spacing.desktopGutter,
         borderColor: palette.borderColor,
         textColor: palette.primary1Color
       },
       paper: {
-        backgroundColor: Colors.white },
+        backgroundColor: Colors.white
+      },
       radioButton: {
         borderColor: palette.textColor,
         backgroundColor: Colors.white,
         checkedColor: palette.primary1Color,
         requiredColor: palette.primary1Color,
         disabledColor: palette.disabledColor,
-        size: 24 },
+        size: 24
+      },
       raisedButton: {
         color: Colors.white,
         textColor: palette.textColor,
@@ -3941,7 +3951,8 @@ var LightTheme = {
         menuHoverColor: 'rgba(0, 0, 0, .10)'
       },
       tabs: {
-        backgroundColor: palette.primary1Color }
+        backgroundColor: palette.primary1Color
+      }
     };
 
     // Properties based on previous properties
@@ -4026,17 +4037,13 @@ var SvgIcon = React.createClass({
     muiTheme: React.PropTypes.object
   },
 
-  getTheme: function getTheme() {
-    return this.context.muiTheme.palette;
+  propTypes: {
+    viewBox: React.PropTypes.string
   },
 
-  getStyles: function getStyles() {
+  getDefaultProps: function getDefaultProps() {
     return {
-      display: 'inline-block',
-      height: '24px',
-      width: '24px',
-      userSelect: 'none',
-      fill: this.getTheme().textColor
+      viewBox: '0 0 24 24'
     };
   },
 
@@ -4047,11 +4054,19 @@ var SvgIcon = React.createClass({
 
     var other = _objectWithoutProperties(_props, ['viewBox', 'style']);
 
+    var mergedStyles = this.mergeAndPrefix({
+      display: 'inline-block',
+      height: '24px',
+      width: '24px',
+      userSelect: 'none',
+      fill: this.context.muiTheme.palette.textColor
+    }, style);
+
     return React.createElement(
       'svg',
       _extends({}, other, {
-        viewBox: '0 0 24 24',
-        style: this.mergeAndPrefix(this.getStyles(), this.props.style) }),
+        viewBox: viewBox,
+        style: mergedStyles }),
       this.props.children
     );
   }
@@ -4129,7 +4144,8 @@ var Toggle = React.createClass({
 
   getInitialState: function getInitialState() {
     return {
-      switched: this.props.toggled || this.props.defaultToggled || this.props.valueLink && this.props.valueLink.value || false };
+      switched: this.props.toggled || this.props.defaultToggled || this.props.valueLink && this.props.valueLink.value || false
+    };
   },
 
   getTheme: function getTheme() {
@@ -4186,9 +4202,9 @@ var Toggle = React.createClass({
 
     var styles = this.getStyles();
 
-    var trackStyles = this.mergeAndPrefix(styles.track, this.state.switched && styles.trackWhenSwitched, this.props.disabled && styles.trackWhenDisabled);
+    var trackStyles = this.mergeAndPrefix(styles.track, this.props.trackStyle, this.state.switched && styles.trackWhenSwitched, this.props.disabled && styles.trackWhenDisabled);
 
-    var thumbStyles = this.mergeAndPrefix(styles.thumb, this.state.switched && styles.thumbWhenSwitched, this.props.disabled && styles.thumbWhenDisabled);
+    var thumbStyles = this.mergeAndPrefix(styles.thumb, this.props.thumbStyle, this.state.switched && styles.thumbWhenSwitched, this.props.disabled && styles.thumbWhenDisabled);
 
     var toggleElement = React.createElement(
       'div',
@@ -4204,13 +4220,15 @@ var Toggle = React.createClass({
 
     var rippleColor = this.state.switched ? this.getTheme().thumbOnColor : this.context.muiTheme.component.textColor;
 
+    var iconStyle = this.mergeAndPrefix(styles.icon, this.props.iconStyle);
+
     var enhancedSwitchProps = {
       ref: 'enhancedSwitch',
       inputType: 'checkbox',
       switchElement: toggleElement,
       rippleStyle: customRippleStyle,
       rippleColor: rippleColor,
-      iconStyle: styles.icon,
+      iconStyle: iconStyle,
       trackStyle: trackStyles,
       thumbStyle: thumbStyles,
       switched: this.state.switched,
@@ -4394,7 +4412,8 @@ var ToolbarGroup = React.createClass({
   _handleMouseOutFontIcon: function _handleMouseOutFontIcon(e) {
     e.target.style.zIndex = 'auto';
     e.target.style.color = this.getStyles().icon.root.color;
-  } });
+  }
+});
 
 module.exports = ToolbarGroup;
 },{"../mixins/style-propable":19,"../styles/colors":26,"react":267}],38:[function(require,module,exports){
@@ -4475,7 +4494,7 @@ var Tooltip = React.createClass({
     this._setRippleSize();
   },
 
-  componentDidUpdate: function componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate: function componentDidUpdate() {
     this._setRippleSize();
   },
 
@@ -4512,7 +4531,8 @@ var Tooltip = React.createClass({
         top: -16,
         opacity: 1,
         transform: 'translate3d(0px, 16px, 0px)',
-        transition: Transitions.easeOut('0ms', 'top', '0ms') + ',' + Transitions.easeOut('450ms', 'transform', '0ms') + ',' + Transitions.easeOut('450ms', 'opacity', '0ms') },
+        transition: Transitions.easeOut('0ms', 'top', '0ms') + ',' + Transitions.easeOut('450ms', 'transform', '0ms') + ',' + Transitions.easeOut('450ms', 'opacity', '0ms')
+      },
       rootWhenTouched: {
         fontSize: '14px',
         lineHeight: '44px',
@@ -4634,7 +4654,8 @@ module.exports = {
     var values = {
       r: parseInt(color.substr(1, 2), 16),
       g: parseInt(color.substr(3, 2), 16),
-      b: parseInt(color.substr(5, 2), 16) };
+      b: parseInt(color.substr(5, 2), 16)
+    };
 
     return 'rgb(' + values.r + ',' + values.g + ',' + values.b + ')';
   },
@@ -4740,7 +4761,9 @@ module.exports = {
       var range = levels[level].range;
       if (ratio >= range[0] && ratio <= range[1]) return level;
     }
-  } };
+  }
+
+};
 },{}],41:[function(require,module,exports){
 'use strict';
 
@@ -4895,51 +4918,52 @@ module.exports = {
   }
 };
 },{}],44:[function(require,module,exports){
-// http://stackoverflow.com/questions/1187518/javascript-array-difference
 'use strict';
 
-Array.prototype.diff = function (a) {
-  return this.filter(function (i) {
-    return a.indexOf(i) < 0;
-  });
-};
+function isObject(obj) {
+  return typeof obj === 'object' && obj !== null;
+}
 
 /** 
 *  A recursive merge between two objects. 
 * 
-*  @param object     - the object whose properties are to be overwritten. It
-*                     should be either the root level or some nested level.
-*  @param overrides - an object containing properties to be overwritten. It 
-*                     should have the same structure as the object object.
+*  @param base     - the object whose properties are to be overwritten. It
+*                    should be either the root level or some nested level.
+*  @param override - an object containing properties to be overwritten. It 
+*                    should have the same structure as the object object.
 */
-var extend = function extend(object, overrides) {
-  var mergeObject = {};
+var extend = function extend(base, override) {
 
-  Object.keys(object).forEach(function (currentKey) {
+  var mergedObject = {};
 
-    // Arrays and null are also objects,
-    var overridesIsValidObject = object[currentKey] && !Array.isArray(object[currentKey]);
+  //Loop through each key in the base object
+  Object.keys(base).forEach(function (key) {
 
-    // Recursive call to next level
-    if (typeof object[currentKey] === 'object' && overridesIsValidObject) {
-      mergeObject[currentKey] = extend(object[currentKey], overrides[currentKey]);
-    } else {
-      if (overrides && overrides[currentKey]) {
-        mergeObject[currentKey] = overrides[currentKey];
-      } else {
-        mergeObject[currentKey] = object[currentKey];
-      }
-    }
+    var baseProp = base[key];
+    var overrideProp;
+
+    if (isObject(override)) overrideProp = override[key];
+
+    //Recursive call extend if the prop is another object, else just copy it over
+    mergedObject[key] = isObject(baseProp) && !Array.isArray(baseProp) ? extend(baseProp, overrideProp) : baseProp;
   });
 
-  // Overrides not defined in object are immediately added.
-  if (overrides && typeof overrides === 'object' && !Array.isArray(overrides)) {
-    Object.keys(overrides).diff(Object.keys(object)).forEach(function (currentDiff) {
-      mergeObject[currentDiff] = overrides[currentDiff];
+  //Loop through each override key and override the props in the
+  //base object
+  if (isObject(override)) {
+
+    Object.keys(override).forEach(function (overrideKey) {
+
+      var overrideProp = override[overrideKey];
+
+      //Only copy over props that are not objects
+      if (!isObject(overrideProp) || Array.isArray(overrideProp)) {
+        mergedObject[overrideKey] = overrideProp;
+      }
     });
   }
 
-  return mergeObject;
+  return mergedObject;
 };
 
 module.exports = extend;
