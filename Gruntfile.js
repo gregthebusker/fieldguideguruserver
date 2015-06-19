@@ -5,7 +5,7 @@ module.exports = function(grunt) {
     'browserify': {
       dist: {
         files: {
-          'public/js/index.js': ['react/main.jsx'] 
+          'public/js/index.js': 'react/main.jsx'
         },
         options: {
           transform: ["babelify"]
