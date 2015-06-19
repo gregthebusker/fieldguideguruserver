@@ -6,13 +6,13 @@ var ParseList = require('./parselist.jsx');
 
 
 var ParseList = React.createClass({
-  componentWillReceiveProps: function(nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.query != this.props.query) {
       this.setState(this.getInitialState());
     }
   },
 
-  fetchData: function() {
+  fetchData() {
     var skip = this.state.results.length;
     var limit = skip == 0 ? 20 : 100;
     this.props.query.skip(skip);
@@ -25,21 +25,21 @@ var ParseList = React.createClass({
     });
   },
 
-  receiveData: function(results) {
+  receiveData(results) {
     this.setState({
       results: this.state.results.concat(results),
       hasMore: results.length != 0
     });
   },
 
-  getInitialState: function() {
+  getInitialState() {
     return {
       results: [],
       hasMore: true
     };
   },
 
-  render: function() {
+  render() {
     var items = this.state.results;
     var papers;
     if (items && items.length) {
