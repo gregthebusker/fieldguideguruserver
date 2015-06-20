@@ -12,11 +12,9 @@ Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 mixpanel.track('Start Page');
 
 var optionsCache = {};
-var LIMIT = 5;
 var HEADERS = {
   country: 'Countries',
-  state: 'States',
-  county: 'Counties'
+  state: 'States'
 };
 
 
@@ -55,26 +53,6 @@ var Template = React.createClass({
   }
 });
 
-var searchCountry = function(str) {
-  return search(str, 'country');
-}
-
-var search = function(str, className, matches) {
-  var Obj = Parse.Object.extend(className);
-  var query = new Parse.Query(Obj);
-  query.contains('searchable_text', str);
-  query.limit(LIMIT);
-  return query.find();
-}
-
-var searchState = function(str) {
-  return search(str, 'state');
-}
-
-var searchCounty = function(str) {
-  return search(str, 'county');
-}
-
 var Start = React.createClass({
   onTextChange(event) {
     var value = event.target.value.toLowerCase();
@@ -83,58 +61,34 @@ var Start = React.createClass({
     });
 
     if (optionsCache[value]) {
-      this.setState({
-        options: optionsCache[value]
-      });
       return;
     }
 
-    var p = Parse.Promise.when(
-      searchCountry(value),
-      searchState(value),
-      searchCounty(value)
-    );
-
-    p.then(function(results1, results2, results3) {
-
-      var getMapFunction = function(name) {
-        return function(v, i) {
-          return {
-            index: i,
-            obj: v,
-            className: v.className,
-            name: v.get(name)
-          };
-        };
-      };
-
-      var a = results1.map(getMapFunction('COUNTRY_NAME_LONG'));
-      var b = results2.map(getMapFunction('SUBNATIONAL1_NAME'));
-      var c = results3.map(getMapFunction('SUBNATIONAL2_NAME'));
-      var results = a.concat(b, c)
-      optionsCache[value] = results;
-      if (this.state.value == value) {
-        this.setState({
-          options: results
-        });;
+    Parse.Cloud.run('autoCompleteLocation', {
+      text: value
+    }, {
+      success: (results) => {
+        optionsCache[value] = results;
+        this.forceUpdate();
+      }.bind(this),
+      error: (error) => {
+        console.log(error);
       }
-    }.bind(this));
+    });
   },
 
   getInitialState: function() {
     return {
-      value: '',
-      options: []
+      value: ''
     };
   },
 
   onSelectLocation: function(index) {
-    var loc = this.state.options[index];
+    var loc = optionsCache[this.state.value][index];
     if (!loc) {
       return;
     }
-    var obj = loc.obj;
-    EnvironmentStore.setLocation(obj);
+    EnvironmentStore.setLocation(loc.obj);
   },
 
   render: function() {
@@ -162,7 +116,7 @@ var Start = React.createClass({
             autoFocus={true}
             onChange={this.onTextChange}
             inputValue={this.state.value}
-            options={this.state.options}
+            options={optionsCache[this.state.value]}
             optionTemplate={Template}
             onOptionSelected={this.onSelectLocation}
           />
