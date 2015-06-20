@@ -40959,13 +40959,22 @@ var Start = React.createClass({
       text: value
     }, {
       success: (function (results) {
-        optionsCache[value] = results;
+        _this.cacheOptions(value, results);
         _this.forceUpdate();
       }).bind(this),
       error: function error(_error) {
         console.log(_error);
       }
     });
+  },
+
+  getOptions: function getOptions() {
+    var value = this.state.value.toLowerCase();
+    return optionsCache[value];
+  },
+
+  cacheOptions: function cacheOptions(value, options) {
+    optionsCache[value.toLowerCase()] = options;
   },
 
   getInitialState: function getInitialState() {
@@ -40975,7 +40984,12 @@ var Start = React.createClass({
   },
 
   onSelectLocation: function onSelectLocation(index) {
-    var loc = optionsCache[this.state.value][index];
+    var options = this.getOptions();
+    if (!options) {
+      return;
+    }
+
+    var loc = options[index];
     if (!loc) {
       return;
     }
@@ -41012,7 +41026,7 @@ var Start = React.createClass({
           autoFocus: true,
           onChange: this.onTextChange,
           inputValue: this.state.value,
-          options: optionsCache[this.state.value],
+          options: this.getOptions(),
           optionTemplate: Template,
           onOptionSelected: this.onSelectLocation
         })
