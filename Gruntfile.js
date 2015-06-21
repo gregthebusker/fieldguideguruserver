@@ -14,7 +14,7 @@ module.exports = function(grunt) {
     },
     watch: {
       scripts: {
-        files: "react/*",
+        files: "react/**/*",
         tasks: ["browserify"]
       }
     }

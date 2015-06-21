@@ -92,13 +92,7 @@ var Start = React.createClass({
     };
   },
 
-  onSelectLocation: function(index) {
-    var options = this.getOptions();
-    if (!options) {
-      return;
-    }
-
-    var loc = options[index];
+  onSelectLocation: function(loc) {
     if (!loc) {
       return;
     }
@@ -111,6 +105,8 @@ var Start = React.createClass({
       paddingTop: '200px',
       color: Colors.darkWhite
     };
+
+    var options = this.getOptions();
 
     return (
       <div style={{
