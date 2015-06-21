@@ -101,8 +101,7 @@ var Start = React.createClass({
 
   render: function() {
     var containerStyle = {
-      textAlign: 'center',
-      paddingTop: '200px',
+      paddingTop: '100px',
       color: Colors.darkWhite
     };
 
@@ -117,7 +116,9 @@ var Start = React.createClass({
         backgroundColor: Colors.green500
       }}>
         <div style={containerStyle}>
-          <h1>
+          <h1 style={{
+            textAlign: 'center',
+          }}>
             <MainIcon />
             Field Guide Guru
           </h1>

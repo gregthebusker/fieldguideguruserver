@@ -8,6 +8,7 @@ var React = require('react'),
 
 var List = require('material-ui/lib/lists/list');
 var ListItem = require('material-ui/lib/lists/list-item');
+var ListDivider = require('material-ui/lib/lists/list-divider');
 
 module.exports = React.createClass({
     displayName: 'Typeahead',
@@ -208,6 +209,10 @@ module.exports = React.createClass({
       var index = -1;
 
       var lists = props.options.map((list) => {
+        if (list.items.length == 0) {
+          return null;
+        }
+
         var items = list.items.map((item) => {
           index++;
           var isSelected = selectedIndex === index;
@@ -233,11 +238,14 @@ module.exports = React.createClass({
         }, this);
 
         return (
-          <List 
-            key={list.title}
-            subheader={list.title}>
-            {items}
-          </List>
+          <div>
+            <List 
+              key={list.title}
+              subheader={list.title}>
+              {items}
+            </List>
+            <ListDivider />
+          </div>
         );
       }, this);
 
@@ -341,6 +349,9 @@ module.exports = React.createClass({
     handleFocus: function(event) {
         var _this = this;
 
+        this.setState({
+          keyboardMovement: true
+        });
         _this.showDropdown();
         _this.props.onFocus(event);
     },
