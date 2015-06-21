@@ -41346,8 +41346,7 @@ var MainIcon = React.createClass({
 
   render: function render() {
     var fill = ThemeManager.getCurrentTheme().component.appBar.textColor;
-    return React.createElement(Binoculars, { style: {
-        fill: fill,
+    return React.createElement(Binoculars, { color: fill, style: {
         marginRight: '5px'
       } });
   }

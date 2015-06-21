@@ -20,8 +20,7 @@ var MainIcon = React.createClass({
     var fill = ThemeManager.getCurrentTheme()
       .component.appBar.textColor;
     return (
-      <Binoculars style={{
-        fill: fill,
+      <Binoculars color={fill} style={{
         marginRight: '5px'
       }}/>
     );
