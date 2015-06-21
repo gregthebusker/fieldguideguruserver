@@ -88,7 +88,8 @@ var Start = React.createClass({
 
   getInitialState: function() {
     return {
-      value: ''
+      value: '',
+      searchFocused: false
     };
   },
 
@@ -99,6 +100,18 @@ var Start = React.createClass({
     EnvironmentStore.setLocation(loc.obj);
   },
 
+  onSearchFocus() {
+    this.setState({
+      searchFocused: true
+    });
+  },
+
+  onSearchBlur() {
+    this.setState({
+      searchFocused: false
+    });
+  },
+
   render: function() {
     var containerStyle = {
       paddingTop: '100px',
@@ -106,6 +119,17 @@ var Start = React.createClass({
     };
 
     var options = this.getOptions();
+
+    var searchClasses = [
+      'search-box-container'
+    ];
+
+    if (this.state.searchFocused) {
+      searchClasses.push('focused');
+    }
+    if (this.state.value) {
+      searchClasses.push('hasValue');
+    }
 
     return (
       <div style={{
@@ -122,7 +146,7 @@ var Start = React.createClass({
             <MainIcon />
             Field Guide Guru
           </h1>
-          <div className={'search-box-container'}>
+          <div className={searchClasses.join(' ')}>
             <Typeahead
               placeholder="Location"
               autoFocus={true}
@@ -131,6 +155,8 @@ var Start = React.createClass({
               options={this.getOptions()}
               optionTemplate={Template}
               onOptionSelected={this.onSelectLocation}
+              onFocus={this.onSearchFocus}
+              onBlur={this.onSearchBlur}
             />
           </div>
         </div>

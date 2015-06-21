@@ -276,13 +276,11 @@ module.exports = React.createClass({
     },
 
     handleFocus: function(event) {
-        var _this = this;
-
-        this.setState({
-          keyboardMovement: true
-        });
-        _this.showDropdown();
-        _this.props.onFocus(event);
+      this.setState({
+        keyboardMovement: true
+      });
+      this.showDropdown();
+      this.props.onFocus(event);
     },
 
     handleClick: function(event) {

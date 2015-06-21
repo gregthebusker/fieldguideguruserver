@@ -44,3 +44,11 @@ body {
   border-radius: 5px;
   padding: 5px;
 }
+
+@media (max-width: 450px) {
+  .search-box-container.focused.hasValue {
+    position: fixed;
+    top: 0;
+    width: 100%;
+  }
+}

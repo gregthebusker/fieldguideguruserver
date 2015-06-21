@@ -42246,7 +42246,8 @@ var Start = React.createClass({
 
   getInitialState: function getInitialState() {
     return {
-      value: ''
+      value: '',
+      searchFocused: false
     };
   },
 
@@ -42257,6 +42258,18 @@ var Start = React.createClass({
     EnvironmentStore.setLocation(loc.obj);
   },
 
+  onSearchFocus: function onSearchFocus() {
+    this.setState({
+      searchFocused: true
+    });
+  },
+
+  onSearchBlur: function onSearchBlur() {
+    this.setState({
+      searchFocused: false
+    });
+  },
+
   render: function render() {
     var containerStyle = {
       paddingTop: '100px',
@@ -42264,6 +42277,15 @@ var Start = React.createClass({
     };
 
     var options = this.getOptions();
+
+    var searchClasses = ['search-box-container'];
+
+    if (this.state.searchFocused) {
+      searchClasses.push('focused');
+    }
+    if (this.state.value) {
+      searchClasses.push('hasValue');
+    }
 
     return React.createElement(
       'div',
@@ -42287,7 +42309,7 @@ var Start = React.createClass({
         ),
         React.createElement(
           'div',
-          { className: 'search-box-container' },
+          { className: searchClasses.join(' ') },
           React.createElement(Typeahead, {
             placeholder: 'Location',
             autoFocus: true,
@@ -42295,7 +42317,9 @@ var Start = React.createClass({
             inputValue: this.state.value,
             options: this.getOptions(),
             optionTemplate: Template,
-            onOptionSelected: this.onSelectLocation
+            onOptionSelected: this.onSelectLocation,
+            onFocus: this.onSearchFocus,
+            onBlur: this.onSearchBlur
           })
         )
       )
@@ -42582,13 +42606,11 @@ module.exports = React.createClass({
     },
 
     handleFocus: function handleFocus(event) {
-        var _this = this;
-
         this.setState({
             keyboardMovement: true
         });
-        _this.showDropdown();
-        _this.props.onFocus(event);
+        this.showDropdown();
+        this.props.onFocus(event);
     },
 
     handleClick: function handleClick(event) {
