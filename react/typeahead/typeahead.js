@@ -1,14 +1,13 @@
 'use strict';
 
 var React = require('react'),
-    Input = require('./input'),
-    AriaStatus = require('./aria_status'),
     getTextDirection = require('../utils/get_text_direction'),
     noop = function() {};
 
 var List = require('material-ui/lib/lists/list');
 var ListItem = require('material-ui/lib/lists/list-item');
 var ListDivider = require('material-ui/lib/lists/list-divider');
+var TextField = require('material-ui/lib/text-field');
 
 module.exports = React.createClass({
     displayName: 'Typeahead',
@@ -33,10 +32,7 @@ module.exports = React.createClass({
         onOptionClick: React.PropTypes.func,
         onOptionChange: React.PropTypes.func,
         onDropdownOpen: React.PropTypes.func,
-        onDropdownClose: React.PropTypes.func,
-        optionTemplate: React.PropTypes.func.isRequired,
-        getMessageForOption: React.PropTypes.func,
-        getMessageForIncomingOptions: React.PropTypes.func
+        onDropdownClose: React.PropTypes.func
     },
 
     getDefaultProps: function() {
@@ -54,13 +50,7 @@ module.exports = React.createClass({
             onOptionChange: noop,
             onComplete:  noop,
             onDropdownOpen: noop,
-            onDropdownClose: noop,
-            getMessageForOption: function() {
-                return '';
-            },
-            getMessageForIncomingOptions: function() {
-                return 'Suggestions are available. Use up and down arrows to select.';
-            }
+            onDropdownClose: noop
         };
      },
 
@@ -117,20 +107,16 @@ module.exports = React.createClass({
     },
 
     render: function() {
-        var _this = this;
-
-        return (
-            React.createElement("div", {
-                style: {
-                    position: 'relative'
-                },
-                className: 'react-typeahead-container ' + _this.props.className},
-                _this.renderInput(),
-                _this.renderDropdown(),
-                _this.renderAriaMessageForOptions(),
-                _this.renderAriaMessageForIncomingOptions()
-            )
-        );
+      return (
+        <div
+          style={{
+            position: 'absoulte',
+            width: '100%'
+          }}>
+          {this.renderInput()}
+          {this.renderDropdown()}
+        </div>
+      );
     },
 
     renderInput: function() {
@@ -142,58 +128,23 @@ module.exports = React.createClass({
             inputDirection = getTextDirection(inputValue);
 
         return (
-            React.createElement("div", {
-                style: {
-                    position: 'relative'
-                },
-                className: "react-typeahead-input-container"},
-                React.createElement(Input, {
-                    ref: "input",
-                    role: "combobox",
-                    "aria-owns": _this.optionsId,
-                    "aria-expanded": state.isDropdownVisible,
-                    "aria-autocomplete": "both",
-                    "aria-activedescendant": _this.activeDescendantId,
-                    value: inputValue,
-                    spellCheck: false,
-                    autoComplete: false,
-                    autoCorrect: false,
-                    dir: inputDirection,
-                    onClick: _this.handleClick,
-                    onFocus: _this.handleFocus,
-                    onBlur: props.onBlur,
-                    onChange: _this.handleChange,
-                    onKeyDown: _this.handleKeyDown,
-                    id: props.inputId,
-                    autoFocus: props.autoFocus,
-                    placeholder: props.placeholder,
-                    onSelect: props.onSelect,
-                    onKeyUp: props.onKeyUp,
-                    onKeyPress: props.onKeyPress,
-                    className: className + ' react-typeahead-usertext',
-                    style: {
-                        position: 'absolute',
-                        background: 'transparent'
-                    }}
-                ),
-
-                React.createElement(Input, {
-                    disabled: true,
-                    role: "presentation",
-                    "aria-hidden": true,
-                    dir: inputDirection,
-                    className: className + ' react-typeahead-hint',
-                    style: {
-                        color: 'silver',
-                        WebkitTextFillColor: 'silver'
-                    },
-                    value: state.isHintVisible ? props.handleHint(inputValue, props.options) : null}
-                )
-            )
+          <TextField
+            ref={'input'}
+            fullWidth={true}
+            value={inputValue}
+            autoComplete={false}
+            autoCorrect={false}
+            onClick={this.handleClick}
+            onFocus={this.handleFocus}
+            onBlur={props.onBlur}
+            onChange={this.handleChange}
+            onKeyDown={this.handleKeyDown}
+            autoFocus={props.autoFocus}
+            placeholder={props.placeholder}
+            onKeyUp={props.onKeyUp}
+            onKeyPress={props.onKeyPress}
+          />
         );
-    },
-
-    giveFocusToSelected() {
     },
 
     renderDropdown: function() {
@@ -230,8 +181,10 @@ module.exports = React.createClass({
               onClick={
                 this.handleOptionClick.bind(this, index, item)
               }
-              onMouseOver={this.handleOptionMouseOver.bind(this, index)}>
-
+              onMouseOver={
+                this.handleOptionMouseOver.bind(this, index)
+              }
+              insetChildren={true}>
               {item.name}
             </ListItem>
           );
@@ -254,35 +207,11 @@ module.exports = React.createClass({
         <div
           style={{
             width: '100%',
-            background: '#fff',
-            position: 'absolute',
-            boxSizing: 'border-box',
             display: isDropdownVisible ? 'block' : 'none'
           }}>
           {lists}
         </div>
       );
-    },
-
-    renderAriaMessageForOptions: function() {
-        var _this = this,
-            props = _this.props,
-            inputValue = props.inputValue,
-            option = props.options[_this.state.selectedIndex] || inputValue;
-
-        return (
-            React.createElement(AriaStatus, {
-                message: props.getMessageForOption(option) || inputValue}
-            )
-        );
-    },
-
-    renderAriaMessageForIncomingOptions: function() {
-        return (
-            React.createElement(AriaStatus, {
-                message: this.props.getMessageForIncomingOptions()}
-            )
-        );
     },
 
     showDropdown: function() {
@@ -401,6 +330,13 @@ module.exports = React.createClass({
       return selectedItem;
     },
 
+    handleEnterKey(event) {
+      this.refs.input.blur();
+      this.hideHint();
+      this.hideDropdown();
+      this.props.onOptionSelected(this.getSelectedOption());
+    },
+
     handleKeyDown: function(event) {
       this.setState({
         keyboardMovement: true
@@ -425,22 +361,8 @@ module.exports = React.createClass({
                 props.onComplete(event, props.handleHint(props.inputValue, props.options));
             }
             break;
-        case 'ArrowLeft':
-        case 'ArrowRight':
-            if (isHintVisible && !event.shiftKey && input.isCursorAtEnd()) {
-                dir = getTextDirection(props.inputValue);
-
-                if ((dir === 'ltr' && key === 'ArrowRight') || (dir === 'rtl' && key === 'ArrowLeft')) {
-                    props.onOptionSelected(this.getSelectedOption());
-                    props.onComplete(event, props.handleHint(props.inputValue, props.options));
-                }
-            }
-            break;
         case 'Enter':
-            input.blur();
-            _this.hideHint();
-            _this.hideDropdown();
-            props.onOptionSelected(this.getSelectedOption());
+            this.handleEnterKey(event);
             break;
         case 'Escape':
             _this.hideHint();

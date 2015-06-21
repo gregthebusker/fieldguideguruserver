@@ -36,3 +36,11 @@ body {
 .search-result-heading {
   margin-left: 5px;
 }
+
+.search-box-container {
+  width: 300px;
+  background-color: #fff;
+  margin: auto;
+  border-radius: 5px;
+  padding: 5px;
+}

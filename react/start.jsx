@@ -122,15 +122,17 @@ var Start = React.createClass({
             <MainIcon />
             Field Guide Guru
           </h1>
-          <Typeahead
-            placeholder="Location"
-            autoFocus={true}
-            onChange={this.onTextChange}
-            inputValue={this.state.value}
-            options={this.getOptions()}
-            optionTemplate={Template}
-            onOptionSelected={this.onSelectLocation}
-          />
+          <div className={'search-box-container'}>
+            <Typeahead
+              placeholder="Location"
+              autoFocus={true}
+              onChange={this.onTextChange}
+              inputValue={this.state.value}
+              options={this.getOptions()}
+              optionTemplate={Template}
+              onOptionSelected={this.onSelectLocation}
+            />
+          </div>
         </div>
       </div>
     );
