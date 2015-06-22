@@ -116,9 +116,12 @@ var Start = React.createClass({
   },
 
   onSearchBlur() {
-    this.setState({
-      searchFocused: false
-    });
+    // Let click land first before blur
+    window.setTimeout(() => {
+      this.setState({
+        searchFocused: false
+      });
+    }, 100);
   },
 
   render: function() {

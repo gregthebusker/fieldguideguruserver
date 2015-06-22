@@ -42273,9 +42273,14 @@ var Start = React.createClass({
   },
 
   onSearchBlur: function onSearchBlur() {
-    this.setState({
-      searchFocused: false
-    });
+    var _this2 = this;
+
+    // Let click land first before blur
+    window.setTimeout(function () {
+      _this2.setState({
+        searchFocused: false
+      });
+    }, 100);
   },
 
   render: function render() {
@@ -42366,7 +42371,6 @@ module.exports = React.createClass({
         onInputClick: React.PropTypes.func,
         handleHint: React.PropTypes.func,
         onComplete: React.PropTypes.func,
-        onOptionClick: React.PropTypes.func,
         onOptionChange: React.PropTypes.func,
         onDropdownOpen: React.PropTypes.func,
         onDropdownClose: React.PropTypes.func
@@ -42383,7 +42387,6 @@ module.exports = React.createClass({
             handleHint: function handleHint() {
                 return '';
             },
-            onOptionClick: noop,
             onOptionChange: noop,
             onComplete: noop,
             onDropdownOpen: noop,
@@ -42750,7 +42753,7 @@ module.exports = React.createClass({
         _this.hideHint();
         _this.hideDropdown();
         _this.setSelectedIndex(selectedIndex);
-        props.onOptionClick(event, item, selectedIndex);
+        console.log(item);
         props.onOptionSelected(item);
     },
 
