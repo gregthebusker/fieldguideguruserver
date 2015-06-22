@@ -21,7 +21,8 @@
     "react-typeahead-component": "~0.5.0",
     "react-router": "~0.13.3",
     "react": "~0.13.3",
-    "react-infinite-scroll": "~0.1.5"
+    "react-infinite-scroll": "~0.1.5",
+    "newrelic": "~1.20.1"
   },
   "devDependencies": {
     "grunt-babel": "~5.0.1",
