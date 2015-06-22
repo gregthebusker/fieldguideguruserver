@@ -191,9 +191,9 @@ module.exports = React.createClass({
         }, this);
 
         return (
-          <div>
+          <div
+            key={list.title}>
             <List 
-              key={list.title}
               subheader={list.title}>
               {items}
             </List>
