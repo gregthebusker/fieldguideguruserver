@@ -42516,7 +42516,7 @@ module.exports = React.createClass({
                     ListItem,
                     {
                         style: styles,
-                        key: item.name,
+                        key: item.obj.id,
                         onClick: _this2.handleOptionClick.bind(_this2, index, item),
                         onMouseOver: _this2.handleOptionMouseOver.bind(_this2, index),
                         insetChildren: true },
@@ -42526,11 +42526,11 @@ module.exports = React.createClass({
 
             return React.createElement(
                 'div',
-                null,
+                {
+                    key: list.title },
                 React.createElement(
                     List,
                     {
-                        key: list.title,
                         subheader: list.title },
                     items
                 ),

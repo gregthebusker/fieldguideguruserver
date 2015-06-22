@@ -177,7 +177,7 @@ module.exports = React.createClass({
           return (
             <ListItem
               style={styles}
-              key={item.name}
+              key={item.obj.id}
               onClick={
                 this.handleOptionClick.bind(this, index, item)
               }
