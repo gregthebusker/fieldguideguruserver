@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react'),
-    getTextDirection = require('../utils/get_text_direction'),
     noop = function() {};
 
 var List = require('material-ui/lib/lists/list');
@@ -124,8 +123,7 @@ module.exports = React.createClass({
             state = _this.state,
             props = _this.props,
             inputValue = props.inputValue,
-            className = 'react-typeahead-input',
-            inputDirection = getTextDirection(inputValue);
+            className = 'react-typeahead-input';
 
         return (
           <TextField

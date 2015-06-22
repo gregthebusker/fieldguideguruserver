@@ -42339,7 +42339,6 @@ module.exports = Start;
 'use strict';
 
 var React = require('react'),
-    getTextDirection = require('../utils/get_text_direction'),
     noop = function noop() {};
 
 var List = require('material-ui/lib/lists/list');
@@ -42462,8 +42461,7 @@ module.exports = React.createClass({
             state = _this.state,
             props = _this.props,
             inputValue = props.inputValue,
-            className = 'react-typeahead-input',
-            inputDirection = getTextDirection(inputValue);
+            className = 'react-typeahead-input';
 
         return React.createElement(TextField, {
             ref: 'input',
@@ -42782,52 +42780,4 @@ module.exports = React.createClass({
 });
 
 }).call(this,require('_process'))
-},{"../utils/get_text_direction":284,"_process":1,"material-ui/lib/lists/list":17,"material-ui/lib/lists/list-divider":15,"material-ui/lib/lists/list-item":16,"material-ui/lib/text-field":40,"react":272}],284:[function(require,module,exports){
-'use strict';
-
-var RTLCharactersRegExp = require('./rtl_chars_regexp'),
-    NeutralCharactersRegExp = require('./neutral_chars_regexp'),
-    startsWithRTL = new RegExp('^(?:' + NeutralCharactersRegExp + ')*(?:' + RTLCharactersRegExp + ')'),
-    neutralText = new RegExp('^(?:' + NeutralCharactersRegExp + ')*$');
-
-module.exports = function (text) {
-    var dir = 'ltr';
-
-    if (startsWithRTL.test(text)) {
-        dir = 'rtl';
-    } else if (neutralText.test(text)) {
-        dir = null;
-    }
-
-    return dir;
-};
-
-},{"./neutral_chars_regexp":285,"./rtl_chars_regexp":286}],285:[function(require,module,exports){
-// DO NOT EDIT!
-// THIS FILE IS GENERATED!
-
-// All bidi characters except those found in classes 'L' (LTR), 'R' (RTL), and 'AL' (RTL Arabic) as per Unicode 7.0.0.
-
-// jshint ignore:start
-// jscs:disable maximumLineLength
-'use strict';
-
-module.exports = '[\u0000-@[-`{-Â©Â«-Â´Â¶-Â¹Â»-Â¿Ã—Ã·Ê¹ÊºË‚-ËË’-ËŸË¥-Ë­Ë¯-Í¯Í´ÍµÍ¾Î„Î…Î‡Ï¶Òƒ-Ò‰ÖŠÖ-ÖÖ‘-Ö½Ö¿××‚×„×…×‡Ø€-Ø‡Ø‰ØŠØŒØ-ØšÙ‹-Ù¬Ù°Û–-Û¤Û§-Û­Û°-Û¹Ü‘Ü°-İŠŞ¦-Ş°ß«-ß³ß¶-ß¹à –-à ™à ›-à £à ¥-à §à ©-à ­à¡™-à¡›à£¤-à¤‚à¤ºà¤¼à¥-à¥ˆà¥à¥‘-à¥—à¥¢à¥£à¦à¦¼à§-à§„à§à§¢à§£à§²à§³à§»à¨à¨‚à¨¼à©à©‚à©‡à©ˆà©‹-à©à©‘à©°à©±à©µàªàª‚àª¼à«-à«…à«‡à«ˆà«à«¢à«£à«±à¬à¬¼à¬¿à­-à­„à­à­–à­¢à­£à®‚à¯€à¯à¯³-à¯ºà°€à°¾-à±€à±†-à±ˆà±Š-à±à±•à±–à±¢à±£à±¸-à±¾à²à²¼à³Œà³à³¢à³£à´àµ-àµ„àµàµ¢àµ£à·Šà·’-à·”à·–à¸±à¸´-à¸ºà¸¿à¹‡-à¹àº±àº´-àº¹àº»àº¼à»ˆ-à»à¼˜à¼™à¼µà¼·à¼¹-à¼½à½±-à½¾à¾€-à¾„à¾†à¾‡à¾-à¾—à¾™-à¾¼à¿†á€­-á€°á€²-á€·á€¹á€ºá€½á€¾á˜á™á-á á±-á´á‚‚á‚…á‚†á‚á‚á-áŸá-á™á€áš€áš›ášœáœ’-áœ”áœ²-áœ´á’á“á²á³á´áµá·-á½áŸ†áŸ‰-áŸ“áŸ›áŸáŸ°-áŸ¹á €-á á¢©á¤ -á¤¢á¤§á¤¨á¤²á¤¹-á¤»á¥€á¥„á¥…á§-á§¿á¨—á¨˜á¨›á©–á©˜-á©á© á©¢á©¥-á©¬á©³-á©¼á©¿áª°-áª¾á¬€-á¬ƒá¬´á¬¶-á¬ºá¬¼á­‚á­«-á­³á®€á®á®¢-á®¥á®¨á®©á®«-á®­á¯¦á¯¨á¯©á¯­á¯¯-á¯±á°¬-á°³á°¶á°·á³-á³’á³”-á³ á³¢-á³¨á³­á³´á³¸á³¹á·€-á·µá·¼-á·¿á¾½á¾¿-á¿á¿-á¿á¿-á¿Ÿá¿­-á¿¯á¿½á¿¾â€€-â€â€-\u2029â€¯-â¤â¨âª-â°â´-â¾â‚€-â‚â‚ -â‚½âƒ-âƒ°â„€â„â„ƒ-â„†â„ˆâ„‰â„”â„–-â„˜â„-â„£â„¥â„§â„©â„®â„ºâ„»â…€-â…„â…Š-â…â…-â…Ÿâ†‰â†-âŒµâ»-â”â–-âºâ€-â¦â‘€-â‘Šâ‘ -â’›â“ª-âš«âš­-âŸ¿â¤€-â­³â­¶-â®•â®˜-â®¹â®½-â¯ˆâ¯Š-â¯‘â³¥-â³ªâ³¯-â³±â³¹-â³¿âµ¿â· -â¹‚âº€-âº™âº›-â»³â¼€-â¿•â¿°-â¿»ã€€-ã€„ã€ˆ-ã€ ã€ª-ã€­ã€°ã€¶ã€·ã€½-ã€¿ã‚™-ã‚œã‚ ãƒ»ã‡€-ã‡£ãˆãˆã‰-ã‰Ÿã‰¼-ã‰¾ãŠ±-ãŠ¿ã‹Œ-ã‹ã·-ãºããŸã¿ä·€-ä·¿ê’-ê“†ê˜-ê˜ê™¯-ê™¿êšŸê›°ê›±êœ€-êœ¡êˆê ‚ê †ê ‹ê ¥ê ¦ê ¨-ê «ê ¸ê ¹ê¡´-ê¡·ê£„ê£ -ê£±ê¤¦-ê¤­ê¥‡-ê¥‘ê¦€-ê¦‚ê¦³ê¦¶-ê¦¹ê¦¼ê§¥ê¨©-ê¨®ê¨±ê¨²ê¨µê¨¶ê©ƒê©Œê©¼êª°êª²-êª´êª·êª¸êª¾êª¿ê«ê«¬ê«­ê«¶ê¯¥ê¯¨ê¯­ï¬ï¬©ï´¾ï´¿ï·½ï¸€-ï¸™ï¸ -ï¸­ï¸°-ï¹’ï¹”-ï¹¦ï¹¨-ï¹«ï»¿ï¼-ï¼ ï¼»-ï½€ï½›-ï½¥ï¿ -ï¿¦ï¿¨-ï¿®ï¿¹-ï¿½]|í €[í´íµ€-í¶Œí¶-í¶›í¶ í·½í» -í»»í½¶-í½º]|í ‚[í´Ÿí¸-í¸ƒí¸…í¸†í¸Œ-í¸í¸¸-í¸ºí¸¿í»¥í»¦í¼¹-í¼¿]|í ƒ[í¹ -í¹¾]|[í „í­€][í°í°¸-í±†í±’-í±¥í±¿-í²í²³-í²¶í²¹í²ºí´€-í´‚í´§-í´«í´­-í´´íµ³í¶€í¶í¶¶-í¶¾í¸¯-í¸±í¸´í¸¶í¸·í»Ÿí»£-í»ªí¼í¼¼í½€í½¦-í½¬í½°-í½´]|í …[í²³-í²¸í²ºí²¿í³€í³‚í³ƒí¶²-í¶µí¶¼í¶½í¶¿í·€í¸³-í¸ºí¸½í¸¿í¹€íº«íº­íº°-íºµíº·]|í š[í»°-í»´í¼°-í¼¶]|í ›[í¾-í¾’]|í ¯[í²í²í² -í²£]|í ´[íµ§-íµ©íµ³-í¶‚í¶…-í¶‹í¶ª-í¶­í¸€-í¹…í¼€-í½–]|í µ[í»›í¼•í½í¾‰í¿ƒí¿-í¿¿]|í º[í³-í³–]|í »[í»°í»±]|í ¼[í°€-í°«í°°-í²“í² -í²®í²±-í²¿í³-í³í³‘-í³µí´€-í´Œíµªíµ«í¼€-í¼¬í¼°-í½½í¾€-í¿í¿”-í¿·]|í ½[í°€-í³¾í´€-íµŠíµ-íµ¹íµ»-í¶£í¶¥-í¹‚í¹…-í»í» -í»¬í»°-í»³í¼€-í½³í¾€-í¿”]|í ¾[í°€-í°‹í°-í±‡í±-í±™í± -í²‡í²-í²­]';
-// jscs:enable maximumLineLength
-// jshint ignore:end
-
-},{}],286:[function(require,module,exports){
-// DO NOT EDIT!
-// THIS FILE IS GENERATED!
-
-// All bidi characters found in classes 'R', 'AL', 'RLE', 'RLO', and 'RLI' as per Unicode 7.0.0.
-
-// jshint ignore:start
-// jscs:disable maximumLineLength
-'use strict';
-
-module.exports = '[Ö¾×€×ƒ×†×-×ª×°-×´ØˆØ‹ØØ›ØœØ-ÙŠÙ­-Ù¯Ù±-Û•Û¥Û¦Û®Û¯Ûº-ÜÜÜÜ’-Ü¯İ-Ş¥Ş±ß€-ßªß´ßµßºà €-à •à šà ¤à ¨à °-à ¾à¡€-à¡˜à¡à¢ -à¢²â€â€«â€®â§ï¬ï¬Ÿ-ï¬¨ï¬ª-ï¬¶ï¬¸-ï¬¼ï¬¾ï­€ï­ï­ƒï­„ï­†-ï¯ï¯“-ï´½ïµ-ï¶ï¶’-ï·‡ï·°-ï·¼ï¹°-ï¹´ï¹¶-ï»¼]|í ‚[í°€-í°…í°ˆí°Š-í°µí°·í°¸í°¼í°¿-í±•í±—-í²í²§-í²¯í´€-í´›í´ -í´¹í´¿í¶€-í¶·í¶¾í¶¿í¸€í¸-í¸“í¸•-í¸—í¸™-í¸³í¹€-í¹‡í¹-í¹˜í¹ -íºŸí»€-í»¤í»«-í»¶í¼€-í¼µí½€-í½•í½˜-í½²í½¸-í¾‘í¾™-í¾œí¾©-í¾¯]|í ƒ[í°€-í±ˆ]|í º[í°€-í³„í³‡-í³]|í »[í¸€-í¸ƒí¸…-í¸Ÿí¸¡í¸¢í¸¤í¸§í¸©-í¸²í¸´-í¸·í¸¹í¸»í¹‚í¹‡í¹‰í¹‹í¹-í¹í¹‘í¹’í¹”í¹—í¹™í¹›í¹í¹Ÿí¹¡í¹¢í¹¤í¹§-í¹ªí¹¬-í¹²í¹´-í¹·í¹¹-í¹¼í¹¾íº€-íº‰íº‹-íº›íº¡-íº£íº¥-íº©íº«-íº»]';
-// jscs:enable maximumLineLength
-// jshint ignore:end
-
-},{}]},{},[276]);
+},{"_process":1,"material-ui/lib/lists/list":17,"material-ui/lib/lists/list-divider":15,"material-ui/lib/lists/list-item":16,"material-ui/lib/text-field":40,"react":272}]},{},[276]);
