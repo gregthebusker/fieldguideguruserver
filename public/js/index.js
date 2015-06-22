@@ -42258,6 +42258,14 @@ var Start = React.createClass({
     EnvironmentStore.setLocation(loc.obj);
   },
 
+  componentDidMount: function componentDidMount() {
+    document.body.style.backgroundColor = Colors.green500;
+  },
+
+  componentWillUnmount: function componentWillUnmount() {
+    document.body.style.backgroundColor = '#fff';
+  },
+
   onSearchFocus: function onSearchFocus() {
     this.setState({
       searchFocused: true
@@ -42291,10 +42299,7 @@ var Start = React.createClass({
       'div',
       { style: {
           width: '100%',
-          bottom: '0',
-          top: '0',
-          position: 'absolute',
-          backgroundColor: Colors.green500
+          height: '100%'
         } },
       React.createElement(
         'div',

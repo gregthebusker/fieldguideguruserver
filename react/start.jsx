@@ -100,6 +100,15 @@ var Start = React.createClass({
     EnvironmentStore.setLocation(loc.obj);
   },
 
+  componentDidMount() {
+    document.body.style.backgroundColor = Colors.green500;
+  },
+
+  componentWillUnmount() {
+    document.body.style.backgroundColor = '#fff';
+  },
+
+
   onSearchFocus() {
     this.setState({
       searchFocused: true
@@ -134,10 +143,7 @@ var Start = React.createClass({
     return (
       <div style={{
         width: '100%',
-        bottom: '0',
-        top: '0',
-        position: 'absolute',
-        backgroundColor: Colors.green500
+        height: '100%',
       }}>
         <div style={containerStyle}>
           <h1 style={{

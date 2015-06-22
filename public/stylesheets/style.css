@@ -1,13 +1,14 @@
 html {
   font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  height: 100%;
 }
 
 body {
+  height: 100%;
   margin: 0;
   padding: 0;
   border: 0;
-  font-size: 13px;
-  line-height: 20px;
 }
 
 .search-result-card {
@@ -49,6 +50,8 @@ body {
   .search-box-container.focused.hasValue {
     position: fixed;
     top: 0;
+    overflow: auto;
+    height: 100%;
     width: 100%;
   }
 }
