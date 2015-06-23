@@ -41746,7 +41746,7 @@ var routes = React.createElement(
     { name: 'guides', path: 'guides', handler: App },
     React.createElement(Route, { name: 'guides-loc', path: ':locationId', handler: Search })
   ),
-  React.createElement(Route, { path: 'start', handler: Start })
+  React.createElement(Route, { name: 'start', path: 'start', handler: Start })
 );
 
 function run() {
@@ -41975,6 +41975,8 @@ var React = require('react/addons');
 var SvgIcon = require('material-ui/lib/svg-icon');
 var IconButton = require('material-ui/lib/icon-button');
 var ThemeManager = require('material-ui/lib/styles/theme-manager')();
+var Router = require('react-router');
+var Navigation = Router.Navigation;
 
 var Search = React.createClass({
   displayName: 'Search',
@@ -41991,11 +41993,19 @@ var Search = React.createClass({
 var SearchIcon = React.createClass({
   displayName: 'SearchIcon',
 
+  mixins: [Navigation],
+
+  navigate: function navigate() {
+    this.transitionTo('start');
+  },
+
   render: function render() {
     var fill = ThemeManager.getCurrentTheme().component.appBar.textColor;
     return React.createElement(
       IconButton,
-      { tooltip: 'Search' },
+      {
+        tooltip: 'Search',
+        onClick: this.navigate },
       React.createElement(Search, { style: { fill: fill } })
     );
   }
@@ -42003,7 +42013,7 @@ var SearchIcon = React.createClass({
 
 module.exports = SearchIcon;
 
-},{"material-ui/lib/icon-button":14,"material-ui/lib/styles/theme-manager":32,"material-ui/lib/svg-icon":37,"react/addons":100}],281:[function(require,module,exports){
+},{"material-ui/lib/icon-button":14,"material-ui/lib/styles/theme-manager":32,"material-ui/lib/svg-icon":37,"react-router":81,"react/addons":100}],281:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var Paper = require('material-ui/lib/paper');

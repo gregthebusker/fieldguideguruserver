@@ -75,7 +75,7 @@ var routes = (
     <Route name="guides" path="guides" handler={App}>
       <Route name="guides-loc" path=":locationId" handler={Search}/>
     </Route>
-    <Route path="start" handler={Start} />
+    <Route name="start" path="start" handler={Start} />
   </Route>
 );
 
