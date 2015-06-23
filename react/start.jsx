@@ -97,6 +97,8 @@ var Start = React.createClass({
     if (!loc) {
       return;
     }
+    loc.obj.increment('clicks');
+    loc.obj.save();
     EnvironmentStore.setLocation(loc.obj);
   },
 

@@ -413,7 +413,6 @@ module.exports = React.createClass({
         _this.hideHint();
         _this.hideDropdown();
         _this.setSelectedIndex(selectedIndex);
-        console.log(item);
         props.onOptionSelected(item);
     },
 
