@@ -2,14 +2,14 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 var Parse = require('parse').Parse;
-var parseKeys = require('./parsekeys.js');
+var parseKeys = require('../react/parsekeys.js');
 
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
 
 router.use(bodyParser.json());
 router.all('/', function(req, res) {
-/*  var text = req.body.TextBody;
+  var text = req.body.TextBody;
 
 
   var ScrapedEmail = Parse.Object.extend("scrapedemail");
@@ -24,7 +24,7 @@ router.all('/', function(req, res) {
   });
 
   Parse.saveAll(emails);
-*/
+
   res.status(200);
   res.send('success');
 });
