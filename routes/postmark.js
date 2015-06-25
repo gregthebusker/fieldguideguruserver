@@ -1,6 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
+var Parse = require('parse').Parse;
+var parseKeys = require('./parsekeys.js');
+
+Parse.initialize(parseKeys.appId, parseKeys.jsKey);
+
 
 router.use(bodyParser.json());
 router.all('/', function(req, res) {
