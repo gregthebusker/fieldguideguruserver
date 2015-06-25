@@ -14,7 +14,7 @@ router.all('/', function(req, res) {
   var ScrapedEmail = Parse.Object.extend("scrapedemail");
 
   var matches = text.match(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/gi);
-  matches.foreach(function(str) => {
+  matches.foreach(function(str) {
     email = new ScrapedEmail();
     email.set({
       email: str
