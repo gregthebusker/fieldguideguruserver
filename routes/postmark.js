@@ -2,9 +2,8 @@ var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
 var Parse = require('parse').Parse;
-var parseKeys = require('../react/parsekeys.js');
 
-Parse.initialize(parseKeys.appId, parseKeys.jsKey);
+Parse.initialize("iGJkfcqcNFcg2r537QG49nZzL3WhDuSNMm6KgsQM", "nKYTEfMzToWqiM7B8lt54DkbESAhj44taQuacmWm");
 
 
 router.use(bodyParser.json());
@@ -13,7 +12,6 @@ router.all('/', function(req, res) {
 
 
   var ScrapedEmail = Parse.Object.extend("scrapedemail");
-  var emails = [];
 
   var matches = text.match(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/gi);
   matches.foreach((str) => {
