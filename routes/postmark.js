@@ -8,7 +8,7 @@ Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
 
 router.use(bodyParser.json());
-router.post('/', function(req, res) {
+router.get('/', function(req, res) {
   var text = req.body.TextBody;
 
 
