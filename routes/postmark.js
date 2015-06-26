@@ -9,7 +9,6 @@ Parse.initialize("iGJkfcqcNFcg2r537QG49nZzL3WhDuSNMm6KgsQM", "nKYTEfMzToWqiM7B8l
 router.use(bodyParser.json());
 router.all('/', function(req, res) {
   var ScrapedEmail = Parse.Object.extend("scrapedemail");
-  console.log(req.body);
   if (req.body) {
     var texts = [];
     if (req.body.TextBody) {
