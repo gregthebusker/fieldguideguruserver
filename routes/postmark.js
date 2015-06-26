@@ -8,20 +8,39 @@ Parse.initialize("iGJkfcqcNFcg2r537QG49nZzL3WhDuSNMm6KgsQM", "nKYTEfMzToWqiM7B8l
 
 router.use(bodyParser.json());
 router.all('/', function(req, res) {
-  var text = req.body.TextBody;
-
-
   var ScrapedEmail = Parse.Object.extend("scrapedemail");
+  console.log(req.body);
+  if (req.body) {
+    var texts = [];
+    if (req.body.TextBody) {
+      texts.push(req.body.TextBody);
+    }
+    var wantedHeaders = ['X-Sender'];
+    var headers = req.body.Headers;
+    if (headers) {
+      headers.forEach(function(obj) {
+        if (wantedHeaders.indexOf(obj.Name) != -1) {
+          texts.push(obj.Value);
+        }
+      });
+    }
 
-  var matches = text.match(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/gi);
-  matches.foreach(function(str) {
-    email = new ScrapedEmail();
-    email.set({
-      email: str
+    var emails = [];
+    
+
+    texts.forEach(function(text) {
+      var matches = text.match(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/gi);
+      matches.forEach(function(str) {
+        email = new ScrapedEmail();
+        email.set({
+          email: str
+        });
+        emails.push(email);
+      });
     });
-  });
 
-  Parse.saveAll(emails);
+    Parse.Object.saveAll(emails);
+  }
 
   res.status(200);
   res.send('success');
