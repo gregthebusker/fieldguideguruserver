@@ -17,7 +17,7 @@ router.all('/', function(req, res) {
     if (req.body.From) {
       texts.push(req.body.From);
     }
-    var wantedHeaders = ['X-Sender'];
+    var wantedHeaders = ['X-Sender', 'X-Original-From'];
     var headers = req.body.Headers;
     if (headers) {
       headers.forEach(function(obj) {
@@ -41,11 +41,19 @@ router.all('/', function(req, res) {
       });
     });
 
-    Parse.Object.saveAll(emails);
+    Parse.Object.saveAll(emails, {
+      success: function(list) {
+        res.status(200);
+        res.send('success');
+      }, error: function(error) {
+        res.status(200);
+        res.send('success');
+      }
+    });
+  } else {
+    res.status(200);
+    res.send('success');
   }
-
-  res.status(200);
-  res.send('success');
 });
 
 module.exports = router;
