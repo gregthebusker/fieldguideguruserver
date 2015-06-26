@@ -32,13 +32,15 @@ router.all('/', function(req, res) {
 
     texts.forEach(function(text) {
       var matches = text.match(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/gi);
-      matches.forEach(function(str) {
-        email = new ScrapedEmail();
-        email.set({
-          email: str
+      if (matches) {
+        matches.forEach(function(str) {
+          email = new ScrapedEmail();
+          email.set({
+            email: str
+          });
+          emails.push(email);
         });
-        emails.push(email);
-      });
+      }
     });
     console.log('emails to write', emails);
 
