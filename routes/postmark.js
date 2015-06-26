@@ -40,12 +40,15 @@ router.all('/', function(req, res) {
         emails.push(email);
       });
     });
+    console.log('emails to write', emails);
 
     Parse.Object.saveAll(emails, {
       success: function(list) {
+        console.log('success');
         res.status(200);
         res.send('success');
       }, error: function(error) {
+        console.log('error', error);
         res.status(200);
         res.send('success');
       }
