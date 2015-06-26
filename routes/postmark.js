@@ -14,6 +14,9 @@ router.all('/', function(req, res) {
     if (req.body.TextBody) {
       texts.push(req.body.TextBody);
     }
+    if (req.body.From) {
+      texts.push(req.body.From);
+    }
     var wantedHeaders = ['X-Sender'];
     var headers = req.body.Headers;
     if (headers) {
