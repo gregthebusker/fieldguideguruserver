@@ -34,7 +34,7 @@ router.all('/', function(req, res) {
       var matches = text.match(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/gi);
       if (matches) {
         matches.forEach(function(str) {
-          email = new ScrapedEmail();
+          var email = new ScrapedEmail();
           email.set({
             email: str
           });
