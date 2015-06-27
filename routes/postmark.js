@@ -5,8 +5,7 @@ var Parse = require('parse').Parse;
 
 Parse.initialize("iGJkfcqcNFcg2r537QG49nZzL3WhDuSNMm6KgsQM", "nKYTEfMzToWqiM7B8lt54DkbESAhj44taQuacmWm");
 
-
-router.use(bodyParser.json());
+router.use(bodyParser.json({limit: '50mb'}));
 router.all('/', function(req, res) {
   var ScrapedEmail = Parse.Object.extend("scrapedemail");
   if (req.body) {
