@@ -41,7 +41,7 @@ router.all('/', function(req, res) {
             emails.indexOf(str) > 0) { 
             return;
           }
-          emails.push(email);
+          emails.push(str);
         });
       }
     });
