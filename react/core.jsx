@@ -1,6 +1,7 @@
 "use strict";
 var React = require('react/addons');
 var Search = require('./searchpage.jsx');
+var Book = require('./book.jsx');
 var Landing = require('./landing.jsx');
 var Start = require('./start.jsx');
 var MaterialAppBar = require('material-ui/lib/app-bar');
@@ -74,6 +75,9 @@ var routes = (
     <DefaultRoute handler={Landing}/>
     <Route name="guides" path="guides" handler={App}>
       <Route name="guides-loc" path=":locationId" handler={Search}/>
+    </Route>
+    <Route name="book" path="book" handler={App}>
+      <Route name="book-id" path=":bookId" handler={Book}/>
     </Route>
     <Route name="start" path="start" handler={Start} />
   </Route>

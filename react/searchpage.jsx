@@ -7,38 +7,79 @@ var DropDownMenu = require('material-ui/lib/drop-down-menu');
 var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
 var ParseList = require('./parselist.jsx');
+var Router = require('react-router');
+var Navigation = Router.Navigation;
 
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
 mixpanel.track('Search Results');
 
-var ResultList = React.createClass({
-  render: function() {
-    var renderFunction = function(item) {
-      var thumb = item.get('thumbnail');
-      var image;
-      if (thumb) {
-        var style = {
-          backgroundImage: 'url(' + thumb.url() + ')'
-        };
-        image = <div className="search-result-image" style={style} />;
-      }
-      return (
-        <Paper className="search-result-card" key={item.get('ISBN')}>
-          <div className="search-result-content">
-            {image}
-            {item.get('title')}
-          </div>
-        </Paper>
-      );
-    };
+var Tile = React.createClass({
+  mixins: [Navigation],
 
+  getInitialState() {
+    return {
+      hover: false
+    };
+  },
+  onClick() {
+    this.transitionTo('book-id', {
+      bookId: this.props.item.id
+    });
+  },
+
+  onMouseOver() {
+    this.setState({
+      hover: true
+    });
+  },
+
+  onMouseOut() {
+    this.setState({
+      hover: false
+    });
+  },
+
+  render() {
+    var item = this.props.item;
+    var thumb = item.get('thumbnail');
+    var image;
+    if (thumb) {
+      var style = {
+        backgroundImage: 'url(' + thumb.url() + ')'
+      };
+      image = <div className="search-result-image" style={style} />;
+    }
+
+    return (
+      <Paper
+        depth={this.state.hover ? 4 : 0}
+        className="search-result-card"
+        key={item.get('ISBN')}
+        onClick={this.onClick}
+        onMouseOver={this.onMouseOver}
+        onMouseOut={this.onMouseOut}>
+        <div className="search-result-content">
+          {image}
+          {item.get('title')}
+        </div>
+      </Paper>
+    );
+  }
+});
+
+var ResultList = React.createClass({
+  mixins: [Navigation],
+    
+  render: function() {
     return (
       <div>
         <h1 className="search-result-heading">{this.props.title}</h1>
         <ParseList
           query={this.props.query}
-          renderFunction={renderFunction}
+          renderFunction={(item) => {
+            return <Tile item={item} />;
+          }}
         />
       </div>
     );

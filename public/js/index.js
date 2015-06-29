@@ -41663,8 +41663,29 @@ module.exports = require('./lib/React');
 
 },{"./lib/React":130}],273:[function(require,module,exports){
 'use strict';
+var React = require('react');
+
+mixpanel.track('Book');
+
+var Book = React.createClass({
+  displayName: 'Book',
+
+  render: function render() {
+    return React.createElement(
+      'div',
+      null,
+      'Book Page'
+    );
+  }
+});
+
+module.exports = Book;
+
+},{"react":272}],274:[function(require,module,exports){
+'use strict';
 var React = require('react/addons');
 var Search = require('./searchpage.jsx');
+var Book = require('./book.jsx');
 var Landing = require('./landing.jsx');
 var Start = require('./start.jsx');
 var MaterialAppBar = require('material-ui/lib/app-bar');
@@ -41746,6 +41767,11 @@ var routes = React.createElement(
     { name: 'guides', path: 'guides', handler: App },
     React.createElement(Route, { name: 'guides-loc', path: ':locationId', handler: Search })
   ),
+  React.createElement(
+    Route,
+    { name: 'book', path: 'book', handler: App },
+    React.createElement(Route, { name: 'book-id', path: ':bookId', handler: Book })
+  ),
   React.createElement(Route, { name: 'start', path: 'start', handler: Start })
 );
 
@@ -41759,7 +41785,7 @@ module.exports = {
   run: run
 };
 
-},{"./environmentstore.jsx":274,"./landing.jsx":275,"./searchicon.jsx":280,"./searchpage.jsx":281,"./start.jsx":282,"material-ui/lib/app-bar":5,"material-ui/lib/styles/colors":30,"material-ui/lib/styles/theme-manager":32,"react-router":81,"react/addons":100}],274:[function(require,module,exports){
+},{"./book.jsx":273,"./environmentstore.jsx":275,"./landing.jsx":276,"./searchicon.jsx":281,"./searchpage.jsx":282,"./start.jsx":283,"material-ui/lib/app-bar":5,"material-ui/lib/styles/colors":30,"material-ui/lib/styles/theme-manager":32,"react-router":81,"react/addons":100}],275:[function(require,module,exports){
 'use strict';
 var Dispatcher = require('flux').Dispatcher;
 var assign = require('object-assign');
@@ -41776,7 +41802,7 @@ EnvironmentStore.prototype.setLocation = function (obj) {
 
 module.exports = new EnvironmentStore();
 
-},{"flux":2,"object-assign":54}],275:[function(require,module,exports){
+},{"flux":2,"object-assign":54}],276:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var Colors = require('material-ui/lib/styles/colors');
@@ -41822,7 +41848,7 @@ var Main = React.createClass({
 
 module.exports = Main;
 
-},{"material-ui/lib/styles/colors":30,"react":272}],276:[function(require,module,exports){
+},{"material-ui/lib/styles/colors":30,"react":272}],277:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -41842,7 +41868,7 @@ module.exports = Main;
   Core.run();
 })();
 
-},{"./core.jsx":273,"react-tap-event-plugin":99,"react/addons":100}],277:[function(require,module,exports){
+},{"./core.jsx":274,"react-tap-event-plugin":99,"react/addons":100}],278:[function(require,module,exports){
 'use strict';
 var React = require('react/addons');
 var SvgIcon = require('material-ui/lib/svg-icon');
@@ -41877,7 +41903,7 @@ var MainIcon = React.createClass({
 
 module.exports = MainIcon;
 
-},{"material-ui/lib/styles/theme-manager":32,"material-ui/lib/svg-icon":37,"react/addons":100}],278:[function(require,module,exports){
+},{"material-ui/lib/styles/theme-manager":32,"material-ui/lib/svg-icon":37,"react/addons":100}],279:[function(require,module,exports){
 "use strict";
 
 var keys = {
@@ -41887,7 +41913,7 @@ var keys = {
 
 module.exports = keys;
 
-},{}],279:[function(require,module,exports){
+},{}],280:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var CircularProgress = require('material-ui/lib/circular-progress');
@@ -41966,7 +41992,7 @@ var ParseList = React.createClass({
 
 module.exports = ParseList;
 
-},{"./parselist.jsx":279,"material-ui/lib/circular-progress":7,"react":272,"react-infinite-scroll":56}],280:[function(require,module,exports){
+},{"./parselist.jsx":280,"material-ui/lib/circular-progress":7,"react":272,"react-infinite-scroll":56}],281:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -42013,7 +42039,7 @@ var SearchIcon = React.createClass({
 
 module.exports = SearchIcon;
 
-},{"material-ui/lib/icon-button":14,"material-ui/lib/styles/theme-manager":32,"material-ui/lib/svg-icon":37,"react-router":81,"react/addons":100}],281:[function(require,module,exports){
+},{"material-ui/lib/icon-button":14,"material-ui/lib/styles/theme-manager":32,"material-ui/lib/svg-icon":37,"react-router":81,"react/addons":100}],282:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var Paper = require('material-ui/lib/paper');
@@ -42023,36 +42049,77 @@ var DropDownMenu = require('material-ui/lib/drop-down-menu');
 var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
 var ParseList = require('./parselist.jsx');
+var Router = require('react-router');
+var Navigation = Router.Navigation;
 
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
 mixpanel.track('Search Results');
 
+var Tile = React.createClass({
+  displayName: 'Tile',
+
+  mixins: [Navigation],
+
+  getInitialState: function getInitialState() {
+    return {
+      hover: false
+    };
+  },
+  onClick: function onClick() {
+    this.transitionTo('book-id', {
+      bookId: this.props.item.id
+    });
+  },
+
+  onMouseOver: function onMouseOver() {
+    this.setState({
+      hover: true
+    });
+  },
+
+  onMouseOut: function onMouseOut() {
+    this.setState({
+      hover: false
+    });
+  },
+
+  render: function render() {
+    var item = this.props.item;
+    var thumb = item.get('thumbnail');
+    var image;
+    if (thumb) {
+      var style = {
+        backgroundImage: 'url(' + thumb.url() + ')'
+      };
+      image = React.createElement('div', { className: 'search-result-image', style: style });
+    }
+
+    return React.createElement(
+      Paper,
+      {
+        depth: this.state.hover ? 4 : 0,
+        className: 'search-result-card',
+        key: item.get('ISBN'),
+        onClick: this.onClick,
+        onMouseOver: this.onMouseOver,
+        onMouseOut: this.onMouseOut },
+      React.createElement(
+        'div',
+        { className: 'search-result-content' },
+        image,
+        item.get('title')
+      )
+    );
+  }
+});
+
 var ResultList = React.createClass({
   displayName: 'ResultList',
 
-  render: function render() {
-    var renderFunction = function renderFunction(item) {
-      var thumb = item.get('thumbnail');
-      var image;
-      if (thumb) {
-        var style = {
-          backgroundImage: 'url(' + thumb.url() + ')'
-        };
-        image = React.createElement('div', { className: 'search-result-image', style: style });
-      }
-      return React.createElement(
-        Paper,
-        { className: 'search-result-card', key: item.get('ISBN') },
-        React.createElement(
-          'div',
-          { className: 'search-result-content' },
-          image,
-          item.get('title')
-        )
-      );
-    };
+  mixins: [Navigation],
 
+  render: function render() {
     return React.createElement(
       'div',
       null,
@@ -42063,7 +42130,9 @@ var ResultList = React.createClass({
       ),
       React.createElement(ParseList, {
         query: this.props.query,
-        renderFunction: renderFunction
+        renderFunction: function (item) {
+          return React.createElement(Tile, { item: item });
+        }
       })
     );
   }
@@ -42158,7 +42227,7 @@ var Search = React.createClass({
 
 module.exports = Search;
 
-},{"./parsekeys.js":278,"./parselist.jsx":279,"material-ui/lib/drop-down-menu":9,"material-ui/lib/paper":25,"material-ui/lib/toolbar/toolbar":43,"material-ui/lib/toolbar/toolbar-group":42,"parse":55,"react":272}],282:[function(require,module,exports){
+},{"./parsekeys.js":279,"./parselist.jsx":280,"material-ui/lib/drop-down-menu":9,"material-ui/lib/paper":25,"material-ui/lib/toolbar/toolbar":43,"material-ui/lib/toolbar/toolbar-group":42,"parse":55,"react":272,"react-router":81}],283:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var Colors = require('material-ui/lib/styles/colors');
@@ -42351,7 +42420,7 @@ var Start = React.createClass({
 
 module.exports = Start;
 
-},{"./environmentstore.jsx":274,"./mainicon.jsx":277,"./parsekeys.js":278,"./typeahead/typeahead.js":283,"material-ui/lib/styles/colors":30,"parse":55,"react":272}],283:[function(require,module,exports){
+},{"./environmentstore.jsx":275,"./mainicon.jsx":278,"./parsekeys.js":279,"./typeahead/typeahead.js":284,"material-ui/lib/styles/colors":30,"parse":55,"react":272}],284:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -42765,7 +42834,6 @@ module.exports = React.createClass({
         _this.hideHint();
         _this.hideDropdown();
         _this.setSelectedIndex(selectedIndex);
-        console.log(item);
         props.onOptionSelected(item);
     },
 
@@ -42795,4 +42863,4 @@ module.exports = React.createClass({
 });
 
 }).call(this,require('_process'))
-},{"_process":1,"material-ui/lib/lists/list":17,"material-ui/lib/lists/list-divider":15,"material-ui/lib/lists/list-item":16,"material-ui/lib/text-field":40,"react":272}]},{},[276]);
+},{"_process":1,"material-ui/lib/lists/list":17,"material-ui/lib/lists/list-divider":15,"material-ui/lib/lists/list-item":16,"material-ui/lib/text-field":40,"react":272}]},{},[277]);
