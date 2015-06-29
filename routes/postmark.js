@@ -37,6 +37,7 @@ router.all('/', function(req, res) {
           if (str.indexOf('yahoogroups.com') > 0 ||
             str.indexOf('googlegroups.com') > 0 ||
             str.indexOf('LISTSERV@LISTSERV') > 0 ||
+            str.indexOf('lists.ctbirding.org') > 0 ||
             emails.indexOf(str) > 0) { 
             return;
           }
