@@ -34,26 +34,28 @@ router.all('/', function(req, res) {
       var matches = text.match(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/gi);
       if (matches) {
         matches.forEach(function(str) {
-          if (str.indexOf('yahoogroups.com') > 0) { 
+          if (str.indexOf('yahoogroups.com') > 0 ||
+            emails.indexOf(str) > 0) { 
             return;
           }
-          var email = new ScrapedEmail();
-          email.set({
-            email: str
-          });
           emails.push(email);
         });
       }
     });
-    console.log('emails to write', emails);
 
-    Parse.Object.saveAll(emails, {
+    var objs = emails.map(function(email) {
+      var obj = new ScrapedEmail();
+      obj.set({
+        email: email
+      });
+      return obj;
+    }
+
+    Parse.Object.saveAll(objs, {
       success: function(list) {
-        console.log('success');
         res.status(200);
         res.send('success');
       }, error: function(error) {
-        console.log('error', error);
         res.status(200);
         res.send('success');
       }
