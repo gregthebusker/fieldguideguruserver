@@ -52,7 +52,7 @@ router.all('/', function(req, res) {
         email: email
       });
       return obj;
-    }
+    });
 
     Parse.Object.saveAll(objs, {
       success: function(list) {
