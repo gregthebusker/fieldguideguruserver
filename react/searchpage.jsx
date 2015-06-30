@@ -53,7 +53,7 @@ var Tile = React.createClass({
 
     return (
       <Paper
-        depth={this.state.hover ? 4 : 0}
+        zDepth={this.state.hover ? 4 : 1}
         className="search-result-card"
         key={item.get('ISBN')}
         onClick={this.onClick}

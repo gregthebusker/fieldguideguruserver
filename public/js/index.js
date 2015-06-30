@@ -42098,7 +42098,7 @@ var Tile = React.createClass({
     return React.createElement(
       Paper,
       {
-        depth: this.state.hover ? 4 : 0,
+        zDepth: this.state.hover ? 4 : 1,
         className: 'search-result-card',
         key: item.get('ISBN'),
         onClick: this.onClick,
