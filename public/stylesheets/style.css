@@ -11,12 +11,17 @@ body {
   border: 0;
 }
 
+.toolbar svg {
+  fill: #9E9E9E !important;
+}
+
 .search-result-card {
   height: 300px;
   width: 172px;
   float: left;
   margin: 5px;
   cursor: pointer;
+  border: 1px solid #e5e5e5;
 }
 .search-result-content {
   margin: 5px;

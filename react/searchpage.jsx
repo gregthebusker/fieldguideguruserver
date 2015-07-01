@@ -78,7 +78,7 @@ var ResultList = React.createClass({
     
   render: function() {
     return (
-      <div>
+      <div className="search-results">
         <h1 className="search-result-heading">{this.props.title}</h1>
         <ParseList
           query={this.props.query}
@@ -105,14 +105,16 @@ var FilterBar = React.createClass({
     });
 
     return (
-      <Toolbar>
-        <ToolbarGroup key={0} float="left">
-          <DropDownMenu
-            menuItems={filterOptions}
-            onChange={this.props.onFilterChange}
-          />
-        </ToolbarGroup>
-      </Toolbar>
+      <div className="toolbar">
+        <Toolbar>
+          <ToolbarGroup key={0} float="left">
+            <DropDownMenu
+              menuItems={filterOptions}
+              onChange={this.props.onFilterChange}
+            />
+          </ToolbarGroup>
+        </Toolbar>
+      </div>
     );
   }
 });

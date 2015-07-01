@@ -42129,7 +42129,7 @@ var ResultList = React.createClass({
   render: function render() {
     return React.createElement(
       'div',
-      null,
+      { className: 'search-results' },
       React.createElement(
         'h1',
         { className: 'search-result-heading' },
@@ -42161,15 +42161,19 @@ var FilterBar = React.createClass({
     });
 
     return React.createElement(
-      Toolbar,
-      null,
+      'div',
+      { className: 'toolbar' },
       React.createElement(
-        ToolbarGroup,
-        { key: 0, float: 'left' },
-        React.createElement(DropDownMenu, {
-          menuItems: filterOptions,
-          onChange: this.props.onFilterChange
-        })
+        Toolbar,
+        null,
+        React.createElement(
+          ToolbarGroup,
+          { key: 0, float: 'left' },
+          React.createElement(DropDownMenu, {
+            menuItems: filterOptions,
+            onChange: this.props.onFilterChange
+          })
+        )
       )
     );
   }
