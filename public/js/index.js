@@ -42098,7 +42098,7 @@ var Tile = React.createClass({
     return React.createElement(
       Paper,
       {
-        zDepth: this.state.hover ? 4 : 1,
+        zDepth: this.state.hover ? 3 : 1,
         className: 'search-result-card',
         key: item.get('ISBN'),
         onClick: this.onClick,
@@ -42106,8 +42106,15 @@ var Tile = React.createClass({
         onMouseOut: this.onMouseOut },
       React.createElement(
         'div',
-        { className: 'search-result-content' },
+        { className: 'search-result-image-container' },
         image,
+        React.createElement('div', { className: 'search-result-overlay' })
+      ),
+      React.createElement(
+        'div',
+        {
+          className: 'search-result-content',
+          title: item.get('title') },
         item.get('title')
       )
     );

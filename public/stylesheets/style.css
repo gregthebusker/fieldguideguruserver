@@ -12,18 +12,46 @@ body {
 }
 
 .search-result-card {
-  height: 270px;
+  height: 300px;
   width: 172px;
   float: left;
   margin: 5px;
+  cursor: pointer;
 }
 .search-result-content {
-  margin: 10px;
+  margin: 5px;
+  max-height: 50px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 16px;
+  line-height: 18px;
+}
+.search-result-content:hover {
+  text-decoration: underline;
+}
+
+.search-result-overlay {
+  opacity: 0;
+  transition: all .25s ease;
+  background: rgba(0,0,0,0.4);
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.search-result-overlay:hover {
+  opacity: 1;
+}
+.search-result-image-container {
+  height: 245px;
+  position: relative;
 }
 
 .search-result-image {
-  width: 152px;
-  height: 196px;
+  width: 100%;
+  height: 100%;
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
