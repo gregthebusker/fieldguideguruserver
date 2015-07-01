@@ -36,7 +36,7 @@ router.all('/', function(req, res) {
         matches.forEach(function(str) {
           if (str.indexOf('yahoogroups.com') > 0 ||
             str.indexOf('googlegroups.com') > 0 ||
-            str.indexOf('LISTSERV@LISTSERV') == 0 ||
+            str.indexOf('LISTSERV@') == 0 ||
             str.indexOf('lists.ctbirding.org') > 0 ||
             str.indexOf('envirolink.org') > 0 ||
             emails.indexOf(str) > 0) { 
