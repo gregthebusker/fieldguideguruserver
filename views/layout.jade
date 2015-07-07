@@ -31,6 +31,12 @@ html
         var s = document.getElementsByTagName('script')[0];
         s.parentNode.insertBefore(wf, s);
       })();
+
+    script(type="text/javascript" src="//www.google.com/jsapi")
+
+    script(type='text/javascript').
+      google.load("books", "0");
+      google.setOnLoadCallback(function() { window.booksLoaded = true; });
   body
     block content
       script(src='/js/index.js')

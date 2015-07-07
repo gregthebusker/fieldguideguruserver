@@ -88,3 +88,38 @@ body {
     width: 100%;
   }
 }
+
+.book-content {
+  width: 720px;
+  margin: auto;
+  margin-top: 25px;
+}
+
+.book-image-section {
+  float: left;
+  width: 200px;
+}
+
+.book-info-section {
+  overflow: hidden;
+  padding-bottom: 5px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.book-details-section {
+  margin-left: 200px;
+  padding: 25px;
+}
+
+.book-image {
+  width: 100%;
+}
+
+.book-title {
+  font-weight: normal;
+  font-size: 30px;
+}
+
+.book-other-content {
+  padding: 25px;
+}
