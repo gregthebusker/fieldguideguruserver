@@ -8,8 +8,18 @@ module.exports = function(grunt) {
           'public/js/index.js': 'react/main.jsx'
         },
         options: {
-          transform: ["babelify"]
-        }
+          transform: ["babelify"],
+          plugin: [
+            ['remapify', [
+              {
+                src: 'react/**/*',
+                filter: function(alias, dirname, basename) {
+                  return basename.replace(/.jsx?$/, '');
+                }
+              }
+            ]]
+          ],
+        },
       }
     },
     less: {
@@ -25,13 +35,18 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: ["react/**/*", "less/**/*"],
-        tasks: ["browserify", "less"]
-      }
+        tasks: ["browserify"]
+      },
+      styles: {
+        files: ["less/**/*"],
+        tasks: ["less"]
+      },
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks('grunt-browserify');
-  grunt.registerTask("default", ["browserify", "less"]);
+
+  grunt.registerTask("build", ["browserify", "less"]);
 };

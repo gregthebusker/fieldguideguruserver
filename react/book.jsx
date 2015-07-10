@@ -5,6 +5,7 @@ var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
 var BookPreview = require('./bookpreview.js');
 var Select = require('react-select');
+var LocationEntities = require('LocationEntities');
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
 mixpanel.track('Book');
@@ -28,23 +29,26 @@ var Book = React.createClass({
   },
 
   getInitialState() {
-    return {
+    var state = {
       book: null,
-      counties: [],
-      selectedOptions: [],
     };
+    for (var key in LocationEntities) {
+      var entity = LocationEntities[key];
+      state[entity.key] = [];
+      state[entity.key + 'selectedOptions'] = [];
+    }
+    return state;
   },
 
-  getCountries(input, callback) {
-    var Country = Parse.Object.extend('country');
-    var query = new Parse.Query(Country);
+  getEntity(entity, input, callback) {
+    var query = new Parse.Query(entity.parse);
     query.contains('searchable_text', input);
     query.find({
       success: (results) => {
         var options = results.map(r => {
           return {
             value: r.id,
-            label: r.get('COUNTRY_NAME'),
+            label: entity.getLabel(r),
           };
         });
 
@@ -55,10 +59,30 @@ var Book = React.createClass({
     });
   },
 
-  onCountryChange(newValue, options) {
+  onEntityChange(entity, newValue, options) {
     this.setState({
-      counties: options.map(x => x.value),
-      selectedOptions: options,
+      [entity.key]: options.map(x => x.value),
+      [entity.key + 'selectedOptions']: options,
+    });
+  },
+
+  renderLocationEntities() {
+    return Object.keys(LocationEntities).map(key => {
+      var entity = LocationEntities[key];
+      return (
+        <div key={entity.key}>
+          <h3>{entity.key}</h3>
+          <Select
+            className="country-select"
+            delimiter=","
+            multi={true}
+            value={this.state[entity.key].join(',')}
+            onChange={this.onEntityChange.bind(this, entity)}
+            options={this.state[entity.key + 'selectedOptions']}
+            asyncOptions={this.getEntity.bind(this, entity)} 
+          />
+        </div>
+      );
     });
   },
 
@@ -79,19 +103,7 @@ var Book = React.createClass({
               <div className="book-title">
                 {book.get('title')}
               </div>
-
-              <div>
-                <h3>Countries</h3>
-                <Select
-                  className="country-select"
-                  delimiter=","
-                  multi={true}
-                  value={this.state.counties.join(',')}
-                  onChange={this.onCountryChange}
-                  options={this.state.selectedOptions}
-                  asyncOptions={this.getCountries} 
-                />
-              </div>
+              {this.renderLocationEntities()}
             </div>
           </div>
           <div className="book-other-content">

@@ -34,7 +34,11 @@ var BookPreview = React.createClass({
 
   render() {
     if (this.state.notFound) {
-      return <div>No Preview</div>;
+      return (
+        <div>
+          No Preview
+        </div>
+      );
     }
 
     var style = {

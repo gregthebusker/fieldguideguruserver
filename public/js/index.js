@@ -51697,13 +51697,50 @@ module.exports = warning;
 module.exports = require('./lib/React');
 
 },{"./lib/React":206}],349:[function(require,module,exports){
+var Parse = require('parse').Parse;
+
+var Entities = {
+  Country: {
+    parse: Parse.Object.extend('country'),
+    key: 'country',
+    getLabel(obj) {
+      return obj.get('COUNTRY_NAME');
+    }
+  },
+  State: {
+    parse: Parse.Object.extend('state'),
+    key: 'state',
+    getLabel(obj) {
+      var state = obj.get('SUBNATIONAL1_NAME');
+      var country = obj.get('COUNTRY_CODE');
+      return [state, country].join(', ');
+    }
+  },
+  County : {
+    parse: Parse.Object.extend('county'),
+    key: 'county',
+    getLabel(obj) {
+      var county = obj.get('SUBNATIONAL2_NAME');
+      var state = obj.get('SUBNATIONAL1_CODE');
+      return [county, state].join(', ');
+    }
+  },
+};
+
+module.exports = Entities;
+
+},{"parse":127}],350:[function(require,module,exports){
 'use strict';
+
+function _defineProperty(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); }
+
 var React = require('react');
 var Paper = require('material-ui').Paper;
 var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
 var BookPreview = require('./bookpreview.js');
 var Select = require('react-select');
+var LocationEntities = require('LocationEntities');
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
 mixpanel.track('Book');
@@ -51729,23 +51766,26 @@ var Book = React.createClass({
   },
 
   getInitialState: function getInitialState() {
-    return {
-      book: null,
-      counties: [],
-      selectedOptions: []
+    var state = {
+      book: null
     };
+    for (var key in LocationEntities) {
+      var entity = LocationEntities[key];
+      state[entity.key] = [];
+      state[entity.key + 'selectedOptions'] = [];
+    }
+    return state;
   },
 
-  getCountries: function getCountries(input, callback) {
-    var Country = Parse.Object.extend('country');
-    var query = new Parse.Query(Country);
+  getEntity: function getEntity(entity, input, callback) {
+    var query = new Parse.Query(entity.parse);
     query.contains('searchable_text', input);
     query.find({
       success: function success(results) {
         var options = results.map(function (r) {
           return {
             value: r.id,
-            label: r.get('COUNTRY_NAME')
+            label: entity.getLabel(r)
           };
         });
 
@@ -51756,12 +51796,37 @@ var Book = React.createClass({
     });
   },
 
-  onCountryChange: function onCountryChange(newValue, options) {
-    this.setState({
-      counties: options.map(function (x) {
-        return x.value;
-      }),
-      selectedOptions: options
+  onEntityChange: function onEntityChange(entity, newValue, options) {
+    var _setState;
+
+    this.setState((_setState = {}, _defineProperty(_setState, entity.key, options.map(function (x) {
+      return x.value;
+    })), _defineProperty(_setState, entity.key + 'selectedOptions', options), _setState));
+  },
+
+  renderLocationEntities: function renderLocationEntities() {
+    var _this = this;
+
+    return Object.keys(LocationEntities).map(function (key) {
+      var entity = LocationEntities[key];
+      return React.createElement(
+        'div',
+        { key: entity.key },
+        React.createElement(
+          'h3',
+          null,
+          entity.key
+        ),
+        React.createElement(Select, {
+          className: 'country-select',
+          delimiter: ',',
+          multi: true,
+          value: _this.state[entity.key].join(','),
+          onChange: _this.onEntityChange.bind(_this, entity),
+          options: _this.state[entity.key + 'selectedOptions'],
+          asyncOptions: _this.getEntity.bind(_this, entity)
+        })
+      );
     });
   },
 
@@ -51793,24 +51858,7 @@ var Book = React.createClass({
               { className: 'book-title' },
               book.get('title')
             ),
-            React.createElement(
-              'div',
-              null,
-              React.createElement(
-                'h3',
-                null,
-                'Countries'
-              ),
-              React.createElement(Select, {
-                className: 'country-select',
-                delimiter: ',',
-                multi: true,
-                value: this.state.counties.join(','),
-                onChange: this.onCountryChange,
-                options: this.state.selectedOptions,
-                asyncOptions: this.getCountries
-              })
-            )
+            this.renderLocationEntities()
           )
         ),
         React.createElement(
@@ -51833,7 +51881,7 @@ var Book = React.createClass({
 
 module.exports = Book;
 
-},{"./bookpreview.js":350,"./parsekeys.js":356,"material-ui":38,"parse":127,"react":348,"react-select":168}],350:[function(require,module,exports){
+},{"./bookpreview.js":351,"./parsekeys.js":357,"LocationEntities":349,"material-ui":38,"parse":127,"react":348,"react-select":168}],351:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -51888,7 +51936,7 @@ module.exports = BookPreview;
 
 //Do something
 
-},{"react":348}],351:[function(require,module,exports){
+},{"react":348}],352:[function(require,module,exports){
 'use strict';
 var React = require('react/addons');
 var Search = require('./searchpage.jsx');
@@ -51992,7 +52040,7 @@ module.exports = {
   run: run
 };
 
-},{"./book.jsx":349,"./environmentstore.jsx":352,"./landing.jsx":353,"./searchicon.jsx":358,"./searchpage.jsx":359,"./start.jsx":360,"material-ui/lib/app-bar":5,"material-ui/lib/styles/colors":66,"material-ui/lib/styles/theme-manager":69,"react-router":153,"react/addons":176}],352:[function(require,module,exports){
+},{"./book.jsx":350,"./environmentstore.jsx":353,"./landing.jsx":354,"./searchicon.jsx":359,"./searchpage.jsx":360,"./start.jsx":361,"material-ui/lib/app-bar":5,"material-ui/lib/styles/colors":66,"material-ui/lib/styles/theme-manager":69,"react-router":153,"react/addons":176}],353:[function(require,module,exports){
 'use strict';
 var Dispatcher = require('flux').Dispatcher;
 var assign = require('object-assign');
@@ -52009,7 +52057,7 @@ EnvironmentStore.prototype.setLocation = function (obj) {
 
 module.exports = new EnvironmentStore();
 
-},{"flux":2,"object-assign":126}],353:[function(require,module,exports){
+},{"flux":2,"object-assign":126}],354:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var Colors = require('material-ui/lib/styles/colors');
@@ -52055,7 +52103,7 @@ var Main = React.createClass({
 
 module.exports = Main;
 
-},{"material-ui/lib/styles/colors":66,"react":348}],354:[function(require,module,exports){
+},{"material-ui/lib/styles/colors":66,"react":348}],355:[function(require,module,exports){
 'use strict';
 
 (function () {
@@ -52075,7 +52123,7 @@ module.exports = Main;
   Core.run();
 })();
 
-},{"./core.jsx":351,"react-tap-event-plugin":175,"react/addons":176}],355:[function(require,module,exports){
+},{"./core.jsx":352,"react-tap-event-plugin":175,"react/addons":176}],356:[function(require,module,exports){
 'use strict';
 var React = require('react/addons');
 var SvgIcon = require('material-ui/lib/svg-icon');
@@ -52110,7 +52158,7 @@ var MainIcon = React.createClass({
 
 module.exports = MainIcon;
 
-},{"material-ui/lib/styles/theme-manager":69,"material-ui/lib/svg-icon":74,"react/addons":176}],356:[function(require,module,exports){
+},{"material-ui/lib/styles/theme-manager":69,"material-ui/lib/svg-icon":74,"react/addons":176}],357:[function(require,module,exports){
 "use strict";
 
 var keys = {
@@ -52120,7 +52168,7 @@ var keys = {
 
 module.exports = keys;
 
-},{}],357:[function(require,module,exports){
+},{}],358:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var CircularProgress = require('material-ui/lib/circular-progress');
@@ -52199,7 +52247,7 @@ var ParseList = React.createClass({
 
 module.exports = ParseList;
 
-},{"./parselist.jsx":357,"material-ui/lib/circular-progress":16,"react":348,"react-infinite-scroll":128}],358:[function(require,module,exports){
+},{"./parselist.jsx":358,"material-ui/lib/circular-progress":16,"react":348,"react-infinite-scroll":128}],359:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -52246,7 +52294,7 @@ var SearchIcon = React.createClass({
 
 module.exports = SearchIcon;
 
-},{"material-ui/lib/icon-button":37,"material-ui/lib/styles/theme-manager":69,"material-ui/lib/svg-icon":74,"react-router":153,"react/addons":176}],359:[function(require,module,exports){
+},{"material-ui/lib/icon-button":37,"material-ui/lib/styles/theme-manager":69,"material-ui/lib/svg-icon":74,"react-router":153,"react/addons":176}],360:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var Paper = require('material-ui/lib/paper');
@@ -52445,7 +52493,7 @@ var Search = React.createClass({
 
 module.exports = Search;
 
-},{"./parsekeys.js":356,"./parselist.jsx":357,"material-ui/lib/drop-down-menu":30,"material-ui/lib/paper":55,"material-ui/lib/toolbar/toolbar":110,"material-ui/lib/toolbar/toolbar-group":107,"parse":127,"react":348,"react-router":153}],360:[function(require,module,exports){
+},{"./parsekeys.js":357,"./parselist.jsx":358,"material-ui/lib/drop-down-menu":30,"material-ui/lib/paper":55,"material-ui/lib/toolbar/toolbar":110,"material-ui/lib/toolbar/toolbar-group":107,"parse":127,"react":348,"react-router":153}],361:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var Colors = require('material-ui/lib/styles/colors');
@@ -52638,7 +52686,7 @@ var Start = React.createClass({
 
 module.exports = Start;
 
-},{"./environmentstore.jsx":352,"./mainicon.jsx":355,"./parsekeys.js":356,"./typeahead/typeahead.js":361,"material-ui/lib/styles/colors":66,"parse":127,"react":348}],361:[function(require,module,exports){
+},{"./environmentstore.jsx":353,"./mainicon.jsx":356,"./parsekeys.js":357,"./typeahead/typeahead.js":362,"material-ui/lib/styles/colors":66,"parse":127,"react":348}],362:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -53081,4 +53129,4 @@ module.exports = React.createClass({
 });
 
 }).call(this,require('_process'))
-},{"_process":1,"material-ui/lib/lists/list":44,"material-ui/lib/lists/list-divider":42,"material-ui/lib/lists/list-item":43,"material-ui/lib/text-field":94,"react":348}]},{},[354]);
+},{"_process":1,"material-ui/lib/lists/list":44,"material-ui/lib/lists/list-divider":42,"material-ui/lib/lists/list-item":43,"material-ui/lib/text-field":94,"react":348}]},{},[355]);
