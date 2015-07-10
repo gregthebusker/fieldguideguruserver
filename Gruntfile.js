@@ -12,14 +12,25 @@ module.exports = function(grunt) {
         }
       }
     },
+    less: {
+      dist: {
+        options: {
+          paths: ['node_modules/**']
+        },
+        files: {
+          "public/stylesheets/style.css": "less/index.less"
+        }
+      }
+    },
     watch: {
       scripts: {
-        files: "react/**/*",
-        tasks: ["browserify"]
+        files: ["react/**/*", "less/**/*"],
+        tasks: ["browserify", "less"]
       }
     }
   });
 
+  grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks('grunt-browserify');
   grunt.registerTask("default", ["browserify"]);

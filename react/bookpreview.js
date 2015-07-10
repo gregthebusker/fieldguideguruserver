@@ -8,8 +8,16 @@ var BookPreview = React.createClass({
         showLinkChrome: false,
       };
       var viewer = new google.books.DefaultViewer(div, options);
-      viewer.load(`ISBN:${this.props.isbn}`, this.onNoPreview);
+      viewer.load(
+        `ISBN:${this.props.isbn}`,
+        this.onNoPreview,
+        this.onPreview
+      );
     }
+  },
+
+  onPreview() {
+    //Do something
   },
 
   onNoPreview() {

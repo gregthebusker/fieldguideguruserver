@@ -4,6 +4,7 @@ var Paper = require('material-ui').Paper;
 var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
 var BookPreview = require('./bookpreview.js');
+var Select = require('react-select');
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
 mixpanel.track('Book');
@@ -29,15 +30,44 @@ var Book = React.createClass({
   getInitialState() {
     return {
       book: null,
+      counties: [],
+      selectedOptions: [],
     };
+  },
+
+  getCountries(input, callback) {
+    var Country = Parse.Object.extend('country');
+    var query = new Parse.Query(Country);
+    query.contains('searchable_text', input);
+    query.find({
+      success: (results) => {
+        var options = results.map(r => {
+          return {
+            value: r.id,
+            label: r.get('COUNTRY_NAME'),
+          };
+        });
+
+        callback(null, {
+          options: options,
+        });
+      }
+    });
+  },
+
+  onCountryChange(newValue, options) {
+    this.setState({
+      counties: options.map(x => x.value),
+      selectedOptions: options,
+    });
   },
 
   render: function() {
     if (!this.state.book) {
       return <div/>;
     }
+
     var book = this.state.book;
-    console.log(book.get('thumbnail'))
     return (
       <div>
         <Paper className="book-content" zDepth={1}>
@@ -48,6 +78,19 @@ var Book = React.createClass({
             <div className="book-details-section">
               <div className="book-title">
                 {book.get('title')}
+              </div>
+
+              <div>
+                <h3>Countries</h3>
+                <Select
+                  className="country-select"
+                  delimiter=","
+                  multi={true}
+                  value={this.state.counties.join(',')}
+                  onChange={this.onCountryChange}
+                  options={this.state.selectedOptions}
+                  asyncOptions={this.getCountries} 
+                />
               </div>
             </div>
           </div>
