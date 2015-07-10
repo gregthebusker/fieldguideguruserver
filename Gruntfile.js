@@ -33,5 +33,5 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks("grunt-contrib-watch");
   grunt.loadNpmTasks('grunt-browserify');
-  grunt.registerTask("build", ["browserify", "less"]);
+  grunt.registerTask("default", ["browserify"]);
 };
