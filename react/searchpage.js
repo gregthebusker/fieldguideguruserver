@@ -6,7 +6,7 @@ var ToolbarGroup = require('material-ui/lib/toolbar/toolbar-group');
 var DropDownMenu = require('material-ui/lib/drop-down-menu');
 var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
-var ParseList = require('./parselist.jsx');
+var ParseList = require('./parselist.js');
 var Router = require('react-router');
 var Navigation = Router.Navigation;
 

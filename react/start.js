@@ -4,8 +4,8 @@ var Colors = require('material-ui/lib/styles/colors');
 var Typeahead = require('./typeahead/typeahead.js');
 var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
-var MainIcon = require('./mainicon.jsx');
-var EnvironmentStore = require('./environmentstore.jsx');
+var MainIcon = require('./mainicon.js');
+var EnvironmentStore = require('./environmentstore.js');
 
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 

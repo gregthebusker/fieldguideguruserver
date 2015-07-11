@@ -51754,7 +51754,7 @@ var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
 var BookPreview = require('./bookpreview.js');
 var Select = require('react-select');
-var LocationEntities = require('./LocationEntities.jsx');
+var LocationEntities = require('./LocationEntities.js');
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
 var LocationRelation = Parse.Object.extend('location_relations');
@@ -51940,7 +51940,7 @@ var Book = React.createClass({
 
 module.exports = Book;
 
-},{"./LocationEntities.jsx":349,"./bookpreview.js":351,"./parsekeys.js":357,"material-ui":38,"parse":127,"react":348,"react-select":168}],351:[function(require,module,exports){
+},{"./LocationEntities.js":349,"./bookpreview.js":351,"./parsekeys.js":357,"material-ui":38,"parse":127,"react":348,"react-select":168}],351:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -51997,16 +51997,16 @@ module.exports = BookPreview;
 
 },{"react":348}],352:[function(require,module,exports){
 'use strict';
-var React = require('react/addons');
-var Search = require('./searchpage.jsx');
-var Book = require('./book.jsx');
-var Landing = require('./landing.jsx');
-var Start = require('./start.jsx');
+var React = require('react');
+var Search = require('./searchpage.js');
+var Book = require('./book.js');
+var Landing = require('./landing.js');
+var Start = require('./start.js');
 var MaterialAppBar = require('material-ui/lib/app-bar');
 var ThemeManager = require('material-ui/lib/styles/theme-manager')();
 var Colors = require('material-ui/lib/styles/colors');
-var SearchIcon = require('./searchicon.jsx');
-var EnvironmentStore = require('./environmentstore.jsx');
+var SearchIcon = require('./searchicon.js');
+var EnvironmentStore = require('./environmentstore.js');
 var Router = require('react-router');
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
@@ -52099,7 +52099,7 @@ module.exports = {
   run: run
 };
 
-},{"./book.jsx":350,"./environmentstore.jsx":353,"./landing.jsx":354,"./searchicon.jsx":359,"./searchpage.jsx":360,"./start.jsx":361,"material-ui/lib/app-bar":5,"material-ui/lib/styles/colors":66,"material-ui/lib/styles/theme-manager":69,"react-router":153,"react/addons":176}],353:[function(require,module,exports){
+},{"./book.js":350,"./environmentstore.js":353,"./landing.js":354,"./searchicon.js":359,"./searchpage.js":360,"./start.js":361,"material-ui/lib/app-bar":5,"material-ui/lib/styles/colors":66,"material-ui/lib/styles/theme-manager":69,"react":348,"react-router":153}],353:[function(require,module,exports){
 'use strict';
 var Dispatcher = require('flux').Dispatcher;
 var assign = require('object-assign');
@@ -52164,12 +52164,11 @@ module.exports = Main;
 
 },{"material-ui/lib/styles/colors":66,"react":348}],355:[function(require,module,exports){
 'use strict';
+var React = require('react');
+var injectTapEventPlugin = require('react-tap-event-plugin');
+var Core = require('./core.js');
 
 (function () {
-  var React = require('react/addons');
-  var injectTapEventPlugin = require('react-tap-event-plugin');
-  var Core = require('./core.jsx');
-
   //Needed for React Developer Tools
   window.React = React;
 
@@ -52182,9 +52181,9 @@ module.exports = Main;
   Core.run();
 })();
 
-},{"./core.jsx":352,"react-tap-event-plugin":175,"react/addons":176}],356:[function(require,module,exports){
+},{"./core.js":352,"react":348,"react-tap-event-plugin":175}],356:[function(require,module,exports){
 'use strict';
-var React = require('react/addons');
+var React = require('react');
 var SvgIcon = require('material-ui/lib/svg-icon');
 var ThemeManager = require('material-ui/lib/styles/theme-manager')();
 
@@ -52217,7 +52216,7 @@ var MainIcon = React.createClass({
 
 module.exports = MainIcon;
 
-},{"material-ui/lib/styles/theme-manager":69,"material-ui/lib/svg-icon":74,"react/addons":176}],357:[function(require,module,exports){
+},{"material-ui/lib/styles/theme-manager":69,"material-ui/lib/svg-icon":74,"react":348}],357:[function(require,module,exports){
 "use strict";
 
 var keys = {
@@ -52232,7 +52231,6 @@ module.exports = keys;
 var React = require('react');
 var CircularProgress = require('material-ui/lib/circular-progress');
 var InfiniteScroll = require('react-infinite-scroll')(React);
-var ParseList = require('./parselist.jsx');
 
 var ParseList = React.createClass({
   displayName: 'ParseList',
@@ -52306,12 +52304,12 @@ var ParseList = React.createClass({
 
 module.exports = ParseList;
 
-},{"./parselist.jsx":358,"material-ui/lib/circular-progress":16,"react":348,"react-infinite-scroll":128}],359:[function(require,module,exports){
+},{"material-ui/lib/circular-progress":16,"react":348,"react-infinite-scroll":128}],359:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-var React = require('react/addons');
+var React = require('react');
 var SvgIcon = require('material-ui/lib/svg-icon');
 var IconButton = require('material-ui/lib/icon-button');
 var ThemeManager = require('material-ui/lib/styles/theme-manager')();
@@ -52353,7 +52351,7 @@ var SearchIcon = React.createClass({
 
 module.exports = SearchIcon;
 
-},{"material-ui/lib/icon-button":37,"material-ui/lib/styles/theme-manager":69,"material-ui/lib/svg-icon":74,"react-router":153,"react/addons":176}],360:[function(require,module,exports){
+},{"material-ui/lib/icon-button":37,"material-ui/lib/styles/theme-manager":69,"material-ui/lib/svg-icon":74,"react":348,"react-router":153}],360:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var Paper = require('material-ui/lib/paper');
@@ -52362,7 +52360,7 @@ var ToolbarGroup = require('material-ui/lib/toolbar/toolbar-group');
 var DropDownMenu = require('material-ui/lib/drop-down-menu');
 var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
-var ParseList = require('./parselist.jsx');
+var ParseList = require('./parselist.js');
 var Router = require('react-router');
 var Navigation = Router.Navigation;
 
@@ -52552,15 +52550,15 @@ var Search = React.createClass({
 
 module.exports = Search;
 
-},{"./parsekeys.js":357,"./parselist.jsx":358,"material-ui/lib/drop-down-menu":30,"material-ui/lib/paper":55,"material-ui/lib/toolbar/toolbar":110,"material-ui/lib/toolbar/toolbar-group":107,"parse":127,"react":348,"react-router":153}],361:[function(require,module,exports){
+},{"./parsekeys.js":357,"./parselist.js":358,"material-ui/lib/drop-down-menu":30,"material-ui/lib/paper":55,"material-ui/lib/toolbar/toolbar":110,"material-ui/lib/toolbar/toolbar-group":107,"parse":127,"react":348,"react-router":153}],361:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var Colors = require('material-ui/lib/styles/colors');
 var Typeahead = require('./typeahead/typeahead.js');
 var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
-var MainIcon = require('./mainicon.jsx');
-var EnvironmentStore = require('./environmentstore.jsx');
+var MainIcon = require('./mainicon.js');
+var EnvironmentStore = require('./environmentstore.js');
 
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
@@ -52745,7 +52743,7 @@ var Start = React.createClass({
 
 module.exports = Start;
 
-},{"./environmentstore.jsx":353,"./mainicon.jsx":356,"./parsekeys.js":357,"./typeahead/typeahead.js":362,"material-ui/lib/styles/colors":66,"parse":127,"react":348}],362:[function(require,module,exports){
+},{"./environmentstore.js":353,"./mainicon.js":356,"./parsekeys.js":357,"./typeahead/typeahead.js":362,"material-ui/lib/styles/colors":66,"parse":127,"react":348}],362:[function(require,module,exports){
 (function (process){
 'use strict';
 

@@ -5,7 +5,7 @@ var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
 var BookPreview = require('./bookpreview.js');
 var Select = require('react-select');
-var LocationEntities = require('./LocationEntities.jsx');
+var LocationEntities = require('./LocationEntities.js');
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
 var LocationRelation = Parse.Object.extend('location_relations');

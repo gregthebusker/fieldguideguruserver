@@ -11,14 +11,14 @@ module.exports = function(grunt) {
               {
                 src: 'react/**/*',
                 filter: function(alias, dirname, basename) {
-                  return basename.replace(/.jsx?$/, '');
+                  return basename.replace(/.js$/, '');
                 }
               }
             ]]
           ],
         },
         files: {
-          'public/js/index.js': 'react/main.jsx'
+          'public/js/index.js': 'react/main.js'
         },
       }
     },

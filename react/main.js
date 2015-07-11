@@ -1,10 +1,10 @@
 "use strict";
+var React = require('react');
+var injectTapEventPlugin = require('react-tap-event-plugin');
+var Core = require('./core.js');
+
 
 (function () {
-  var React = require('react/addons');
-  var injectTapEventPlugin = require('react-tap-event-plugin');
-  var Core = require('./core.jsx');
-
   //Needed for React Developer Tools
   window.React = React;
 

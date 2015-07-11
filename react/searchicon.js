@@ -1,4 +1,4 @@
-var React = require('react/addons');
+var React = require('react');
 var SvgIcon = require('material-ui/lib/svg-icon');
 var IconButton = require('material-ui/lib/icon-button');
 var ThemeManager = require('material-ui/lib/styles/theme-manager')()
