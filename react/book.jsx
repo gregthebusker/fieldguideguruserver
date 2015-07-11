@@ -34,16 +34,10 @@ var Book = React.createClass({
       var state = {};
       results.forEach(obj => {
         var loc = obj.get('location');
-        var entity;
-        if (loc instanceof LocationEntities.Country.parse) {
-          entity = LocationEntities.Country;
-        }
+        var entity = LocationEntities.getByParse(loc);
 
-        var a = state[entity.key + 'selectedOptions'] || [];
-        var b = state[entity.key] || [];
-        a.push(this.makeOption(loc, entity));
-        b.push(loc.id);
-        state[entity.key + 'selectedOptions'] = a;
+        var a = state[entity.key] || [];
+        a.push(loc);
         state[entity.key] = b;
       });
       this.setState(state);
@@ -51,16 +45,19 @@ var Book = React.createClass({
   },
 
   componentWillUpdate(nextProps, nextState) {
-    var entity = LocationEntities.Country;
-    var toSave = nextState[entity.key + 'selectedOptions'].map(option => {
-      var lr = new LocationRelation();
-      lr.set({
-        location: option.obj,
-        content: nextState.book,
-      });
+    var toSave = [];
+    for (var entity of LocationEntities.Entities) {
+      nextState[entity.key].map(obj => {
+        var lr = new LocationRelation();
+        lr.set({
+          location: obj,
+          content: nextState.book,
+        });
 
-      return lr;
-    });
+        toSave.push(lr);
+      });
+    }
+
     //Parse.Object.saveAll(toSave);
   },
 
@@ -68,21 +65,19 @@ var Book = React.createClass({
     var state = {
       book: null,
     };
-    for (var key in LocationEntities) {
-      var entity = LocationEntities[key];
+    for (var entity of LocationEntities.Entities) {
       state[entity.key] = [];
-      state[entity.key + 'selectedOptions'] = [];
     }
     return state;
   },
 
-  makeOption(r, entity) {
-      return {
-        value: r.id,
-        label: entity.getLabel(r),
-        entity: entity,
-        obj: r,
-      };
+  makeOption(r) {
+    var entity = LocationEntities.getByParse(r);
+    return {
+      value: r.id,
+      label: entity.getLabel(r),
+      obj: r,
+    };
   },
 
   getEntity(entity, input, callback) {
@@ -91,7 +86,7 @@ var Book = React.createClass({
     query.find({
       success: (results) => {
         var options = results.map(r => {
-          return this.makeOption(r, entity);
+          return this.makeOption(r);
         }.bind(this));
 
         callback(null, {
@@ -103,14 +98,15 @@ var Book = React.createClass({
 
   onEntityChange(entity, newValue, options) {
     this.setState({
-      [entity.key]: options.map(x => x.value),
-      [entity.key + 'selectedOptions']: options,
+      [entity.key]: options.map(x => x.obj),
     });
   },
 
   renderLocationEntities() {
-    return Object.keys(LocationEntities).map(key => {
-      var entity = LocationEntities[key];
+    return Object.keys(LocationEntities.Entities).map(key => {
+      var entity = LocationEntities.Entities[key];
+      var values = this.state[entity.key].map(obj => obj.id);
+      var options = this.state[entity.key].map(this.makeOption);
       return (
         <div key={entity.key}>
           <h3>{entity.key}</h3>
@@ -118,9 +114,9 @@ var Book = React.createClass({
             className="country-select"
             delimiter=","
             multi={true}
-            value={this.state[entity.key].join(',')}
+            value={values.join(',')}
             onChange={this.onEntityChange.bind(this, entity)}
-            options={this.state[entity.key + 'selectedOptions']}
+            options={options}
             asyncOptions={this.getEntity.bind(this, entity)} 
           />
         </div>

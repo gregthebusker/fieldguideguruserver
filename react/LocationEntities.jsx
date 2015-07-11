@@ -28,4 +28,15 @@ var Entities = {
   },
 };
 
-module.exports = Entities;
+var getByParse = (obj) => {
+  for (var entity of Entities) {
+    if (obj instanceof entity.parse) {
+      return entity;
+    }
+  }
+};
+
+module.exports = {
+  getByParse: getByParse,
+  Entities: Entities,
+};

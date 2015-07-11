@@ -4,11 +4,8 @@ module.exports = function(grunt) {
   grunt.initConfig({
     'browserify': {
       dist: {
-        files: {
-          'public/js/index.js': 'react/main.jsx'
-        },
         options: {
-          transform: ["babelify"],
+          transform: [["babelify", { "stage": 1 }]],
           plugin: [
             ['remapify', [
               {
@@ -19,6 +16,9 @@ module.exports = function(grunt) {
               }
             ]]
           ],
+        },
+        files: {
+          'public/js/index.js': 'react/main.jsx'
         },
       }
     },

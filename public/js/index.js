@@ -51727,12 +51727,23 @@ var Entities = {
   },
 };
 
-module.exports = Entities;
+var getByParse = function(obj) {
+  for (var entity of Entities) {
+    if (obj instanceof entity.parse) {
+      return entity;
+    }
+  }
+};
+
+module.exports = {
+  getByParse: getByParse,
+  Entities: Entities,
+};
 
 },{"parse":127}],350:[function(require,module,exports){
 'use strict';
 
-function _defineProperty(obj, key, value) { return Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); }
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var React = require('react');
 var Paper = require('material-ui').Paper;
@@ -51773,56 +51784,91 @@ var Book = React.createClass({
       var state = {};
       results.forEach(function (obj) {
         var loc = obj.get('location');
-        var entity;
-        if (loc instanceof LocationEntities.Country.parse) {
-          entity = LocationEntities.Country;
-        }
-        console.log(entity.getLabel(loc));
-        console.log(loc.get('COUNTRY_NAME'));
+        var entity = LocationEntities.getByParse(loc);
 
-        var a = state[entity.key + 'selectedOptions'] || [];
-        var b = state[entity.key] || [];
-        a.push(_this.makeOption(loc, entity));
-        b.push(loc.id);
-        state[entity.key + 'selectedOptions'] = a;
+        var a = state[entity.key] || [];
+        a.push(loc);
         state[entity.key] = b;
       });
-      console.log(state);
       _this.setState(state);
     }).bind(this));
   },
 
   componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
-    var entity = LocationEntities.Country;
-    var toSave = nextState[entity.key + 'selectedOptions'].map(function (option) {
-      var lr = new LocationRelation();
-      lr.set({
-        location: option.obj,
-        content: nextState.book
-      });
+    var toSave = [];
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
 
-      return lr;
-    });
-    //Parse.Object.saveAll(toSave);
+    try {
+      for (var _iterator = LocationEntities.Entities[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var entity = _step.value;
+
+        nextState[entity.key].map(function (obj) {
+          var lr = new LocationRelation();
+          lr.set({
+            location: obj,
+            content: nextState.book
+          });
+
+          toSave.push(lr);
+        });
+      }
+
+      //Parse.Object.saveAll(toSave);
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator['return']) {
+          _iterator['return']();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
   },
 
   getInitialState: function getInitialState() {
     var state = {
       book: null
     };
-    for (var key in LocationEntities) {
-      var entity = LocationEntities[key];
-      state[entity.key] = [];
-      state[entity.key + 'selectedOptions'] = [];
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+      for (var _iterator2 = LocationEntities.Entities[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var entity = _step2.value;
+
+        state[entity.key] = [];
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2['return']) {
+          _iterator2['return']();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
     }
+
     return state;
   },
 
-  makeOption: function makeOption(r, entity) {
+  makeOption: function makeOption(r) {
+    var entity = LocationEntities.getByParse(r);
     return {
       value: r.id,
       label: entity.getLabel(r),
-      entity: entity,
       obj: r
     };
   },
@@ -51835,7 +51881,7 @@ var Book = React.createClass({
     query.find({
       success: function success(results) {
         var options = results.map((function (r) {
-          return _this2.makeOption(r, entity);
+          return _this2.makeOption(r);
         }).bind(_this2));
 
         callback(null, {
@@ -51846,18 +51892,20 @@ var Book = React.createClass({
   },
 
   onEntityChange: function onEntityChange(entity, newValue, options) {
-    var _setState;
-
-    this.setState((_setState = {}, _defineProperty(_setState, entity.key, options.map(function (x) {
-      return x.value;
-    })), _defineProperty(_setState, entity.key + 'selectedOptions', options), _setState));
+    this.setState(_defineProperty({}, entity.key, options.map(function (x) {
+      return x.obj;
+    })));
   },
 
   renderLocationEntities: function renderLocationEntities() {
     var _this3 = this;
 
-    return Object.keys(LocationEntities).map(function (key) {
-      var entity = LocationEntities[key];
+    return Object.keys(LocationEntities.Entities).map(function (key) {
+      var entity = LocationEntities.Entities[key];
+      var values = _this3.state[entity.key].map(function (obj) {
+        return obj.id;
+      });
+      var options = _this3.state[entity.key].map(_this3.makeOption);
       return React.createElement(
         'div',
         { key: entity.key },
@@ -51870,9 +51918,9 @@ var Book = React.createClass({
           className: 'country-select',
           delimiter: ',',
           multi: true,
-          value: _this3.state[entity.key].join(','),
+          value: values.join(','),
           onChange: _this3.onEntityChange.bind(_this3, entity),
-          options: _this3.state[entity.key + 'selectedOptions'],
+          options: options,
           asyncOptions: _this3.getEntity.bind(_this3, entity)
         })
       );
