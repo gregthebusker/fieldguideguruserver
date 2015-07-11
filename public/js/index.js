@@ -51743,26 +51743,67 @@ var Select = require('react-select');
 var LocationEntities = require('LocationEntities');
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
+var LocationRelation = Parse.Object.extend('location_relations');
+
 mixpanel.track('Book');
 
 var Book = React.createClass({
   displayName: 'Book',
 
   componentWillMount: function componentWillMount() {
+    var _this = this;
+
     var Book = Parse.Object.extend('fieldguide');
     var query = new Parse.Query(Book);
     query.equalTo('objectId', this.props.params.bookId);
-    query.find({
-      success: (function (results) {
-        var book;
-        if (results.length) {
-          book = results[0];
+    query.find().then((function (results) {
+      var book;
+      if (results.length) {
+        book = results[0];
+      }
+      _this.setState({
+        book: book
+      });
+
+      var query = new Parse.Query(LocationRelation);
+      query.equalTo('content', book);
+      query.include('location');
+      return query.find();
+    }).bind(this)).then((function (results) {
+      var state = {};
+      results.forEach(function (obj) {
+        var loc = obj.get('location');
+        var entity;
+        if (loc instanceof LocationEntities.Country.parse) {
+          entity = LocationEntities.Country;
         }
-        this.setState({
-          book: book
-        });
-      }).bind(this)
+        console.log(entity.getLabel(loc));
+        console.log(loc.get('COUNTRY_NAME'));
+
+        var a = state[entity.key + 'selectedOptions'] || [];
+        var b = state[entity.key] || [];
+        a.push(_this.makeOption(loc, entity));
+        b.push(loc.id);
+        state[entity.key + 'selectedOptions'] = a;
+        state[entity.key] = b;
+      });
+      console.log(state);
+      _this.setState(state);
+    }).bind(this));
+  },
+
+  componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
+    var entity = LocationEntities.Country;
+    var toSave = nextState[entity.key + 'selectedOptions'].map(function (option) {
+      var lr = new LocationRelation();
+      lr.set({
+        location: option.obj,
+        content: nextState.book
+      });
+
+      return lr;
     });
+    //Parse.Object.saveAll(toSave);
   },
 
   getInitialState: function getInitialState() {
@@ -51777,17 +51818,25 @@ var Book = React.createClass({
     return state;
   },
 
+  makeOption: function makeOption(r, entity) {
+    return {
+      value: r.id,
+      label: entity.getLabel(r),
+      entity: entity,
+      obj: r
+    };
+  },
+
   getEntity: function getEntity(entity, input, callback) {
+    var _this2 = this;
+
     var query = new Parse.Query(entity.parse);
     query.contains('searchable_text', input);
     query.find({
       success: function success(results) {
-        var options = results.map(function (r) {
-          return {
-            value: r.id,
-            label: entity.getLabel(r)
-          };
-        });
+        var options = results.map((function (r) {
+          return _this2.makeOption(r, entity);
+        }).bind(_this2));
 
         callback(null, {
           options: options
@@ -51805,7 +51854,7 @@ var Book = React.createClass({
   },
 
   renderLocationEntities: function renderLocationEntities() {
-    var _this = this;
+    var _this3 = this;
 
     return Object.keys(LocationEntities).map(function (key) {
       var entity = LocationEntities[key];
@@ -51821,10 +51870,10 @@ var Book = React.createClass({
           className: 'country-select',
           delimiter: ',',
           multi: true,
-          value: _this.state[entity.key].join(','),
-          onChange: _this.onEntityChange.bind(_this, entity),
-          options: _this.state[entity.key + 'selectedOptions'],
-          asyncOptions: _this.getEntity.bind(_this, entity)
+          value: _this3.state[entity.key].join(','),
+          onChange: _this3.onEntityChange.bind(_this3, entity),
+          options: _this3.state[entity.key + 'selectedOptions'],
+          asyncOptions: _this3.getEntity.bind(_this3, entity)
         })
       );
     });
