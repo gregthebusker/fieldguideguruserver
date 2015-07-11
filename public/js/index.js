@@ -51697,38 +51697,41 @@ module.exports = warning;
 module.exports = require('./lib/React');
 
 },{"./lib/React":206}],349:[function(require,module,exports){
+'use strict';
+
 var Parse = require('parse').Parse;
 
 var Entities = {
   Country: {
     parse: Parse.Object.extend('country'),
     key: 'country',
-    getLabel(obj) {
+    getLabel: function getLabel(obj) {
       return obj.get('COUNTRY_NAME');
     }
   },
   State: {
     parse: Parse.Object.extend('state'),
     key: 'state',
-    getLabel(obj) {
+    getLabel: function getLabel(obj) {
       var state = obj.get('SUBNATIONAL1_NAME');
       var country = obj.get('COUNTRY_CODE');
       return [state, country].join(', ');
     }
   },
-  County : {
+  County: {
     parse: Parse.Object.extend('county'),
     key: 'county',
-    getLabel(obj) {
+    getLabel: function getLabel(obj) {
       var county = obj.get('SUBNATIONAL2_NAME');
       var state = obj.get('SUBNATIONAL1_CODE');
       return [county, state].join(', ');
     }
-  },
+  }
 };
 
-var getByParse = function(obj) {
-  for (var entity of Entities) {
+var getByParse = function getByParse(obj) {
+  for (var key in Entities) {
+    var entity = Entities[key];
     if (obj instanceof entity.parse) {
       return entity;
     }
@@ -51737,7 +51740,7 @@ var getByParse = function(obj) {
 
 module.exports = {
   getByParse: getByParse,
-  Entities: Entities,
+  Entities: Entities
 };
 
 },{"parse":127}],350:[function(require,module,exports){
@@ -51751,7 +51754,7 @@ var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
 var BookPreview = require('./bookpreview.js');
 var Select = require('react-select');
-var LocationEntities = require('LocationEntities');
+var LocationEntities = require('./LocationEntities.jsx');
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
 var LocationRelation = Parse.Object.extend('location_relations');
@@ -51788,7 +51791,7 @@ var Book = React.createClass({
 
         var a = state[entity.key] || [];
         a.push(loc);
-        state[entity.key] = b;
+        state[entity.key] = a;
       });
       _this.setState(state);
     }).bind(this));
@@ -51796,71 +51799,30 @@ var Book = React.createClass({
 
   componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
     var toSave = [];
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
-
-    try {
-      for (var _iterator = LocationEntities.Entities[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var entity = _step.value;
-
-        nextState[entity.key].map(function (obj) {
-          var lr = new LocationRelation();
-          lr.set({
-            location: obj,
-            content: nextState.book
-          });
-
-          toSave.push(lr);
+    for (var key in LocationEntities.Entities) {
+      var entity = LocationEntities.Entities[key];
+      nextState[entity.key].map(function (obj) {
+        var lr = new LocationRelation();
+        lr.set({
+          location: obj,
+          content: nextState.book
         });
-      }
 
-      //Parse.Object.saveAll(toSave);
-    } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion && _iterator['return']) {
-          _iterator['return']();
-        }
-      } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
-        }
-      }
+        toSave.push(lr);
+      });
     }
+
+    //Parse.Object.saveAll(toSave);
   },
 
   getInitialState: function getInitialState() {
     var state = {
       book: null
     };
-    var _iteratorNormalCompletion2 = true;
-    var _didIteratorError2 = false;
-    var _iteratorError2 = undefined;
-
-    try {
-      for (var _iterator2 = LocationEntities.Entities[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-        var entity = _step2.value;
-
-        state[entity.key] = [];
-      }
-    } catch (err) {
-      _didIteratorError2 = true;
-      _iteratorError2 = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion2 && _iterator2['return']) {
-          _iterator2['return']();
-        }
-      } finally {
-        if (_didIteratorError2) {
-          throw _iteratorError2;
-        }
-      }
+    for (var key in LocationEntities.Entities) {
+      var entity = LocationEntities.Entities[key];
+      state[entity.key] = [];
     }
-
     return state;
   },
 
@@ -51978,7 +51940,7 @@ var Book = React.createClass({
 
 module.exports = Book;
 
-},{"./bookpreview.js":351,"./parsekeys.js":357,"LocationEntities":349,"material-ui":38,"parse":127,"react":348,"react-select":168}],351:[function(require,module,exports){
+},{"./LocationEntities.jsx":349,"./bookpreview.js":351,"./parsekeys.js":357,"material-ui":38,"parse":127,"react":348,"react-select":168}],351:[function(require,module,exports){
 'use strict';
 
 var React = require('react');

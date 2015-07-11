@@ -24,7 +24,8 @@
     "react-infinite-scroll": "^0.1.5",
     "newrelic": "^1.20.1",
     "react-select": "^0.5.4",
-    "react-input-autosize": "^0.4.5"
+    "react-input-autosize": "^0.4.5",
+    "babel-core": "~5.6.17"
   },
   "devDependencies": {
     "grunt-babel": "^5.0.1",
@@ -37,6 +38,7 @@
     "grunt-contrib-less": "^1.0.1",
     "grunt-concurrent": "^2.0.0",
     "grunt-parallel": "^0.4.1",
-    "remapify": "^2.0.3"
+    "remapify": "^2.0.3",
+    "babel": "~5.6.14"
   }
 }

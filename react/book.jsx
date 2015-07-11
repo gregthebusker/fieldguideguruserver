@@ -5,7 +5,7 @@ var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
 var BookPreview = require('./bookpreview.js');
 var Select = require('react-select');
-var LocationEntities = require('LocationEntities');
+var LocationEntities = require('./LocationEntities.jsx');
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
 var LocationRelation = Parse.Object.extend('location_relations');
@@ -38,7 +38,7 @@ var Book = React.createClass({
 
         var a = state[entity.key] || [];
         a.push(loc);
-        state[entity.key] = b;
+        state[entity.key] = a;
       });
       this.setState(state);
     }.bind(this));
@@ -46,7 +46,8 @@ var Book = React.createClass({
 
   componentWillUpdate(nextProps, nextState) {
     var toSave = [];
-    for (var entity of LocationEntities.Entities) {
+    for (var key in LocationEntities.Entities) {
+      var entity = LocationEntities.Entities[key];
       nextState[entity.key].map(obj => {
         var lr = new LocationRelation();
         lr.set({
@@ -65,7 +66,8 @@ var Book = React.createClass({
     var state = {
       book: null,
     };
-    for (var entity of LocationEntities.Entities) {
+    for (var key in LocationEntities.Entities) {
+      var entity = LocationEntities.Entities[key];
       state[entity.key] = [];
     }
     return state;

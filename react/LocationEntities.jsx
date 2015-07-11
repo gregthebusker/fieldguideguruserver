@@ -29,7 +29,8 @@ var Entities = {
 };
 
 var getByParse = (obj) => {
-  for (var entity of Entities) {
+  for (var key in Entities) {
+    var entity = Entities[key];
     if (obj instanceof entity.parse) {
       return entity;
     }
