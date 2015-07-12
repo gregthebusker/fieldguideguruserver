@@ -1,10 +1,17 @@
+'user strict';
+
 module.exports = function(grunt) {
+
   require("load-grunt-tasks")(grunt); // npm install --save-dev load-grunt-tasks
+
 
   grunt.initConfig({
     'browserify': {
       dist: {
         options: {
+          browserifyOptions: {
+            entry: './react/main.js',
+          },
           transform: [["babelify", { "stage": 1 }]],
           plugin: [
             ['remapify', [
