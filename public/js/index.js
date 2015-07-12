@@ -51759,6 +51759,11 @@ Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
 var LocationRelation = Parse.Object.extend('location_relations');
 
+var Locations = [];
+for (var key in LocationEntities.Entities) {
+  Locations.push(LocationEntities.Entities[key]);
+}
+
 mixpanel.track('Book');
 
 var Book = React.createClass({
@@ -51781,13 +51786,22 @@ var Book = React.createClass({
 
       var query = new Parse.Query(LocationRelation);
       query.equalTo('content', book);
-      query.include('location');
+      Locations.forEach(function (entity) {
+        query.include(entity.key);
+      });
       return query.find();
     }).bind(this)).then((function (results) {
       var state = {};
       results.forEach(function (obj) {
-        var loc = obj.get('location');
-        var entity = LocationEntities.getByParse(loc);
+        var loc;
+        var entity;
+        for (var i = 0; i < Locations.length; i++) {
+          entity = Locations[i];
+          loc = obj.get(entity.key);
+          if (loc) {
+            break;
+          }
+        }
 
         var a = state[entity.key] || [];
         a.push(loc);
@@ -51797,32 +51811,53 @@ var Book = React.createClass({
     }).bind(this));
   },
 
-  componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
-    var toSave = [];
-    for (var key in LocationEntities.Entities) {
-      var entity = LocationEntities.Entities[key];
-      nextState[entity.key].map(function (obj) {
-        var lr = new LocationRelation();
-        lr.set({
-          location: obj,
-          content: nextState.book
-        });
+  onEntityChange: function onEntityChange(entity, newValue, options) {
+    var _this2 = this;
 
-        toSave.push(lr);
+    var current = this.state[entity.key] || [];
+    var nextSet = options.map(function (o) {
+      return o.obj;
+    }) || [];
+    console.log(current);
+    console.log(nextSet);
+    var toRemove = current.filter(function (o) {
+      return nextSet.indexOf(o) == -1;
+    });
+    var toAdd = nextSet.filter(function (o) {
+      return current.indexOf(o) == -1;
+    });
+
+    var toSave = toAdd.map(function (obj) {
+      var _lr$set;
+
+      var lr = new LocationRelation();
+      lr.set((_lr$set = {}, _defineProperty(_lr$set, entity.key, obj), _defineProperty(_lr$set, 'content', _this2.state.book), _lr$set));
+      return lr;
+    });
+
+    this.setState(_defineProperty({}, entity.key, nextSet));
+
+    if (toSave.length) {
+      Parse.Object.saveAll(toSave);
+    }
+    if (toRemove.length) {
+      var query = new Parse.Query(LocationRelation);
+      query.equalTo('content', this.state.book);
+      query.containedIn(entity.key, toRemove);
+      query.find().then(function (results) {
+        Parse.Object.destroyAll(results);
       });
     }
-
-    //Parse.Object.saveAll(toSave);
   },
 
   getInitialState: function getInitialState() {
     var state = {
       book: null
     };
-    for (var key in LocationEntities.Entities) {
-      var entity = LocationEntities.Entities[key];
+
+    Locations.forEach(function (entity) {
       state[entity.key] = [];
-    }
+    });
     return state;
   },
 
@@ -51836,15 +51871,15 @@ var Book = React.createClass({
   },
 
   getEntity: function getEntity(entity, input, callback) {
-    var _this2 = this;
+    var _this3 = this;
 
     var query = new Parse.Query(entity.parse);
     query.contains('searchable_text', input);
     query.find({
       success: function success(results) {
         var options = results.map((function (r) {
-          return _this2.makeOption(r);
-        }).bind(_this2));
+          return _this3.makeOption(r);
+        }).bind(_this3));
 
         callback(null, {
           options: options
@@ -51853,21 +51888,14 @@ var Book = React.createClass({
     });
   },
 
-  onEntityChange: function onEntityChange(entity, newValue, options) {
-    this.setState(_defineProperty({}, entity.key, options.map(function (x) {
-      return x.obj;
-    })));
-  },
-
   renderLocationEntities: function renderLocationEntities() {
-    var _this3 = this;
+    var _this4 = this;
 
-    return Object.keys(LocationEntities.Entities).map(function (key) {
-      var entity = LocationEntities.Entities[key];
-      var values = _this3.state[entity.key].map(function (obj) {
+    return Locations.map(function (entity) {
+      var values = _this4.state[entity.key].map(function (obj) {
         return obj.id;
       });
-      var options = _this3.state[entity.key].map(_this3.makeOption);
+      var options = _this4.state[entity.key].map(_this4.makeOption);
       return React.createElement(
         'div',
         { key: entity.key },
@@ -51881,9 +51909,9 @@ var Book = React.createClass({
           delimiter: ',',
           multi: true,
           value: values.join(','),
-          onChange: _this3.onEntityChange.bind(_this3, entity),
+          onChange: _this4.onEntityChange.bind(_this4, entity),
           options: options,
-          asyncOptions: _this3.getEntity.bind(_this3, entity)
+          asyncOptions: _this4.getEntity.bind(_this4, entity)
         })
       );
     });
