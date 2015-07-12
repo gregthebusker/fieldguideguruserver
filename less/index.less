@@ -81,18 +81,9 @@ body {
   padding: 5px;
 }
 
-@media (max-width: 450px) {
-  .search-box-container.focused.hasValue {
-    position: fixed;
-    top: 0;
-    overflow: auto;
-    height: 100%;
-    width: 100%;
-  }
-}
-
 .book-content {
-  width: 720px;
+  width: 100%;
+  max-width: 720px;
   margin: auto;
   margin-top: 25px;
 }
@@ -129,3 +120,24 @@ body {
 .country-select {
   width: 100%;
 }
+
+@media (max-width: 450px) {
+  .search-box-container.focused.hasValue {
+    position: fixed;
+    top: 0;
+    overflow: auto;
+    height: 100%;
+    width: 100%;
+  }
+
+  .book-image-section {
+    float: none;
+    margin: auto;
+  }
+  .book-details-section {
+    margin-left: 0;
+    padding: 25px;
+  }
+}
+
+

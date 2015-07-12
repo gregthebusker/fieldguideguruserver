@@ -2,7 +2,9 @@
 
 module.exports = function(grunt) {
 
-  require("load-grunt-tasks")(grunt); // npm install --save-dev load-grunt-tasks
+  require("load-grunt-tasks")(grunt);
+  grunt.loadNpmTasks('grunt-postcss');
+
 
 
   grunt.initConfig({
@@ -41,7 +43,7 @@ module.exports = function(grunt) {
     },
     watch: {
       scripts: {
-        files: ["react/**/*", "less/**/*"],
+        files: ["react/**/*"],
         tasks: ["browserify"]
       },
       styles: {
