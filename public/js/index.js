@@ -51818,8 +51818,7 @@ var Book = React.createClass({
     var nextSet = options.map(function (o) {
       return o.obj;
     }) || [];
-    console.log(current);
-    console.log(nextSet);
+
     var toRemove = current.filter(function (o) {
       return nextSet.indexOf(o) == -1;
     });
@@ -51987,7 +51986,12 @@ var BookPreview = React.createClass({
     }
   },
 
-  onPreview: function onPreview() {},
+  onPreview: function onPreview() {
+    var div = React.findDOMNode(this.refs.preview);
+    var buy = div.querySelector('table td:nth-child(5)');
+    buy.parentNode.removeChild(buy.nextSiblingNode);
+    buy.parentNode.removeChild(buy);
+  },
 
   onNoPreview: function onNoPreview() {
     this.setState({
@@ -52015,13 +52019,15 @@ var BookPreview = React.createClass({
       height: this.props.height
     };
 
-    return React.createElement('div', { id: 'something', ref: 'preview', style: style });
+    return React.createElement(
+      'div',
+      { className: 'preview-container' },
+      React.createElement('div', { ref: 'preview', style: style })
+    );
   }
 });
 
 module.exports = BookPreview;
-
-//Do something
 
 },{"react":348}],352:[function(require,module,exports){
 'use strict';

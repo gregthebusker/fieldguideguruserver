@@ -362,6 +362,9 @@ body {
 .country-select {
   width: 100%;
 }
+.preview-container {
+  padding-bottom: 25px;
+}
 @media (max-width: 450px) {
   .search-box-container.focused.hasValue {
     position: fixed;

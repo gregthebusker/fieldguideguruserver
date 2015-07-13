@@ -17,7 +17,10 @@ var BookPreview = React.createClass({
   },
 
   onPreview() {
-    //Do something
+    var div = React.findDOMNode(this.refs.preview);
+    var buy = div.querySelector('table td:nth-child(5)');
+    buy.parentNode.removeChild(buy.nextSiblingNode);
+    buy.parentNode.removeChild(buy);
   },
 
   onNoPreview() {
@@ -47,7 +50,9 @@ var BookPreview = React.createClass({
     };
 
     return (
-      <div id="something" ref="preview" style={style}/>
+      <div className="preview-container">
+        <div ref="preview" style={style}/>
+      </div>
     );
   },
 });
