@@ -52573,7 +52573,9 @@ var Search = React.createClass({
 
     var Location = Parse.Object.extend('location');
     var subQuery = new Parse.Query(Location);
-    query.matchesQuery('locations', subQuery);
+    subQuery.equalTo('objectId', this.props.params.locationId);
+
+    query.matchesKeyInQuery('locations', 'parents', subQuery);
 
     if (this.state.filter) {
       query.equalTo('category_subject', this.state.filter);
