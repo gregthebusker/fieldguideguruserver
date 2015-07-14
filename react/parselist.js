@@ -5,13 +5,8 @@ var InfiniteScroll = require('react-infinite-scroll')(React);
 
 
 var ParseList = React.createClass({
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.query != this.props.query) {
-      this.setState(this.getInitialState());
-    }
-  },
-
   fetchData() {
+    console.log('Searching for', this.props.query);
     var skip = this.state.results.length;
     var limit = skip == 0 ? 20 : 100;
     this.props.query.skip(skip);
@@ -25,6 +20,7 @@ var ParseList = React.createClass({
   },
 
   receiveData(results) {
+    console.log('Search Results', results);
     this.setState({
       results: this.state.results.concat(results),
       hasMore: results.length != 0
@@ -40,13 +36,13 @@ var ParseList = React.createClass({
 
   render() {
     var items = this.state.results;
-    var papers;
+    var papers = [];
     if (items && items.length) {
       papers = items.map(this.props.renderFunction);
     }
 
     if (!this.state.hasMore) {
-      papers.push(<h3>No More Results</h3>);
+      papers.push(<h3 key="empty">No More Results</h3>);
     }
 
     var loader = (

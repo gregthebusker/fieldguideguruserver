@@ -51775,6 +51775,7 @@ var Book = React.createClass({
     var Book = Parse.Object.extend('fieldguide');
     var query = new Parse.Query(Book);
     query.equalTo('objectId', this.props.params.bookId);
+    query.include('locations');
     query.find().then((function (results) {
       var book;
       if (results.length) {
@@ -51784,28 +51785,17 @@ var Book = React.createClass({
         book: book
       });
 
-      var query = new Parse.Query(LocationRelation);
-      query.equalTo('content', book);
-      Locations.forEach(function (entity) {
-        query.include(entity.key);
-      });
-      return query.find();
-    }).bind(this)).then((function (results) {
-      var state = {};
-      results.forEach(function (obj) {
-        var loc;
-        var entity;
-        for (var i = 0; i < Locations.length; i++) {
-          entity = Locations[i];
-          loc = obj.get(entity.key);
-          if (loc) {
-            break;
-          }
-        }
+      var locations = book.get('locations');
+      if (!locations) {
+        return;
+      }
 
-        var a = state[entity.key] || [];
-        a.push(loc);
-        state[entity.key] = a;
+      var state = {};
+      locations.forEach(function (obj) {
+        var type = obj.get('type');
+        var a = state[type] || [];
+        a.push(obj);
+        state[type] = a;
       });
       _this.setState(state);
     }).bind(this));
@@ -51826,27 +51816,17 @@ var Book = React.createClass({
       return current.indexOf(o) == -1;
     });
 
-    var toSave = toAdd.map(function (obj) {
-      var _lr$set;
-
-      var lr = new LocationRelation();
-      lr.set((_lr$set = {}, _defineProperty(_lr$set, entity.key, obj), _defineProperty(_lr$set, 'content', _this2.state.book), _lr$set));
-      return lr;
+    toAdd.forEach(function (obj) {
+      _this2.state.book.add('locations', obj);
     });
 
-    this.setState(_defineProperty({}, entity.key, nextSet));
+    toRemove.forEach(function (obj) {
+      _this2.state.book.remove('locations', obj);
+    });
 
-    if (toSave.length) {
-      Parse.Object.saveAll(toSave);
-    }
-    if (toRemove.length) {
-      var query = new Parse.Query(LocationRelation);
-      query.equalTo('content', this.state.book);
-      query.containedIn(entity.key, toRemove);
-      query.find().then(function (results) {
-        Parse.Object.destroyAll(results);
-      });
-    }
+    this.state.book.save();
+
+    this.setState(_defineProperty({}, entity.key, nextSet));
   },
 
   getInitialState: function getInitialState() {
@@ -51861,10 +51841,9 @@ var Book = React.createClass({
   },
 
   makeOption: function makeOption(r) {
-    var entity = LocationEntities.getByParse(r);
     return {
       value: r.id,
-      label: entity.getLabel(r),
+      label: r.get('label'),
       obj: r
     };
   },
@@ -51874,11 +51853,21 @@ var Book = React.createClass({
 
     var query = new Parse.Query(entity.parse);
     query.contains('searchable_text', input);
+    query.include('location');
     query.find({
       success: function success(results) {
-        var options = results.map((function (r) {
-          return _this3.makeOption(r);
-        }).bind(_this3));
+        var selected = _this3.state[entity.key];
+        var options = selected.map(_this3.makeOption);
+        var ids = options.map(function (o) {
+          return o.value;
+        });
+        var moreOptions = results.filter(function (r) {
+          return ids.indexOf(r.get('location').id) == -1;
+        });
+
+        options = options.concat(moreOptions.map((function (r) {
+          return _this3.makeOption(r.get('location'));
+        }).bind(_this3)));
 
         callback(null, {
           options: options
@@ -51989,7 +51978,9 @@ var BookPreview = React.createClass({
   onPreview: function onPreview() {
     var div = React.findDOMNode(this.refs.preview);
     var buy = div.querySelector('table td:nth-child(5)');
-    buy.parentNode.removeChild(buy.nextSiblingNode);
+    if (buy.nextSiblingNode) {
+      buy.parentNode.removeChild(buy.nextSiblingNode);
+    }
     buy.parentNode.removeChild(buy);
   },
 
@@ -52046,6 +52037,7 @@ var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 var DefaultRoute = Router.DefaultRoute;
 var Navigation = Router.Navigation;
+var LocationEntities = require('./LocationEntities.js');
 
 var App = React.createClass({
   displayName: 'App',
@@ -52094,8 +52086,9 @@ var Core = React.createClass({
     EnvironmentStore.register((function (payload) {
       if (payload.action == 'new_location') {
         var obj = payload.data;
-        this.transitionTo('guides-loc', {
-          locationId: obj.id
+
+        this.transitionTo('search', {
+          locationId: obj.get('location').id
         });
       }
     }).bind(this));
@@ -52112,13 +52105,9 @@ var routes = React.createElement(
   React.createElement(DefaultRoute, { handler: Landing }),
   React.createElement(
     Route,
-    { name: 'guides', path: 'guides', handler: App },
-    React.createElement(Route, { name: 'guides-loc', path: ':locationId', handler: Search })
-  ),
-  React.createElement(
-    Route,
-    { name: 'book', path: 'book', handler: App },
-    React.createElement(Route, { name: 'book-id', path: ':bookId', handler: Book })
+    { handler: App },
+    React.createElement(Route, { name: 'search', path: 'search/:locationId', handler: Search }),
+    React.createElement(Route, { name: 'book-id', path: 'book/:bookId', handler: Book })
   ),
   React.createElement(Route, { name: 'start', path: 'start', handler: Start })
 );
@@ -52133,20 +52122,43 @@ module.exports = {
   run: run
 };
 
-},{"./book.js":350,"./environmentstore.js":353,"./landing.js":354,"./searchicon.js":359,"./searchpage.js":360,"./start.js":361,"material-ui/lib/app-bar":5,"material-ui/lib/styles/colors":66,"material-ui/lib/styles/theme-manager":69,"react":348,"react-router":153}],353:[function(require,module,exports){
+},{"./LocationEntities.js":349,"./book.js":350,"./environmentstore.js":353,"./landing.js":354,"./searchicon.js":359,"./searchpage.js":360,"./start.js":361,"material-ui/lib/app-bar":5,"material-ui/lib/styles/colors":66,"material-ui/lib/styles/theme-manager":69,"react":348,"react-router":153}],353:[function(require,module,exports){
 'use strict';
+
+var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+
+var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_again) { var object = _x, property = _x2, receiver = _x3; desc = parent = getter = undefined; _again = false; if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { _x = parent; _x2 = property; _x3 = receiver; _again = true; continue _function; } } else if ('value' in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } } };
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+
 var Dispatcher = require('flux').Dispatcher;
 var assign = require('object-assign');
 
-var EnvironmentStore = function EnvironmentStore() {};
+var EnvironmentStore = (function (_Dispatcher) {
+  function EnvironmentStore() {
+    _classCallCheck(this, EnvironmentStore);
 
-EnvironmentStore.prototype = new Dispatcher();
-EnvironmentStore.prototype.setLocation = function (obj) {
-  this.dispatch({
-    action: 'new_location',
-    data: obj
-  });
-};
+    _get(Object.getPrototypeOf(EnvironmentStore.prototype), 'constructor', this).apply(this, arguments);
+  }
+
+  _inherits(EnvironmentStore, _Dispatcher);
+
+  _createClass(EnvironmentStore, [{
+    key: 'setLocation',
+    value: function setLocation(obj) {
+      this.dispatch({
+        action: 'new_location',
+        data: obj
+      });
+    }
+  }]);
+
+  return EnvironmentStore;
+})(Dispatcher);
+
+;
 
 module.exports = new EnvironmentStore();
 
@@ -52269,13 +52281,8 @@ var InfiniteScroll = require('react-infinite-scroll')(React);
 var ParseList = React.createClass({
   displayName: 'ParseList',
 
-  componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-    if (nextProps.query != this.props.query) {
-      this.setState(this.getInitialState());
-    }
-  },
-
   fetchData: function fetchData() {
+    console.log('Searching for', this.props.query);
     var skip = this.state.results.length;
     var limit = skip == 0 ? 20 : 100;
     this.props.query.skip(skip);
@@ -52289,6 +52296,7 @@ var ParseList = React.createClass({
   },
 
   receiveData: function receiveData(results) {
+    console.log('Search Results', results);
     this.setState({
       results: this.state.results.concat(results),
       hasMore: results.length != 0
@@ -52304,7 +52312,7 @@ var ParseList = React.createClass({
 
   render: function render() {
     var items = this.state.results;
-    var papers;
+    var papers = [];
     if (items && items.length) {
       papers = items.map(this.props.renderFunction);
     }
@@ -52312,7 +52320,7 @@ var ParseList = React.createClass({
     if (!this.state.hasMore) {
       papers.push(React.createElement(
         'h3',
-        null,
+        { key: 'empty' },
         'No More Results'
       ));
     }
@@ -52398,6 +52406,8 @@ var ParseList = require('./parselist.js');
 var Router = require('react-router');
 var Navigation = Router.Navigation;
 
+var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
+
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
 mixpanel.track('Search Results');
@@ -52470,9 +52480,10 @@ var Tile = React.createClass({
 var ResultList = React.createClass({
   displayName: 'ResultList',
 
-  mixins: [Navigation],
+  mixins: [Navigation, PureRenderMixin],
 
   render: function render() {
+    console.log(this.props);
     return React.createElement(
       'div',
       { className: 'search-results' },
@@ -52525,6 +52536,8 @@ var FilterBar = React.createClass({
   }
 });
 
+var i = 0;
+
 var Search = React.createClass({
   displayName: 'Search',
 
@@ -52558,6 +52571,10 @@ var Search = React.createClass({
     var FieldGuide = Parse.Object.extend('fieldguide');
     var query = new Parse.Query(FieldGuide);
 
+    var Location = Parse.Object.extend('location');
+    var subQuery = new Parse.Query(Location);
+    query.matchesQuery('locations', subQuery);
+
     if (this.state.filter) {
       query.equalTo('category_subject', this.state.filter);
     }
@@ -52575,6 +52592,7 @@ var Search = React.createClass({
       null,
       filterBar,
       React.createElement(ResultList, {
+        key: i++,
         title: 'Books',
         query: query
       })
@@ -52584,7 +52602,7 @@ var Search = React.createClass({
 
 module.exports = Search;
 
-},{"./parsekeys.js":357,"./parselist.js":358,"material-ui/lib/drop-down-menu":30,"material-ui/lib/paper":55,"material-ui/lib/toolbar/toolbar":110,"material-ui/lib/toolbar/toolbar-group":107,"parse":127,"react":348,"react-router":153}],361:[function(require,module,exports){
+},{"./parsekeys.js":357,"./parselist.js":358,"material-ui/lib/drop-down-menu":30,"material-ui/lib/paper":55,"material-ui/lib/toolbar/toolbar":110,"material-ui/lib/toolbar/toolbar-group":107,"parse":127,"react":348,"react-router":153,"react/addons":176}],361:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var Colors = require('material-ui/lib/styles/colors');

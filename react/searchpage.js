@@ -10,6 +10,8 @@ var ParseList = require('./parselist.js');
 var Router = require('react-router');
 var Navigation = Router.Navigation;
 
+var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
+
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
 mixpanel.track('Search Results');
@@ -74,9 +76,10 @@ var Tile = React.createClass({
 });
 
 var ResultList = React.createClass({
-  mixins: [Navigation],
+  mixins: [Navigation, PureRenderMixin],
     
   render: function() {
+    console.log(this.props);
     return (
       <div className="search-results">
         <h1 className="search-result-heading">{this.props.title}</h1>
@@ -119,6 +122,8 @@ var FilterBar = React.createClass({
   }
 });
 
+var i = 0;
+
 var Search = React.createClass({
   componentWillMount: function() {
     var Subject = Parse.Object.extend('subject');
@@ -150,9 +155,14 @@ var Search = React.createClass({
     var FieldGuide = Parse.Object.extend('fieldguide');
     var query = new Parse.Query(FieldGuide);
 
+    var Location = Parse.Object.extend('location');
+    var subQuery = new Parse.Query(Location);
+    query.matchesQuery('locations', subQuery);
+
     if (this.state.filter) {
       query.equalTo('category_subject', this.state.filter);
     }
+
 
     var filterBar;
     if (this.state.subjects.length) {
@@ -168,6 +178,7 @@ var Search = React.createClass({
       <div>
         {filterBar}
         <ResultList
+          key={i++}
           title="Books"
           query={query}
         />

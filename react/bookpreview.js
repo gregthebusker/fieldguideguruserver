@@ -19,7 +19,9 @@ var BookPreview = React.createClass({
   onPreview() {
     var div = React.findDOMNode(this.refs.preview);
     var buy = div.querySelector('table td:nth-child(5)');
-    buy.parentNode.removeChild(buy.nextSiblingNode);
+    if (buy.nextSiblingNode) {
+      buy.parentNode.removeChild(buy.nextSiblingNode);
+    }
     buy.parentNode.removeChild(buy);
   },
 

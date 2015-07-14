@@ -14,6 +14,7 @@ var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 var DefaultRoute = Router.DefaultRoute;
 var Navigation = Router.Navigation;
+var LocationEntities = require('./LocationEntities.js');
 
 var App = React.createClass({
   render: function() {
@@ -58,8 +59,9 @@ var Core = React.createClass({
     EnvironmentStore.register(function(payload) {
       if (payload.action == 'new_location') {
         var obj = payload.data;
-        this.transitionTo('guides-loc', {
-          locationId: obj.id
+  
+        this.transitionTo('search', {
+          locationId: obj.get('location').id
         });
       }
     }.bind(this));
@@ -73,11 +75,9 @@ var Core = React.createClass({
 var routes = (
   <Route handler={Core}>
     <DefaultRoute handler={Landing}/>
-    <Route name="guides" path="guides" handler={App}>
-      <Route name="guides-loc" path=":locationId" handler={Search}/>
-    </Route>
-    <Route name="book" path="book" handler={App}>
-      <Route name="book-id" path=":bookId" handler={Book}/>
+    <Route handler={App}>
+      <Route name="search" path="search/:locationId" handler={Search} />
+      <Route name="book-id" path="book/:bookId" handler={Book} />
     </Route>
     <Route name="start" path="start" handler={Start} />
   </Route>

@@ -22,6 +22,7 @@ var Book = React.createClass({
     var Book = Parse.Object.extend('fieldguide');
     var query = new Parse.Query(Book);
     query.equalTo('objectId', this.props.params.bookId);
+    query.include('locations');
     query.find().then(results => {
       var book;
       if (results.length) {
@@ -31,28 +32,17 @@ var Book = React.createClass({
         book: book,
       });
 
-      var query = new Parse.Query(LocationRelation);
-      query.equalTo('content', book);
-      Locations.forEach(entity => {
-        query.include(entity.key);
-      });
-      return query.find();
-    }.bind(this)).then(results => {
-      var state = {};
-      results.forEach(obj => {
-        var loc;
-        var entity;
-        for (var i = 0; i < Locations.length; i++) {
-          entity = Locations[i];
-          loc = obj.get(entity.key);
-          if (loc) {
-            break;
-          }
-        }
+      var locations = book.get('locations');
+      if (!locations) {
+        return;
+      }
 
-        var a = state[entity.key] || [];
-        a.push(loc);
-        state[entity.key] = a;
+      var state = {};
+      locations.forEach(obj => {
+        var type = obj.get('type');
+        var a = state[type] || [];
+        a.push(obj);
+        state[type] = a;
       });
       this.setState(state);
     }.bind(this));
@@ -69,30 +59,19 @@ var Book = React.createClass({
       return current.indexOf(o) == -1;
     });
 
-    var toSave = toAdd.map(obj => {
-      var lr = new LocationRelation();
-      lr.set({
-        [entity.key]: obj,
-        content: this.state.book,
-      });
-      return lr;
+    toAdd.forEach(obj => {
+      this.state.book.add('locations', obj);
     });
+
+    toRemove.forEach(obj => {
+      this.state.book.remove('locations', obj);
+    });
+
+    this.state.book.save();
 
     this.setState({
       [entity.key]: nextSet,
     });
-
-    if (toSave.length) {
-      Parse.Object.saveAll(toSave);
-    }
-    if (toRemove.length) {
-      var query = new Parse.Query(LocationRelation);
-      query.equalTo('content', this.state.book);
-      query.containedIn(entity.key, toRemove);
-      query.find().then(results => {
-        Parse.Object.destroyAll(results);
-      });
-    }
   },
 
   getInitialState() {
@@ -107,10 +86,9 @@ var Book = React.createClass({
   },
 
   makeOption(r) {
-    var entity = LocationEntities.getByParse(r);
     return {
       value: r.id,
-      label: entity.getLabel(r),
+      label: r.get('label'),
       obj: r,
     };
   },
@@ -118,11 +96,19 @@ var Book = React.createClass({
   getEntity(entity, input, callback) {
     var query = new Parse.Query(entity.parse);
     query.contains('searchable_text', input);
+    query.include('location');
     query.find({
       success: (results) => {
-        var options = results.map(r => {
-          return this.makeOption(r);
-        }.bind(this));
+        var selected = this.state[entity.key];
+        var options = selected.map(this.makeOption);
+        var ids = options.map(o => o.value);
+        var moreOptions = results.filter(r => {
+          return ids.indexOf(r.get('location').id) == -1;
+        });
+
+        options = options.concat(moreOptions.map(r => {
+          return this.makeOption(r.get('location'));
+        }.bind(this)));
 
         callback(null, {
           options: options,
