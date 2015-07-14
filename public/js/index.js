@@ -52495,7 +52495,7 @@ var ResultList = React.createClass({
       React.createElement(ParseList, {
         query: this.props.query,
         renderFunction: function (item) {
-          return React.createElement(Tile, { item: item });
+          return React.createElement(Tile, { key: item.id, item: item });
         }
       })
     );

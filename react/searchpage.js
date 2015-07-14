@@ -86,7 +86,7 @@ var ResultList = React.createClass({
         <ParseList
           query={this.props.query}
           renderFunction={(item) => {
-            return <Tile item={item} />;
+            return <Tile key={item.id} item={item} />;
           }}
         />
       </div>
