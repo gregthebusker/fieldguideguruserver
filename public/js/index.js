@@ -52552,12 +52552,24 @@ var Search = React.createClass({
         });
       }).bind(this)
     });
+
+    var Location = Parse.Object.extend('location');
+    var subQuery = new Parse.Query(Location);
+    subQuery.equalTo('objectId', this.props.params.locationId);
+    subQuery.first({
+      success: (function (loc) {
+        this.setState({
+          parents: loc.get('parents')
+        });
+      }).bind(this)
+    });
   },
 
   getInitialState: function getInitialState() {
     return {
       filter: undefined,
-      subjects: []
+      subjects: [],
+      parents: null
     };
   },
 
@@ -52568,14 +52580,14 @@ var Search = React.createClass({
   },
 
   render: function render() {
+    if (!this.state.parents) {
+      return React.createElement('div', null);
+    }
+
     var FieldGuide = Parse.Object.extend('fieldguide');
     var query = new Parse.Query(FieldGuide);
 
-    var Location = Parse.Object.extend('location');
-    var subQuery = new Parse.Query(Location);
-    subQuery.equalTo('objectId', this.props.params.locationId);
-
-    query.matchesKeyInQuery('locations', 'parents', subQuery);
+    query.containedIn('locations', this.state.parents);
 
     if (this.state.filter) {
       query.equalTo('category_subject', this.state.filter);
