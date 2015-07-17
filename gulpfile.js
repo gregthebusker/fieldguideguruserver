@@ -5,9 +5,7 @@ var babelify = require('babelify');
 var source = require('vinyl-source-stream');
 var less = require('gulp-less');
 
-gulp.task('default', function() {
-  // place code for your default task here
-});
+gulp.task('default', ['scripts', 'less']);
 
 gulp.task('scripts', function() {
   return scripts(false);
