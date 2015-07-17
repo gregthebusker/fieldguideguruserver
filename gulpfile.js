@@ -1,4 +1,6 @@
 var gulp = require('gulp');
+var postcss = require('gulp-postcss');
+var autoprefixer = require('autoprefixer-core');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var babelify = require('babelify');
@@ -20,10 +22,14 @@ gulp.task('watchStyles', function() {
 });
 
 gulp.task('less', function() {
+  var processors = [
+    autoprefixer({browsers: ['last 1 version']})
+  ];
   return gulp.src('./less/**/*')
     .pipe(less({
       paths: ['less']
     }))
+    .pipe(postcss(processors))
     .pipe(gulp.dest('./public/stylesheets/'));
 });
 

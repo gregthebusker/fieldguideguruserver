@@ -37,6 +37,7 @@
     "gulp": "~3.9.0",
     "vinyl-source-stream": "~1.1.0",
     "watchify": "~3.2.3",
-    "gulp-less": "~3.0.3"
+    "gulp-less": "~3.0.3",
+    "gulp-postcss": "~5.1.9"
   }
 }
