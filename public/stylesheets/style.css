@@ -365,6 +365,15 @@ body {
 .preview-container {
   padding-bottom: 25px;
 }
+.collections-content {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+.collection {
+  padding: 15px;
+}
 @media (max-width: 450px) {
   .search-box-container.focused.hasValue {
     position: fixed;

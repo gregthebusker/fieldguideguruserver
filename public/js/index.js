@@ -51726,6 +51726,13 @@ var Entities = {
       var state = obj.get('SUBNATIONAL1_CODE');
       return [county, state].join(', ');
     }
+  },
+  Collection: {
+    parse: Parse.Object.extend('collection'),
+    key: 'collection',
+    getLabel: function getLabel(obj) {
+      return obj.get('title');
+    }
   }
 };
 
@@ -51756,8 +51763,6 @@ var BookPreview = require('./bookpreview.js');
 var Select = require('react-select');
 var LocationEntities = require('./LocationEntities.js');
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
-
-var LocationRelation = Parse.Object.extend('location_relations');
 
 var Locations = [];
 for (var key in LocationEntities.Entities) {
@@ -51956,7 +51961,7 @@ var Book = React.createClass({
 
 module.exports = Book;
 
-},{"./LocationEntities.js":349,"./bookpreview.js":351,"./parsekeys.js":357,"material-ui":38,"parse":127,"react":348,"react-select":168}],351:[function(require,module,exports){
+},{"./LocationEntities.js":349,"./bookpreview.js":351,"./parsekeys.js":359,"material-ui":38,"parse":127,"react":348,"react-select":168}],351:[function(require,module,exports){
 'use strict';
 
 var React = require('react');
@@ -52023,6 +52028,267 @@ module.exports = BookPreview;
 },{"react":348}],352:[function(require,module,exports){
 'use strict';
 var React = require('react');
+var Paper = require('material-ui').Paper;
+var Parse = require('parse').Parse;
+var parseKeys = require('./parsekeys.js');
+var Select = require('react-select');
+var LocationEntities = require('./LocationEntities.js');
+Parse.initialize(parseKeys.appId, parseKeys.jsKey);
+
+var Locations = [];
+for (var key in LocationEntities.Entities) {
+  Locations.push(LocationEntities.Entities[key]);
+}
+
+var Collection = React.createClass({
+  displayName: 'Collection',
+
+  onEntityChange: function onEntityChange(entity, newValue, options) {
+    var _this = this;
+
+    var current = this.getListForEntity(entity);
+    var nextSet = options.map(function (o) {
+      return o.obj;
+    }) || [];
+
+    var toRemove = current.filter(function (o) {
+      return nextSet.indexOf(o) == -1;
+    });
+    var toAdd = nextSet.filter(function (o) {
+      return current.indexOf(o) == -1;
+    });
+
+    toAdd.forEach(function (obj) {
+      _this.props.collection.add('children', obj);
+      obj.add('parents', _this.props.collection.get('location'));
+      obj.save();
+    });
+
+    toRemove.forEach(function (obj) {
+      _this.props.collection.remove('children', obj);
+      obj.remove('parents', _this.props.collection.get('location'));
+      obj.save();
+    });
+
+    this.props.collection.save();
+
+    this.forceUpdate();
+  },
+
+  makeOption: function makeOption(r) {
+    return {
+      value: r.id,
+      label: r.get('label'),
+      obj: r
+    };
+  },
+
+  getEntity: function getEntity(entity, input, callback) {
+    var _this2 = this;
+
+    var query = new Parse.Query(entity.parse);
+    query.contains('searchable_text', input);
+    query.include('location');
+    query.find({
+      success: function success(results) {
+        var selected = _this2.getListForEntity(entity);
+        var options = selected.map(_this2.makeOption);
+        var ids = options.map(function (o) {
+          return o.value;
+        });
+        var moreOptions = results.filter(function (r) {
+          return ids.indexOf(r.get('location').id) == -1;
+        });
+
+        options = options.concat(moreOptions.map((function (r) {
+          return _this2.makeOption(r.get('location'));
+        }).bind(_this2)));
+
+        callback(null, {
+          options: options
+        });
+      }
+    });
+  },
+
+  getListForEntity: function getListForEntity(entity) {
+    var list = this.props.collection.get('children') || [];
+    list = list.filter(function (obj) {
+      return obj.get('type') == entity.key;
+    });
+    return list;
+  },
+
+  renderLocationEntities: function renderLocationEntities() {
+    var _this3 = this;
+
+    return Locations.map(function (entity) {
+      var list = _this3.getListForEntity(entity);
+      var values = list.map(function (obj) {
+        return obj.id;
+      });
+      var options = list.map(_this3.makeOption);
+      return React.createElement(
+        'div',
+        { key: entity.key },
+        React.createElement(
+          'h3',
+          null,
+          entity.key
+        ),
+        React.createElement(Select, {
+          className: 'country-select',
+          delimiter: ',',
+          multi: true,
+          value: values.join(','),
+          onChange: _this3.onEntityChange.bind(_this3, entity),
+          options: options,
+          asyncOptions: _this3.getEntity.bind(_this3, entity)
+        })
+      );
+    });
+  },
+
+  render: function render() {
+    var collection = this.props.collection;
+    return React.createElement(
+      'div',
+      null,
+      React.createElement(
+        Paper,
+        { className: 'book-content collection', zDepth: 1 },
+        React.createElement(
+          'div',
+          { className: 'book-title' },
+          collection.get('title')
+        ),
+        this.renderLocationEntities()
+      )
+    );
+  }
+});
+
+module.exports = Collection;
+
+},{"./LocationEntities.js":349,"./parsekeys.js":359,"material-ui":38,"parse":127,"react":348,"react-select":168}],353:[function(require,module,exports){
+'use strict';
+var React = require('react');
+var Paper = require('material-ui').Paper;
+var Parse = require('parse').Parse;
+var parseKeys = require('./parsekeys.js');
+var Select = require('react-select');
+var LocationEntities = require('./LocationEntities.js');
+var Collection = require('./collection.js');
+var TextField = require('material-ui').TextField;
+var RaisedButton = require('material-ui').RaisedButton;
+
+Parse.initialize(parseKeys.appId, parseKeys.jsKey);
+
+var Locations = [];
+for (var key in LocationEntities.Entities) {
+  Locations.push(LocationEntities.Entities[key]);
+}
+
+mixpanel.track('Collections');
+
+var Collections = React.createClass({
+  displayName: 'Collections',
+
+  componentWillMount: function componentWillMount() {
+    var _this = this;
+
+    var Collection = Parse.Object.extend('collection');
+    var query = new Parse.Query(Collection);
+    query.include('children');
+    query.include('children.location');
+    Locations.forEach(function (entity) {
+      query.include('children.location.' + entity.key);
+      query.include('children.location.' + entity.key + '.location');
+    });
+    query.include('location');
+    query.find().then((function (results) {
+      _this.setState({
+        collections: results
+      });
+    }).bind(this));
+  },
+
+  getInitialState: function getInitialState() {
+    return {
+      collections: []
+    };
+  },
+
+  createNewCollection: function createNewCollection() {
+    var title = this.refs.title.getValue();
+    var Collection = Parse.Object.extend('collection');
+    var collection = new Collection();
+    collection.set({
+      title: title,
+      searchable_text: title.toLowerCase()
+    });
+
+    var Location = Parse.Object.extend('location');
+    var loc = new Location();
+    loc.set({
+      label: title,
+      type: 'collection'
+    });
+
+    Parse.Object.saveAll([collection, loc], {
+      success: function success(list) {
+        var c = list[0];
+        var l = list[1];
+        c.set({
+          location: l
+        });
+        l.set({
+          collection: c
+        });
+        Parse.Object.saveAll([c, l], {
+          success: function success(list) {
+            location.reload();
+          },
+          error: function error(e) {
+            console.log(e);
+          }
+        });
+      },
+      error: function error(_error) {
+        console.log(_error);
+      }
+    });
+  },
+
+  render: function render() {
+    return React.createElement(
+      'div',
+      null,
+      React.createElement(
+        'h2',
+        null,
+        'Collections'
+      ),
+      this.state.collections.map(function (c) {
+        return React.createElement(Collection, { key: c.id, collection: c });
+      }),
+      React.createElement(
+        Paper,
+        { className: 'book-content collections-content', zDepth: 1 },
+        React.createElement(TextField, {
+          hintText: 'Collection Name',
+          ref: 'title' }),
+        React.createElement(RaisedButton, { primary: true, onClick: this.createNewCollection, label: 'Create New Collection' })
+      )
+    );
+  }
+});
+
+module.exports = Collections;
+
+},{"./LocationEntities.js":349,"./collection.js":352,"./parsekeys.js":359,"material-ui":38,"parse":127,"react":348,"react-select":168}],354:[function(require,module,exports){
+'use strict';
+var React = require('react');
 var Search = require('./searchpage.js');
 var Book = require('./book.js');
 var Landing = require('./landing.js');
@@ -52038,6 +52304,7 @@ var RouteHandler = Router.RouteHandler;
 var DefaultRoute = Router.DefaultRoute;
 var Navigation = Router.Navigation;
 var LocationEntities = require('./LocationEntities.js');
+var Collections = require('./collectionspage.js');
 
 var App = React.createClass({
   displayName: 'App',
@@ -52107,7 +52374,8 @@ var routes = React.createElement(
     Route,
     { handler: App },
     React.createElement(Route, { name: 'search', path: 'search/:locationId', handler: Search }),
-    React.createElement(Route, { name: 'book-id', path: 'book/:bookId', handler: Book })
+    React.createElement(Route, { name: 'book-id', path: 'book/:bookId', handler: Book }),
+    React.createElement(Route, { name: 'collections', path: 'collections', handler: Collections })
   ),
   React.createElement(Route, { name: 'start', path: 'start', handler: Start })
 );
@@ -52122,7 +52390,7 @@ module.exports = {
   run: run
 };
 
-},{"./LocationEntities.js":349,"./book.js":350,"./environmentstore.js":353,"./landing.js":354,"./searchicon.js":359,"./searchpage.js":360,"./start.js":361,"material-ui/lib/app-bar":5,"material-ui/lib/styles/colors":66,"material-ui/lib/styles/theme-manager":69,"react":348,"react-router":153}],353:[function(require,module,exports){
+},{"./LocationEntities.js":349,"./book.js":350,"./collectionspage.js":353,"./environmentstore.js":355,"./landing.js":356,"./searchicon.js":361,"./searchpage.js":362,"./start.js":363,"material-ui/lib/app-bar":5,"material-ui/lib/styles/colors":66,"material-ui/lib/styles/theme-manager":69,"react":348,"react-router":153}],355:[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
@@ -52162,7 +52430,7 @@ var EnvironmentStore = (function (_Dispatcher) {
 
 module.exports = new EnvironmentStore();
 
-},{"flux":2,"object-assign":126}],354:[function(require,module,exports){
+},{"flux":2,"object-assign":126}],356:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var Colors = require('material-ui/lib/styles/colors');
@@ -52208,7 +52476,7 @@ var Main = React.createClass({
 
 module.exports = Main;
 
-},{"material-ui/lib/styles/colors":66,"react":348}],355:[function(require,module,exports){
+},{"material-ui/lib/styles/colors":66,"react":348}],357:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var injectTapEventPlugin = require('react-tap-event-plugin');
@@ -52227,7 +52495,7 @@ var Core = require('./core.js');
   Core.run();
 })();
 
-},{"./core.js":352,"react":348,"react-tap-event-plugin":175}],356:[function(require,module,exports){
+},{"./core.js":354,"react":348,"react-tap-event-plugin":175}],358:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var SvgIcon = require('material-ui/lib/svg-icon');
@@ -52262,7 +52530,7 @@ var MainIcon = React.createClass({
 
 module.exports = MainIcon;
 
-},{"material-ui/lib/styles/theme-manager":69,"material-ui/lib/svg-icon":74,"react":348}],357:[function(require,module,exports){
+},{"material-ui/lib/styles/theme-manager":69,"material-ui/lib/svg-icon":74,"react":348}],359:[function(require,module,exports){
 "use strict";
 
 var keys = {
@@ -52272,7 +52540,7 @@ var keys = {
 
 module.exports = keys;
 
-},{}],358:[function(require,module,exports){
+},{}],360:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var CircularProgress = require('material-ui/lib/circular-progress');
@@ -52346,7 +52614,7 @@ var ParseList = React.createClass({
 
 module.exports = ParseList;
 
-},{"material-ui/lib/circular-progress":16,"react":348,"react-infinite-scroll":128}],359:[function(require,module,exports){
+},{"material-ui/lib/circular-progress":16,"react":348,"react-infinite-scroll":128}],361:[function(require,module,exports){
 'use strict';
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -52393,7 +52661,7 @@ var SearchIcon = React.createClass({
 
 module.exports = SearchIcon;
 
-},{"material-ui/lib/icon-button":37,"material-ui/lib/styles/theme-manager":69,"material-ui/lib/svg-icon":74,"react":348,"react-router":153}],360:[function(require,module,exports){
+},{"material-ui/lib/icon-button":37,"material-ui/lib/styles/theme-manager":69,"material-ui/lib/svg-icon":74,"react":348,"react-router":153}],362:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var Paper = require('material-ui/lib/paper');
@@ -52483,7 +52751,6 @@ var ResultList = React.createClass({
   mixins: [Navigation, PureRenderMixin],
 
   render: function render() {
-    console.log(this.props);
     return React.createElement(
       'div',
       { className: 'search-results' },
@@ -52542,12 +52809,14 @@ var Search = React.createClass({
   displayName: 'Search',
 
   componentWillMount: function componentWillMount() {
+    var _this = this;
+
     var Subject = Parse.Object.extend('subject');
     var query = new Parse.Query(Subject);
     query.ascending('text');
     query.find({
       success: (function (results) {
-        this.setState({
+        _this.setState({
           subjects: results
         });
       }).bind(this)
@@ -52558,7 +52827,7 @@ var Search = React.createClass({
     subQuery.equalTo('objectId', this.props.params.locationId);
     subQuery.first({
       success: (function (loc) {
-        this.setState({
+        _this.setState({
           parents: loc.get('parents')
         });
       }).bind(this)
@@ -52616,7 +52885,7 @@ var Search = React.createClass({
 
 module.exports = Search;
 
-},{"./parsekeys.js":357,"./parselist.js":358,"material-ui/lib/drop-down-menu":30,"material-ui/lib/paper":55,"material-ui/lib/toolbar/toolbar":110,"material-ui/lib/toolbar/toolbar-group":107,"parse":127,"react":348,"react-router":153,"react/addons":176}],361:[function(require,module,exports){
+},{"./parsekeys.js":359,"./parselist.js":360,"material-ui/lib/drop-down-menu":30,"material-ui/lib/paper":55,"material-ui/lib/toolbar/toolbar":110,"material-ui/lib/toolbar/toolbar-group":107,"parse":127,"react":348,"react-router":153,"react/addons":176}],363:[function(require,module,exports){
 'use strict';
 var React = require('react');
 var Colors = require('material-ui/lib/styles/colors');
@@ -52809,7 +53078,7 @@ var Start = React.createClass({
 
 module.exports = Start;
 
-},{"./environmentstore.js":353,"./mainicon.js":356,"./parsekeys.js":357,"./typeahead/typeahead.js":362,"material-ui/lib/styles/colors":66,"parse":127,"react":348}],362:[function(require,module,exports){
+},{"./environmentstore.js":355,"./mainicon.js":358,"./parsekeys.js":359,"./typeahead/typeahead.js":364,"material-ui/lib/styles/colors":66,"parse":127,"react":348}],364:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -53252,4 +53521,4 @@ module.exports = React.createClass({
 });
 
 }).call(this,require('_process'))
-},{"_process":1,"material-ui/lib/lists/list":44,"material-ui/lib/lists/list-divider":42,"material-ui/lib/lists/list-item":43,"material-ui/lib/text-field":94,"react":348}]},{},[355]);
+},{"_process":1,"material-ui/lib/lists/list":44,"material-ui/lib/lists/list-divider":42,"material-ui/lib/lists/list-item":43,"material-ui/lib/text-field":94,"react":348}]},{},[357]);

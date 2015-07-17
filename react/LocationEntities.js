@@ -17,7 +17,7 @@ var Entities = {
       return [state, country].join(', ');
     }
   },
-  County : {
+  County: {
     parse: Parse.Object.extend('county'),
     key: 'county',
     getLabel(obj) {
@@ -26,6 +26,13 @@ var Entities = {
       return [county, state].join(', ');
     }
   },
+  Collection: {
+    parse: Parse.Object.extend('collection'),
+    key: 'collection',
+    getLabel(obj) {
+      return obj.get('title');
+    }
+  }
 };
 
 var getByParse = (obj) => {

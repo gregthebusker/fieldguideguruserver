@@ -21,24 +21,24 @@ var Tile = React.createClass({
 
   getInitialState() {
     return {
-      hover: false
+      hover: false,
     };
   },
   onClick() {
     this.transitionTo('book-id', {
-      bookId: this.props.item.id
+      bookId: this.props.item.id,
     });
   },
 
   onMouseOver() {
     this.setState({
-      hover: true
+      hover: true,
     });
   },
 
   onMouseOut() {
     this.setState({
-      hover: false
+      hover: false,
     });
   },
 
@@ -48,7 +48,7 @@ var Tile = React.createClass({
     var image;
     if (thumb) {
       var style = {
-        backgroundImage: 'url(' + thumb.url() + ')'
+        backgroundImage: 'url(' + thumb.url() + ')',
       };
       image = <div className="search-result-image" style={style} />;
     }
@@ -78,8 +78,7 @@ var Tile = React.createClass({
 var ResultList = React.createClass({
   mixins: [Navigation, PureRenderMixin],
     
-  render: function() {
-    console.log(this.props);
+  render() {
     return (
       <div className="search-results">
         <h1 className="search-result-heading">{this.props.title}</h1>
@@ -95,16 +94,16 @@ var ResultList = React.createClass({
 });
 
 var FilterBar = React.createClass({
-  render: function() {
-    var filterOptions = this.props.categories.map(function(v) {
+  render() {
+    var filterOptions = this.props.categories.map(v => {
       return {
         text: v.get('text'),
-        id: v
+        id: v,
       };
     });
 
     filterOptions.splice(0, 0, {
-      text: 'All'
+      text: 'All',
     });
 
     return (
@@ -125,14 +124,14 @@ var FilterBar = React.createClass({
 var i = 0;
 
 var Search = React.createClass({
-  componentWillMount: function() {
+  componentWillMount() {
     var Subject = Parse.Object.extend('subject');
     var query = new Parse.Query(Subject);
     query.ascending('text');
     query.find({
-      success: function(results) {
+      success: (results) => {
         this.setState({
-          subjects: results
+          subjects: results,
         });
       }.bind(this)
     });
@@ -141,15 +140,15 @@ var Search = React.createClass({
     var subQuery = new Parse.Query(Location);
     subQuery.equalTo('objectId', this.props.params.locationId);
     subQuery.first({
-      success: function(loc) {
+      success: (loc) => {
         this.setState({
-          parents: loc.get('parents')
+          parents: loc.get('parents'),
         });
       }.bind(this)
     });
   },
 
-  getInitialState: function() {
+  getInitialState() {
     return {
       filter: undefined,
       subjects: [],
@@ -157,13 +156,13 @@ var Search = React.createClass({
     };
   },
  
-  onFilterChange: function(e, selectedIndex, menuItem) {
+  onFilterChange(e, selectedIndex, menuItem) {
     this.setState({
-      filter: menuItem.id
+      filter: menuItem.id,
     });
   },
 
-  render: function() {
+  render() {
     if (!this.state.parents) {
       return <div/>;
     }

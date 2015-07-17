@@ -15,6 +15,7 @@ var RouteHandler = Router.RouteHandler;
 var DefaultRoute = Router.DefaultRoute;
 var Navigation = Router.Navigation;
 var LocationEntities = require('./LocationEntities.js');
+var Collections = require('./collectionspage.js');
 
 var App = React.createClass({
   render: function() {
@@ -78,6 +79,7 @@ var routes = (
     <Route handler={App}>
       <Route name="search" path="search/:locationId" handler={Search} />
       <Route name="book-id" path="book/:bookId" handler={Book} />
+      <Route name="collections" path="collections" handler={Collections} />
     </Route>
     <Route name="start" path="start" handler={Start} />
   </Route>
