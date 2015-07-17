@@ -26,7 +26,7 @@ gulp.task('less', function() {
     .pipe(less({
       paths: ['less']
     }))
-    .pipe(gulp.dest('./public/stylessheets/'));
+    .pipe(gulp.dest('./public/stylesheets/'));
 });
 
 gulp.task('watch', ['watchScripts', 'watchStyles']);
