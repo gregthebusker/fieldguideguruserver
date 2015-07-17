@@ -52846,7 +52846,6 @@ var Search = React.createClass({
           });
         };
         getParents(loc);
-        console.log(locations);
 
         _this.setState({
           parents: locations

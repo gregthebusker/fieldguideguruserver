@@ -160,7 +160,6 @@ var Search = React.createClass({
           });
         };
         getParents(loc);
-        console.log(locations);
 
         this.setState({
           parents: locations,

@@ -65,8 +65,8 @@ function scripts(watch) {
  
   rebundle = function() {
     var stream = bundler.bundle();
-    stream.on('error', function() {
-      console.log('Browserify Failed');
+    stream.on('error', function(e) {
+      console.log('Browserify Failed', e.message);
     });
     stream = stream.pipe(source('index.js'));
     return stream.pipe(gulp.dest('./public/js'));
