@@ -139,10 +139,31 @@ var Search = React.createClass({
     var Location = Parse.Object.extend('location');
     var subQuery = new Parse.Query(Location);
     subQuery.equalTo('objectId', this.props.params.locationId);
+
+    var level = 4;
+    var a = new Array(level);
+    var include = a.join('.parents.location');
+    subQuery.include('parents.location' + include);
+
     subQuery.first({
       success: (loc) => {
+        var locations = [];
+
+        var getParents = (loc) => {
+          var parents = loc.get('parents') || [];
+          locations = locations.concat(parents);
+          parents.forEach(function(loc) {
+            var subParents = getParents(loc);
+            if (subParents) {
+              locations = locations.concat(subParents);
+            }
+          });
+        };
+        getParents(loc);
+        console.log(locations);
+
         this.setState({
-          parents: loc.get('parents'),
+          parents: locations,
         });
       }.bind(this)
     });
