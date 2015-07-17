@@ -6,6 +6,7 @@ var watchify = require('watchify');
 var babelify = require('babelify');
 var source = require('vinyl-source-stream');
 var less = require('gulp-less');
+var cssnano = require('cssnano');
 
 gulp.task('default', ['scripts', 'less']);
 
@@ -23,7 +24,8 @@ gulp.task('watchStyles', function() {
 
 gulp.task('less', function() {
   var processors = [
-    autoprefixer({browsers: ['last 1 version']})
+    autoprefixer({browsers: ['last 1 version']}),
+    cssnano()
   ];
   return gulp.src('./less/**/*')
     .pipe(less({
