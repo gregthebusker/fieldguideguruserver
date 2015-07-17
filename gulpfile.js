@@ -7,6 +7,7 @@ var babelify = require('babelify');
 var source = require('vinyl-source-stream');
 var less = require('gulp-less');
 var cssnano = require('cssnano');
+var uglifyify = require('uglifyify');
 
 gulp.task('default', ['scripts', 'less']);
 
@@ -55,6 +56,12 @@ function scripts(watch) {
   bundler.transform(babelify.configure({
     stage: 1,
   }));
+
+  if (!watch) {
+    bundler.transform({
+      global: true
+    }, uglifyify);
+  }
  
   rebundle = function() {
     var stream = bundler.bundle();
