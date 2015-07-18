@@ -15,7 +15,7 @@ var RouteHandler = Router.RouteHandler;
 var DefaultRoute = Router.DefaultRoute;
 var Navigation = Router.Navigation;
 var LocationEntities = require('./LocationEntities.js');
-var Collections = require('./collectionspage.js');
+var Collections = require('collectionspage');
 
 var App = React.createClass({
   render: function() {

@@ -1,4 +1,5 @@
 "use strict";
+require("babel/polyfill");
 var React = require('react');
 var injectTapEventPlugin = require('react-tap-event-plugin');
 var Core = require('./core.js');

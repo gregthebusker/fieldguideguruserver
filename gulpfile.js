@@ -44,7 +44,11 @@ function scripts(watch) {
   bundler = browserify('./react/main.js', {
     cache: {}, // required for watchify
     packageCache: {}, // required for watchify
-    fullPaths: watch // required to be true only for watchify
+    fullPaths: watch, // required to be true only for watchify
+    paths: [
+      './react',
+      './react/typeahead'
+    ]
   });
   if(watch) {
     bundler = watchify(bundler);
