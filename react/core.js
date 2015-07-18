@@ -75,8 +75,8 @@ var Core = React.createClass({
 
 var routes = (
   <Route handler={Core}>
-    <DefaultRoute handler={Landing}/>
     <Route handler={App}>
+      <DefaultRoute handler={Landing}/>
       <Route name="search" path="search/:locationId" handler={Search} />
       <Route name="book-id" path="book/:bookId" handler={Book} />
       <Route name="collections" path="collections" handler={Collections} />

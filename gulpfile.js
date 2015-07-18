@@ -59,6 +59,10 @@ function scripts(watch) {
  
   bundler.transform(babelify.configure({
     stage: 1,
+    optional: [
+      "minification.memberExpressionLiterals",
+      "minification.propertyLiterals"
+    ],
   }));
 
   if (!watch) {
