@@ -55755,7 +55755,7 @@ var Book = React.createClass({
     var _this3 = this;
 
     var query = new Parse.Query(entity.parse);
-    query.contains('searchable_text', input);
+    query.contains('searchable_text', input.toLowerCase());
     query.include('location');
     query.find({
       success: function success(results) {
@@ -55985,7 +55985,7 @@ var Collection = React.createClass({
     var _this2 = this;
 
     var query = new Parse.Query(entity.parse);
-    query.contains('searchable_text', input);
+    query.contains('searchable_text', input.toLowerCase());
     query.include('location');
     query.find({
       success: function success(results) {

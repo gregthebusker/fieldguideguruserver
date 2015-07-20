@@ -93,7 +93,7 @@ var Book = React.createClass({
 
   getEntity(entity, input, callback) {
     var query = new Parse.Query(entity.parse);
-    query.contains('searchable_text', input);
+    query.contains('searchable_text', input.toLowerCase());
     query.include('location');
     query.find({
       success: (results) => {
