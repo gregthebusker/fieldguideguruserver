@@ -42,7 +42,7 @@ var ParseList = React.createClass({
     }
 
     if (!this.state.hasMore) {
-      papers.push(<h3 key="empty">No More Results</h3>);
+      papers.push(this.props.addMoreFunction());
     }
 
     var loader = (

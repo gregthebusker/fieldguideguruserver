@@ -56485,11 +56485,7 @@ var ParseList = React.createClass({
     }
 
     if (!this.state.hasMore) {
-      papers.push(React.createElement(
-        'h3',
-        { key: 'empty' },
-        'No More Results'
-      ));
+      papers.push(this.props.addMoreFunction());
     }
 
     var loader = React.createElement(
@@ -56567,6 +56563,7 @@ var Paper = require('material-ui/lib/paper');
 var Toolbar = require('material-ui/lib/toolbar/toolbar');
 var ToolbarGroup = require('material-ui/lib/toolbar/toolbar-group');
 var DropDownMenu = require('material-ui/lib/drop-down-menu');
+var RaisedButton = require('material-ui').RaisedButton;
 var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
 var ParseList = require('./parselist.js');
@@ -56649,6 +56646,29 @@ var ResultList = React.createClass({
 
   mixins: [Navigation, PureRenderMixin],
 
+  addMore: function addMore() {
+    console.log('adding more');
+    return React.createElement(
+      Paper,
+      {
+        zDepth: 1,
+        className: 'search-result-card add-more',
+        key: 'addMore' },
+      React.createElement(
+        'h3',
+        null,
+        'Know a book we\'re missing?'
+      ),
+      React.createElement(RaisedButton, { label: 'Add a book', primary: true }),
+      React.createElement(
+        'h3',
+        null,
+        'Wished there was a book for something?'
+      ),
+      React.createElement(RaisedButton, { label: 'Tell us your wish', secondary: true })
+    );
+  },
+
   render: function render() {
     return React.createElement(
       'div',
@@ -56662,7 +56682,8 @@ var ResultList = React.createClass({
         query: this.props.query,
         renderFunction: function (item) {
           return React.createElement(Tile, { key: item.id, item: item });
-        }
+        },
+        addMoreFunction: this.addMore
       })
     );
   }
@@ -56732,7 +56753,7 @@ var Search = React.createClass({
 
     subQuery.first({
       success: (function (loc) {
-        var locations = [];
+        var locations = [loc];
 
         var getParents = function getParents(loc) {
           var parents = loc.get('parents') || [];
@@ -56804,7 +56825,7 @@ var Search = React.createClass({
 
 module.exports = Search;
 
-},{"./parsekeys.js":"/fieldguideguru/fieldguideguruserver/react/parsekeys.js","./parselist.js":"/fieldguideguru/fieldguideguruserver/react/parselist.js","material-ui/lib/drop-down-menu":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/drop-down-menu.js","material-ui/lib/paper":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/paper.js","material-ui/lib/toolbar/toolbar":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/toolbar/toolbar.js","material-ui/lib/toolbar/toolbar-group":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/toolbar/toolbar-group.js","parse":"/fieldguideguru/fieldguideguruserver/node_modules/parse/build/parse-latest.js","react":"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js","react-router":"/fieldguideguru/fieldguideguruserver/node_modules/react-router/lib/index.js","react/addons":"/fieldguideguru/fieldguideguruserver/node_modules/react/addons.js"}],"/fieldguideguru/fieldguideguruserver/react/start.js":[function(require,module,exports){
+},{"./parsekeys.js":"/fieldguideguru/fieldguideguruserver/react/parsekeys.js","./parselist.js":"/fieldguideguru/fieldguideguruserver/react/parselist.js","material-ui":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/index.js","material-ui/lib/drop-down-menu":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/drop-down-menu.js","material-ui/lib/paper":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/paper.js","material-ui/lib/toolbar/toolbar":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/toolbar/toolbar.js","material-ui/lib/toolbar/toolbar-group":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/toolbar/toolbar-group.js","parse":"/fieldguideguru/fieldguideguruserver/node_modules/parse/build/parse-latest.js","react":"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js","react-router":"/fieldguideguru/fieldguideguruserver/node_modules/react-router/lib/index.js","react/addons":"/fieldguideguru/fieldguideguruserver/node_modules/react/addons.js"}],"/fieldguideguru/fieldguideguruserver/react/start.js":[function(require,module,exports){
 'use strict';
 var React = require('react');
 var Colors = require('material-ui/lib/styles/colors');

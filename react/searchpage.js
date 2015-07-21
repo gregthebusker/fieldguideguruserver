@@ -4,6 +4,7 @@ var Paper = require('material-ui/lib/paper');
 var Toolbar = require('material-ui/lib/toolbar/toolbar');
 var ToolbarGroup = require('material-ui/lib/toolbar/toolbar-group');
 var DropDownMenu = require('material-ui/lib/drop-down-menu');
+var RaisedButton = require('material-ui').RaisedButton;
 var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
 var ParseList = require('./parselist.js');
@@ -78,6 +79,25 @@ var Tile = React.createClass({
 var ResultList = React.createClass({
   mixins: [Navigation, PureRenderMixin],
     
+  addMore() {
+    console.log('adding more');
+    return (
+      <Paper
+        zDepth={1}
+        className="search-result-card add-more"
+        key="addMore">
+        <h3>
+          Know a book we're missing?
+        </h3>
+        <RaisedButton label="Add a book" primary={true} />
+        <h3>
+          Wished there was a book for something?
+        </h3>
+        <RaisedButton label="Tell us your wish" secondary={true} />
+      </Paper>
+    );
+  },
+
   render() {
     return (
       <div className="search-results">
@@ -87,6 +107,7 @@ var ResultList = React.createClass({
           renderFunction={(item) => {
             return <Tile key={item.id} item={item} />;
           }}
+          addMoreFunction={this.addMore}
         />
       </div>
     );
@@ -147,7 +168,7 @@ var Search = React.createClass({
 
     subQuery.first({
       success: (loc) => {
-        var locations = [];
+        var locations = [loc];
 
         var getParents = (loc) => {
           var parents = loc.get('parents') || [];
