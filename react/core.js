@@ -4,8 +4,8 @@ var Search = require('./searchpage.js');
 var Book = require('./book.js');
 var Landing = require('./landing.js');
 var Start = require('./start.js');
-var MaterialAppBar = require('material-ui/lib/app-bar');
-var ThemeManager = require('material-ui/lib/styles/theme-manager')();
+var MaterialAppBar = require('material-ui').AppBar;
+var LeftNav = require('material-ui').LeftNav;
 var Colors = require('material-ui/lib/styles/colors');
 var SearchIcon = require('./searchicon.js');
 var EnvironmentStore = require('./environmentstore.js');
@@ -16,6 +16,9 @@ var DefaultRoute = Router.DefaultRoute;
 var Navigation = Router.Navigation;
 var LocationEntities = require('./LocationEntities.js');
 var Collections = require('collectionspage');
+
+var mui = require('material-ui');
+var ThemeManager = new mui.Styles.ThemeManager();
 
 var App = React.createClass({
   render: function() {
@@ -29,12 +32,37 @@ var App = React.createClass({
 });
 
 var AppBar = React.createClass({
+  mixins: [Navigation],
+
+  openNav() {
+    this.refs.leftNav.toggle();
+  },
+
+  onLeftNavChange(e, index, payload) {
+    this.transitionTo(payload.route);
+  },
+
   render: function() {
+    var menuItems = [
+      {
+        route: 'start',
+        text: 'Search',
+      },
+    ];
     return (
-      <MaterialAppBar
-        title="Field Guide Guru"
-        iconElementRight={<SearchIcon />}
-      />
+      <div>
+        <MaterialAppBar
+          title="Field Guide Guru"
+          iconElementRight={<SearchIcon />}
+          onLeftIconButtonTouchTap={this.openNav}
+        />
+        <LeftNav
+          ref="leftNav"
+          docked={false}
+          menuItems={menuItems}
+          onChange={this.onLeftNavChange}
+        />
+      </div>
     );
   }
 });

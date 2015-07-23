@@ -56191,8 +56191,8 @@ var Search = require('./searchpage.js');
 var Book = require('./book.js');
 var Landing = require('./landing.js');
 var Start = require('./start.js');
-var MaterialAppBar = require('material-ui/lib/app-bar');
-var ThemeManager = require('material-ui/lib/styles/theme-manager')();
+var MaterialAppBar = require('material-ui').AppBar;
+var LeftNav = require('material-ui').LeftNav;
 var Colors = require('material-ui/lib/styles/colors');
 var SearchIcon = require('./searchicon.js');
 var EnvironmentStore = require('./environmentstore.js');
@@ -56203,6 +56203,9 @@ var DefaultRoute = Router.DefaultRoute;
 var Navigation = Router.Navigation;
 var LocationEntities = require('./LocationEntities.js');
 var Collections = require('collectionspage');
+
+var mui = require('material-ui');
+var ThemeManager = new mui.Styles.ThemeManager();
 
 var App = React.createClass({
   displayName: 'App',
@@ -56220,11 +56223,36 @@ var App = React.createClass({
 var AppBar = React.createClass({
   displayName: 'AppBar',
 
+  mixins: [Navigation],
+
+  openNav: function openNav() {
+    this.refs.leftNav.toggle();
+  },
+
+  onLeftNavChange: function onLeftNavChange(e, index, payload) {
+    this.transitionTo(payload.route);
+  },
+
   render: function render() {
-    return React.createElement(MaterialAppBar, {
-      title: 'Field Guide Guru',
-      iconElementRight: React.createElement(SearchIcon, null)
-    });
+    var menuItems = [{
+      route: 'start',
+      text: 'Search'
+    }];
+    return React.createElement(
+      'div',
+      null,
+      React.createElement(MaterialAppBar, {
+        title: 'Field Guide Guru',
+        iconElementRight: React.createElement(SearchIcon, null),
+        onLeftIconButtonTouchTap: this.openNav
+      }),
+      React.createElement(LeftNav, {
+        ref: 'leftNav',
+        docked: false,
+        menuItems: menuItems,
+        onChange: this.onLeftNavChange
+      })
+    );
   }
 });
 
@@ -56288,7 +56316,7 @@ module.exports = {
   run: run
 };
 
-},{"./LocationEntities.js":"/fieldguideguru/fieldguideguruserver/react/LocationEntities.js","./book.js":"/fieldguideguru/fieldguideguruserver/react/book.js","./environmentstore.js":"/fieldguideguru/fieldguideguruserver/react/environmentstore.js","./landing.js":"/fieldguideguru/fieldguideguruserver/react/landing.js","./searchicon.js":"/fieldguideguru/fieldguideguruserver/react/searchicon.js","./searchpage.js":"/fieldguideguru/fieldguideguruserver/react/searchpage.js","./start.js":"/fieldguideguru/fieldguideguruserver/react/start.js","collectionspage":"/fieldguideguru/fieldguideguruserver/react/collectionspage.js","material-ui/lib/app-bar":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/app-bar.js","material-ui/lib/styles/colors":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/styles/colors.js","material-ui/lib/styles/theme-manager":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/styles/theme-manager.js","react":"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js","react-router":"/fieldguideguru/fieldguideguruserver/node_modules/react-router/lib/index.js"}],"/fieldguideguru/fieldguideguruserver/react/environmentstore.js":[function(require,module,exports){
+},{"./LocationEntities.js":"/fieldguideguru/fieldguideguruserver/react/LocationEntities.js","./book.js":"/fieldguideguru/fieldguideguruserver/react/book.js","./environmentstore.js":"/fieldguideguru/fieldguideguruserver/react/environmentstore.js","./landing.js":"/fieldguideguru/fieldguideguruserver/react/landing.js","./searchicon.js":"/fieldguideguru/fieldguideguruserver/react/searchicon.js","./searchpage.js":"/fieldguideguru/fieldguideguruserver/react/searchpage.js","./start.js":"/fieldguideguru/fieldguideguruserver/react/start.js","collectionspage":"/fieldguideguru/fieldguideguruserver/react/collectionspage.js","material-ui":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/index.js","material-ui/lib/styles/colors":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/styles/colors.js","react":"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js","react-router":"/fieldguideguru/fieldguideguruserver/node_modules/react-router/lib/index.js"}],"/fieldguideguru/fieldguideguruserver/react/environmentstore.js":[function(require,module,exports){
 'use strict';
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
