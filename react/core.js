@@ -39,6 +39,7 @@ var AppBar = React.createClass({
   },
 
   onLeftNavChange(e, index, payload) {
+    this.refs.leftNav.close();
     this.transitionTo(payload.route);
   },
 
@@ -108,8 +109,8 @@ var routes = (
       <Route name="search" path="search/:locationId" handler={Search} />
       <Route name="book-id" path="book/:bookId" handler={Book} />
       <Route name="collections" path="collections" handler={Collections} />
+      <Route name="start" path="start" handler={Start} />
     </Route>
-    <Route name="start" path="start" handler={Start} />
   </Route>
 );
 

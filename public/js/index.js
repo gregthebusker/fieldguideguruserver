@@ -56230,6 +56230,7 @@ var AppBar = React.createClass({
   },
 
   onLeftNavChange: function onLeftNavChange(e, index, payload) {
+    this.refs.leftNav.close();
     this.transitionTo(payload.route);
   },
 
@@ -56301,9 +56302,9 @@ var routes = React.createElement(
     React.createElement(DefaultRoute, { handler: Landing }),
     React.createElement(Route, { name: 'search', path: 'search/:locationId', handler: Search }),
     React.createElement(Route, { name: 'book-id', path: 'book/:bookId', handler: Book }),
-    React.createElement(Route, { name: 'collections', path: 'collections', handler: Collections })
-  ),
-  React.createElement(Route, { name: 'start', path: 'start', handler: Start })
+    React.createElement(Route, { name: 'collections', path: 'collections', handler: Collections }),
+    React.createElement(Route, { name: 'start', path: 'start', handler: Start })
+  )
 );
 
 function run() {
@@ -56993,7 +56994,7 @@ var Start = React.createClass({
               textAlign: 'center'
             } },
           React.createElement(MainIcon, null),
-          'Field Guide Guru'
+          'Where to you need a field guide to?'
         ),
         React.createElement(LocationTypeahead, {
           onSelect: this.onSelectLocation
