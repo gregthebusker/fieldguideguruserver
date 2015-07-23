@@ -5,6 +5,10 @@ var Toolbar = require('material-ui/lib/toolbar/toolbar');
 var ToolbarGroup = require('material-ui/lib/toolbar/toolbar-group');
 var DropDownMenu = require('material-ui/lib/drop-down-menu');
 var RaisedButton = require('material-ui').RaisedButton;
+var FlatButton = require('material-ui').FlatButton;
+var Dialog = require('material-ui').Dialog;
+var TextField = require('material-ui').TextField;
+var Snackbar = require('material-ui').Snackbar;
 var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
 var ParseList = require('./parselist.js');
@@ -93,12 +97,52 @@ var ResultList = React.createClass({
         <h3>
           Wished there was a book for something?
         </h3>
-        <RaisedButton label="Tell us your wish" secondary={true} />
+        <RaisedButton onClick={this.showWishModal} label="Tell us your wish" secondary={true} />
       </Paper>
     );
   },
 
+  showWishModal() {
+    this.refs.wishModal.show();
+  },
+
+  closeWishModal() {
+    this.refs.wishModal.dismiss();
+  },
+
+  onAddWish() {
+    var text = this.refs.text.getValue();
+    if (text) {
+      var Wish = Parse.Object.extend('wish');
+      var wish = new Wish();
+      wish.set({
+        text: text,
+        email: this.refs.email.getValue()
+      });
+      wish.save(null, {
+        success: (o) => {
+          this.refs.text.clearValue();
+          this.refs.snackbar.show();
+        }.bind(this),
+      });
+    }
+    this.closeWishModal();
+  },
+
   render() {
+    var actions = [
+      <FlatButton
+        label="Cancel"
+        key="cancel"
+        onTouchTap={this.closeWishModal}
+      />,
+      <FlatButton
+        label="Add wish"
+        key="add"
+        primary={true}
+        onTouchTap={this.onAddWish}
+      />
+    ];
     return (
       <div className="search-results">
         <h1 className="search-result-heading">{this.props.title}</h1>
@@ -108,6 +152,28 @@ var ResultList = React.createClass({
             return <Tile key={item.id} item={item} />;
           }}
           addMoreFunction={this.addMore}
+        />
+        <Dialog
+          ref="wishModal"
+          title="What book would you like to see?"
+          modal={true}
+          actions={actions}>
+          <TextField
+            hintText="Tell us the title or the topic"
+            ref="text"
+            fullWidth={true}
+            multiLine={true}
+          />
+          <TextField
+            hintText="email"
+            ref="email"
+            type="email"
+          />
+        </Dialog>
+        <Snackbar
+          ref="snackbar"
+          autoHideDuration={2000}
+          message="Your wish has been made!"
         />
       </div>
     );

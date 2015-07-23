@@ -56564,6 +56564,10 @@ var Toolbar = require('material-ui/lib/toolbar/toolbar');
 var ToolbarGroup = require('material-ui/lib/toolbar/toolbar-group');
 var DropDownMenu = require('material-ui/lib/drop-down-menu');
 var RaisedButton = require('material-ui').RaisedButton;
+var FlatButton = require('material-ui').FlatButton;
+var Dialog = require('material-ui').Dialog;
+var TextField = require('material-ui').TextField;
+var Snackbar = require('material-ui').Snackbar;
 var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
 var ParseList = require('./parselist.js');
@@ -56665,11 +56669,50 @@ var ResultList = React.createClass({
         null,
         'Wished there was a book for something?'
       ),
-      React.createElement(RaisedButton, { label: 'Tell us your wish', secondary: true })
+      React.createElement(RaisedButton, { onClick: this.showWishModal, label: 'Tell us your wish', secondary: true })
     );
   },
 
+  showWishModal: function showWishModal() {
+    this.refs.wishModal.show();
+  },
+
+  closeWishModal: function closeWishModal() {
+    this.refs.wishModal.dismiss();
+  },
+
+  onAddWish: function onAddWish() {
+    var _this = this;
+
+    var text = this.refs.text.getValue();
+    if (text) {
+      var Wish = Parse.Object.extend('wish');
+      var wish = new Wish();
+      wish.set({
+        text: text,
+        email: this.refs.email.getValue()
+      });
+      wish.save(null, {
+        success: (function (o) {
+          _this.refs.text.clearValue();
+          _this.refs.snackbar.show();
+        }).bind(this)
+      });
+    }
+    this.closeWishModal();
+  },
+
   render: function render() {
+    var actions = [React.createElement(FlatButton, {
+      label: 'Cancel',
+      key: 'cancel',
+      onTouchTap: this.closeWishModal
+    }), React.createElement(FlatButton, {
+      label: 'Add wish',
+      key: 'add',
+      primary: true,
+      onTouchTap: this.onAddWish
+    })];
     return React.createElement(
       'div',
       { className: 'search-results' },
@@ -56684,6 +56727,30 @@ var ResultList = React.createClass({
           return React.createElement(Tile, { key: item.id, item: item });
         },
         addMoreFunction: this.addMore
+      }),
+      React.createElement(
+        Dialog,
+        {
+          ref: 'wishModal',
+          title: 'What book would you like to see?',
+          modal: true,
+          actions: actions },
+        React.createElement(TextField, {
+          hintText: 'Tell us the title or the topic',
+          ref: 'text',
+          fullWidth: true,
+          multiLine: true
+        }),
+        React.createElement(TextField, {
+          hintText: 'email',
+          ref: 'email',
+          type: 'email'
+        })
+      ),
+      React.createElement(Snackbar, {
+        ref: 'snackbar',
+        autoHideDuration: 2000,
+        message: 'Your wish has been made!'
       })
     );
   }
@@ -56729,14 +56796,14 @@ var Search = React.createClass({
   displayName: 'Search',
 
   componentWillMount: function componentWillMount() {
-    var _this = this;
+    var _this2 = this;
 
     var Subject = Parse.Object.extend('subject');
     var query = new Parse.Query(Subject);
     query.ascending('text');
     query.find({
       success: (function (results) {
-        _this.setState({
+        _this2.setState({
           subjects: results
         });
       }).bind(this)
@@ -56767,7 +56834,7 @@ var Search = React.createClass({
         };
         getParents(loc);
 
-        _this.setState({
+        _this2.setState({
           parents: locations
         });
       }).bind(this)
@@ -56834,10 +56901,67 @@ var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
 var MainIcon = require('./mainicon.js');
 var EnvironmentStore = require('./environmentstore.js');
+var LocationTypeahead = require('locationTypeahead');
 
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
 mixpanel.track('Start Page');
+
+var Start = React.createClass({
+  displayName: 'Start',
+
+  onSelectLocation: function onSelectLocation(loc) {
+    if (!loc) {
+      return;
+    }
+    loc.obj.increment('clicks');
+    loc.obj.save();
+    EnvironmentStore.setLocation(loc.obj);
+  },
+
+  render: function render() {
+    var containerStyle = {
+      paddingTop: '100px',
+      color: Colors.darkWhite
+    };
+
+    return React.createElement(
+      'div',
+      { style: {
+          width: '100%',
+          height: '100%'
+        } },
+      React.createElement(
+        'div',
+        { style: containerStyle },
+        React.createElement(
+          'h1',
+          { style: {
+              textAlign: 'center'
+            } },
+          React.createElement(MainIcon, null),
+          'Field Guide Guru'
+        ),
+        React.createElement(LocationTypeahead, {
+          onSelect: this.onSelectLocation
+        })
+      )
+    );
+  }
+});
+
+module.exports = Start;
+
+},{"./environmentstore.js":"/fieldguideguru/fieldguideguruserver/react/environmentstore.js","./mainicon.js":"/fieldguideguru/fieldguideguruserver/react/mainicon.js","./parsekeys.js":"/fieldguideguru/fieldguideguruserver/react/parsekeys.js","./typeahead/typeahead.js":"/fieldguideguru/fieldguideguruserver/react/typeahead/typeahead.js","locationTypeahead":"/fieldguideguru/fieldguideguruserver/react/typeahead/locationTypeahead.js","material-ui/lib/styles/colors":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/styles/colors.js","parse":"/fieldguideguru/fieldguideguruserver/node_modules/parse/build/parse-latest.js","react":"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js"}],"/fieldguideguru/fieldguideguruserver/react/typeahead/locationTypeahead.js":[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var Colors = require('material-ui/lib/styles/colors');
+var Typeahead = require('typeahead');
+var Parse = require('parse').Parse;
+var parseKeys = require('parsekeys');
+
+Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
 var optionsCache = {};
 var HEADERS = {
@@ -56884,8 +57008,8 @@ var Template = React.createClass({
   }
 });
 
-var Start = React.createClass({
-  displayName: 'Start',
+var LocationTypeahead = React.createClass({
+  displayName: 'LocationTypeahead',
 
   onTextChange: function onTextChange(event) {
     var _this = this;
@@ -56932,9 +57056,7 @@ var Start = React.createClass({
     if (!loc) {
       return;
     }
-    loc.obj.increment('clicks');
-    loc.obj.save();
-    EnvironmentStore.setLocation(loc.obj);
+    this.props.onSelect(loc);
   },
 
   componentDidMount: function componentDidMount() {
@@ -56963,11 +57085,6 @@ var Start = React.createClass({
   },
 
   render: function render() {
-    var containerStyle = {
-      paddingTop: '100px',
-      color: Colors.darkWhite
-    };
-
     var options = this.getOptions();
 
     var searchClasses = ['search-box-container'];
@@ -56981,44 +57098,25 @@ var Start = React.createClass({
 
     return React.createElement(
       'div',
-      { style: {
-          width: '100%',
-          height: '100%'
-        } },
-      React.createElement(
-        'div',
-        { style: containerStyle },
-        React.createElement(
-          'h1',
-          { style: {
-              textAlign: 'center'
-            } },
-          React.createElement(MainIcon, null),
-          'Field Guide Guru'
-        ),
-        React.createElement(
-          'div',
-          { className: searchClasses.join(' ') },
-          React.createElement(Typeahead, {
-            placeholder: 'Location',
-            autoFocus: true,
-            onChange: this.onTextChange,
-            inputValue: this.state.value,
-            options: this.getOptions(),
-            optionTemplate: Template,
-            onOptionSelected: this.onSelectLocation,
-            onFocus: this.onSearchFocus,
-            onBlur: this.onSearchBlur
-          })
-        )
-      )
+      { className: searchClasses.join(' ') },
+      React.createElement(Typeahead, {
+        placeholder: 'Location',
+        autoFocus: true,
+        onChange: this.onTextChange,
+        inputValue: this.state.value,
+        options: this.getOptions(),
+        optionTemplate: Template,
+        onOptionSelected: this.onSelectLocation,
+        onFocus: this.onSearchFocus,
+        onBlur: this.onSearchBlur
+      })
     );
   }
 });
 
-module.exports = Start;
+module.exports = LocationTypeahead;
 
-},{"./environmentstore.js":"/fieldguideguru/fieldguideguruserver/react/environmentstore.js","./mainicon.js":"/fieldguideguru/fieldguideguruserver/react/mainicon.js","./parsekeys.js":"/fieldguideguru/fieldguideguruserver/react/parsekeys.js","./typeahead/typeahead.js":"/fieldguideguru/fieldguideguruserver/react/typeahead/typeahead.js","material-ui/lib/styles/colors":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/styles/colors.js","parse":"/fieldguideguru/fieldguideguruserver/node_modules/parse/build/parse-latest.js","react":"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js"}],"/fieldguideguru/fieldguideguruserver/react/typeahead/typeahead.js":[function(require,module,exports){
+},{"material-ui/lib/styles/colors":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/styles/colors.js","parse":"/fieldguideguru/fieldguideguruserver/node_modules/parse/build/parse-latest.js","parsekeys":"/fieldguideguru/fieldguideguruserver/react/parsekeys.js","react":"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js","typeahead":"/fieldguideguru/fieldguideguruserver/react/typeahead/typeahead.js"}],"/fieldguideguru/fieldguideguruserver/react/typeahead/typeahead.js":[function(require,module,exports){
 (function (process){
 'use strict';
 
