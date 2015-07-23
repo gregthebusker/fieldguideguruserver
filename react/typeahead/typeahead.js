@@ -3,10 +3,10 @@
 var React = require('react'),
     noop = function() {};
 
-var List = require('material-ui/lib/lists/list');
-var ListItem = require('material-ui/lib/lists/list-item');
-var ListDivider = require('material-ui/lib/lists/list-divider');
-var TextField = require('material-ui/lib/text-field');
+var List = require('material-ui').List;
+var ListItem = require('material-ui').ListItem;
+var ListDivider = require('material-ui').ListDivider;
+var TextField = require('material-ui').TextField;
 
 module.exports = React.createClass({
     displayName: 'Typeahead',
@@ -107,8 +107,8 @@ module.exports = React.createClass({
       return (
         <div
           style={{
-            position: 'absoulte',
-            width: '100%'
+            backgroundColor: '#fff',
+            position: 'relative',
           }}>
           {this.renderInput()}
           {this.renderDropdown()}

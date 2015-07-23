@@ -17,9 +17,17 @@ var Start = React.createClass({
     if (!loc) {
       return;
     }
-    loc.obj.increment('clicks');
-    loc.obj.save();
-    EnvironmentStore.setLocation(loc.obj);
+    loc.increment('clicks');
+    loc.save();
+    EnvironmentStore.setLocation(loc);
+  },
+
+  componentDidMount() {
+    document.body.style.backgroundColor = Colors.green500;
+  },
+
+  componentWillUnmount() {
+    document.body.style.backgroundColor = '#fff';
   },
 
   render: function() {
@@ -29,7 +37,7 @@ var Start = React.createClass({
     };
 
     return (
-      <div style={{
+      <div className="start-page" style={{
         width: '100%',
         height: '100%',
       }}>

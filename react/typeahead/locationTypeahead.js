@@ -49,6 +49,13 @@ var Template = React.createClass({
 });
 
 var LocationTypeahead = React.createClass({
+  getDefaultProps() {
+    return {
+      onSelect: () => {
+      },
+    };
+  },
+
   onTextChange(event) {
     var value = event.target.value.toLowerCase();
     this.setState({
@@ -84,25 +91,30 @@ var LocationTypeahead = React.createClass({
   getInitialState: function() {
     return {
       value: '',
-      searchFocused: false
+      searchFocused: false,
+      location: null,
     };
+  },
+
+  getSelection() {
+    return this.state.location;
+  },
+
+  clearSelection() {
+    this.setState(this.getInitialState());
   },
 
   onSelectLocation: function(loc) {
     if (!loc) {
       return;
     }
-    this.props.onSelect(loc);
+    var obj = loc.obj;
+    this.setState({
+      location: obj,
+      value: obj.get('location').get('label'),
+    });
+    this.props.onSelect(obj);
   },
-
-  componentDidMount() {
-    document.body.style.backgroundColor = Colors.green500;
-  },
-
-  componentWillUnmount() {
-    document.body.style.backgroundColor = '#fff';
-  },
-
 
   onSearchFocus() {
     this.setState({

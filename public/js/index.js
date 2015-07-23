@@ -56573,6 +56573,7 @@ var parseKeys = require('./parsekeys.js');
 var ParseList = require('./parselist.js');
 var Router = require('react-router');
 var Navigation = Router.Navigation;
+var LocationTypeahead = require('locationTypeahead');
 
 var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 
@@ -56678,6 +56679,9 @@ var ResultList = React.createClass({
   },
 
   closeWishModal: function closeWishModal() {
+    this.refs.location.clearSelection();
+    this.refs.email.clearValue();
+    this.refs.text.clearValue();
     this.refs.wishModal.dismiss();
   },
 
@@ -56690,7 +56694,8 @@ var ResultList = React.createClass({
       var wish = new Wish();
       wish.set({
         text: text,
-        email: this.refs.email.getValue()
+        email: this.refs.email.getValue(),
+        location: this.refs.location.getSelection()
       });
       wish.save(null, {
         success: (function (o) {
@@ -56731,21 +56736,33 @@ var ResultList = React.createClass({
       React.createElement(
         Dialog,
         {
+          autoScrollBodyContent: true,
           ref: 'wishModal',
           title: 'What book would you like to see?',
           modal: true,
           actions: actions },
-        React.createElement(TextField, {
-          hintText: 'Tell us the title or the topic',
-          ref: 'text',
-          fullWidth: true,
-          multiLine: true
-        }),
-        React.createElement(TextField, {
-          hintText: 'email',
-          ref: 'email',
-          type: 'email'
-        })
+        React.createElement(
+          'div',
+          { style: {
+              height: '220px',
+              overflowY: 'auto',
+              overflowX: 'hidden'
+            } },
+          React.createElement(TextField, {
+            hintText: 'Tell us the title or the topic',
+            ref: 'text',
+            fullWidth: true,
+            multiLine: true
+          }),
+          React.createElement(LocationTypeahead, {
+            ref: 'location'
+          }),
+          React.createElement(TextField, {
+            hintText: 'email',
+            ref: 'email',
+            type: 'email'
+          })
+        )
       ),
       React.createElement(Snackbar, {
         ref: 'snackbar',
@@ -56892,7 +56909,7 @@ var Search = React.createClass({
 
 module.exports = Search;
 
-},{"./parsekeys.js":"/fieldguideguru/fieldguideguruserver/react/parsekeys.js","./parselist.js":"/fieldguideguru/fieldguideguruserver/react/parselist.js","material-ui":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/index.js","material-ui/lib/drop-down-menu":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/drop-down-menu.js","material-ui/lib/paper":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/paper.js","material-ui/lib/toolbar/toolbar":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/toolbar/toolbar.js","material-ui/lib/toolbar/toolbar-group":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/toolbar/toolbar-group.js","parse":"/fieldguideguru/fieldguideguruserver/node_modules/parse/build/parse-latest.js","react":"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js","react-router":"/fieldguideguru/fieldguideguruserver/node_modules/react-router/lib/index.js","react/addons":"/fieldguideguru/fieldguideguruserver/node_modules/react/addons.js"}],"/fieldguideguru/fieldguideguruserver/react/start.js":[function(require,module,exports){
+},{"./parsekeys.js":"/fieldguideguru/fieldguideguruserver/react/parsekeys.js","./parselist.js":"/fieldguideguru/fieldguideguruserver/react/parselist.js","locationTypeahead":"/fieldguideguru/fieldguideguruserver/react/typeahead/locationTypeahead.js","material-ui":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/index.js","material-ui/lib/drop-down-menu":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/drop-down-menu.js","material-ui/lib/paper":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/paper.js","material-ui/lib/toolbar/toolbar":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/toolbar/toolbar.js","material-ui/lib/toolbar/toolbar-group":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/toolbar/toolbar-group.js","parse":"/fieldguideguru/fieldguideguruserver/node_modules/parse/build/parse-latest.js","react":"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js","react-router":"/fieldguideguru/fieldguideguruserver/node_modules/react-router/lib/index.js","react/addons":"/fieldguideguru/fieldguideguruserver/node_modules/react/addons.js"}],"/fieldguideguru/fieldguideguruserver/react/start.js":[function(require,module,exports){
 'use strict';
 var React = require('react');
 var Colors = require('material-ui/lib/styles/colors');
@@ -56914,9 +56931,17 @@ var Start = React.createClass({
     if (!loc) {
       return;
     }
-    loc.obj.increment('clicks');
-    loc.obj.save();
-    EnvironmentStore.setLocation(loc.obj);
+    loc.increment('clicks');
+    loc.save();
+    EnvironmentStore.setLocation(loc);
+  },
+
+  componentDidMount: function componentDidMount() {
+    document.body.style.backgroundColor = Colors.green500;
+  },
+
+  componentWillUnmount: function componentWillUnmount() {
+    document.body.style.backgroundColor = '#fff';
   },
 
   render: function render() {
@@ -56927,7 +56952,7 @@ var Start = React.createClass({
 
     return React.createElement(
       'div',
-      { style: {
+      { className: 'start-page', style: {
           width: '100%',
           height: '100%'
         } },
@@ -57011,6 +57036,12 @@ var Template = React.createClass({
 var LocationTypeahead = React.createClass({
   displayName: 'LocationTypeahead',
 
+  getDefaultProps: function getDefaultProps() {
+    return {
+      onSelect: function onSelect() {}
+    };
+  },
+
   onTextChange: function onTextChange(event) {
     var _this = this;
 
@@ -57048,23 +57079,29 @@ var LocationTypeahead = React.createClass({
   getInitialState: function getInitialState() {
     return {
       value: '',
-      searchFocused: false
+      searchFocused: false,
+      location: null
     };
+  },
+
+  getSelection: function getSelection() {
+    return this.state.location;
+  },
+
+  clearSelection: function clearSelection() {
+    this.setState(this.getInitialState());
   },
 
   onSelectLocation: function onSelectLocation(loc) {
     if (!loc) {
       return;
     }
-    this.props.onSelect(loc);
-  },
-
-  componentDidMount: function componentDidMount() {
-    document.body.style.backgroundColor = Colors.green500;
-  },
-
-  componentWillUnmount: function componentWillUnmount() {
-    document.body.style.backgroundColor = '#fff';
+    var obj = loc.obj;
+    this.setState({
+      location: obj,
+      value: obj.get('location').get('label')
+    });
+    this.props.onSelect(obj);
   },
 
   onSearchFocus: function onSearchFocus() {
@@ -57123,10 +57160,10 @@ module.exports = LocationTypeahead;
 var React = require('react'),
     noop = function noop() {};
 
-var List = require('material-ui/lib/lists/list');
-var ListItem = require('material-ui/lib/lists/list-item');
-var ListDivider = require('material-ui/lib/lists/list-divider');
-var TextField = require('material-ui/lib/text-field');
+var List = require('material-ui').List;
+var ListItem = require('material-ui').ListItem;
+var ListDivider = require('material-ui').ListDivider;
+var TextField = require('material-ui').TextField;
 
 module.exports = React.createClass({
     displayName: 'Typeahead',
@@ -57228,8 +57265,7 @@ module.exports = React.createClass({
             'div',
             {
                 style: {
-                    position: 'absoulte',
-                    width: '100%'
+                    position: 'relative'
                 } },
             this.renderInput(),
             this.renderDropdown()
@@ -57320,6 +57356,7 @@ module.exports = React.createClass({
             'div',
             {
                 style: {
+                    backgroundColor: '#fff',
                     width: '100%',
                     display: isDropdownVisible ? 'block' : 'none'
                 } },
@@ -57559,4 +57596,4 @@ module.exports = React.createClass({
 });
 
 }).call(this,require('_process'))
-},{"_process":"/fieldguideguru/fieldguideguruserver/node_modules/browserify/node_modules/process/browser.js","material-ui/lib/lists/list":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/lists/list.js","material-ui/lib/lists/list-divider":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/lists/list-divider.js","material-ui/lib/lists/list-item":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/lists/list-item.js","material-ui/lib/text-field":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/text-field.js","react":"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js"}]},{},["/fieldguideguru/fieldguideguruserver/react/main.js"]);
+},{"_process":"/fieldguideguru/fieldguideguruserver/node_modules/browserify/node_modules/process/browser.js","material-ui":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/index.js","react":"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js"}]},{},["/fieldguideguru/fieldguideguruserver/react/main.js"]);

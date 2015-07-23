@@ -14,6 +14,7 @@ var parseKeys = require('./parsekeys.js');
 var ParseList = require('./parselist.js');
 var Router = require('react-router');
 var Navigation = Router.Navigation;
+var LocationTypeahead = require('locationTypeahead');
 
 var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 
@@ -107,6 +108,9 @@ var ResultList = React.createClass({
   },
 
   closeWishModal() {
+    this.refs.location.clearSelection();
+    this.refs.email.clearValue();
+    this.refs.text.clearValue();
     this.refs.wishModal.dismiss();
   },
 
@@ -117,7 +121,8 @@ var ResultList = React.createClass({
       var wish = new Wish();
       wish.set({
         text: text,
-        email: this.refs.email.getValue()
+        email: this.refs.email.getValue(),
+        location: this.refs.location.getSelection(),
       });
       wish.save(null, {
         success: (o) => {
@@ -154,21 +159,31 @@ var ResultList = React.createClass({
           addMoreFunction={this.addMore}
         />
         <Dialog
+          autoScrollBodyContent={true}
           ref="wishModal"
           title="What book would you like to see?"
           modal={true}
           actions={actions}>
-          <TextField
-            hintText="Tell us the title or the topic"
-            ref="text"
-            fullWidth={true}
-            multiLine={true}
-          />
-          <TextField
-            hintText="email"
-            ref="email"
-            type="email"
-          />
+          <div style={{
+            height: '220px',
+            overflowY: 'auto',
+            overflowX: 'hidden',
+          }}>
+            <TextField
+              hintText="Tell us the title or the topic"
+              ref="text"
+              fullWidth={true}
+              multiLine={true}
+            />
+            <LocationTypeahead
+              ref="location"
+            />
+            <TextField
+              hintText="email"
+              ref="email"
+              type="email"
+            />
+          </div>
         </Dialog>
         <Snackbar
           ref="snackbar"

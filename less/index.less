@@ -84,6 +84,9 @@ body {
 
 .search-box-container {
   width: 300px;
+}
+
+.start-page .search-box-container {
   background-color: #fff;
   margin: auto;
   border-radius: 5px;
@@ -147,12 +150,14 @@ body {
 
 
 @media (max-width: 450px) {
-  .search-box-container.focused.hasValue {
-    position: fixed;
-    top: 0;
-    overflow: auto;
-    height: 100%;
-    width: 100%;
+  .search-page {
+    .search-box-container.focused.hasValue {
+      position: fixed;
+      top: 0;
+      overflow: auto;
+      height: 100%;
+      width: 100%;
+    }
   }
 
   .book-image-section {
