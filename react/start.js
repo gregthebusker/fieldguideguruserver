@@ -46,7 +46,7 @@ var Start = React.createClass({
             textAlign: 'center',
           }}>
             <MainIcon />
-            Where to you need a field guide to?
+            Where do you need a field guide to?
           </h1>
           <LocationTypeahead
             onSelect={this.onSelectLocation}

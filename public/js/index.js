@@ -56994,7 +56994,7 @@ var Start = React.createClass({
               textAlign: 'center'
             } },
           React.createElement(MainIcon, null),
-          'Where to you need a field guide to?'
+          'Where do you need a field guide to?'
         ),
         React.createElement(LocationTypeahead, {
           onSelect: this.onSelectLocation
