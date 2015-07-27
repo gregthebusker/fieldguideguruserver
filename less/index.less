@@ -17,11 +17,14 @@ body {
   fill: #9E9E9E !important;
 }
 
+@search-card-width: 172px;
+@search-card-margin: 5px;
+
 .search-result-card {
   height: 300px;
-  width: 172px;
+  width: @search-card-width;
   float: left;
-  margin: 5px;
+  margin: @search-card-margin;
   cursor: pointer;
   border: 1px solid #e5e5e5;
 }
@@ -32,6 +35,11 @@ body {
   align-items: center;
   text-align: center;
   justify-content: space-around;
+
+  & > div,
+  & > h3 {
+    max-width: @search-card-width - @search-card-margin;
+  }
 }
 
 .search-result-content {
