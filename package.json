@@ -24,7 +24,8 @@
     "react-infinite-scroll": "^0.1.5",
     "newrelic": "^1.20.1",
     "react-select": "^0.5.4",
-    "react-input-autosize": "^0.4.5"
+    "react-input-autosize": "^0.4.5",
+    "googleapis": "~2.1.1"
   },
   "devDependencies": {
     "browserify": "^10.2.4",

@@ -16,6 +16,7 @@ var DefaultRoute = Router.DefaultRoute;
 var Navigation = Router.Navigation;
 var LocationEntities = require('./LocationEntities.js');
 var Collections = require('collectionspage');
+var AddEntityPage = require('AddEntityPage');
 
 var mui = require('material-ui');
 var ThemeManager = new mui.Styles.ThemeManager();
@@ -110,6 +111,7 @@ var routes = (
       <Route name="book-id" path="book/:bookId" handler={Book} />
       <Route name="collections" path="collections" handler={Collections} />
       <Route name="start" path="start" handler={Start} />
+      <Route name="add" path="add" handler={AddEntityPage} />
     </Route>
   </Route>
 );

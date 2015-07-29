@@ -1,47 +1,17 @@
-(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/fieldguideguru/fieldguideguruserver/node_modules/babel/node_modules/babel-core/lib/babel/polyfill.js":[function(require,module,exports){
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({"/fieldguideguru/fieldguideguruserver/node_modules/babel/node_modules/babel-core/lib/polyfill.js":[function(require,module,exports){
 (function (global){
 "use strict";
-
-var _toolsProtectJs2 = require("./tools/protect.js");
-
-var _toolsProtectJs3 = _interopRequireDefault(_toolsProtectJs2);
 
 require("core-js/shim");
 
 require("regenerator/runtime");
-
-_toolsProtectJs3["default"](module);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 if (global._babelPolyfill) {
   throw new Error("only one instance of babel/polyfill is allowed");
 }
 global._babelPolyfill = true;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./tools/protect.js":"/fieldguideguru/fieldguideguruserver/node_modules/babel/node_modules/babel-core/lib/babel/tools/protect.js","core-js/shim":"/fieldguideguru/fieldguideguruserver/node_modules/babel/node_modules/babel-core/node_modules/core-js/shim.js","regenerator/runtime":"/fieldguideguru/fieldguideguruserver/node_modules/babel/node_modules/babel-core/node_modules/regenerator/runtime.js"}],"/fieldguideguru/fieldguideguruserver/node_modules/babel/node_modules/babel-core/lib/babel/tools/protect.js":[function(require,module,exports){
-(function (__dirname){
-"use strict";
-
-exports.__esModule = true;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var _path = require("path");
-
-var _path2 = _interopRequireDefault(_path);
-
-var root = _path2["default"].resolve(__dirname, "../../../");
-
-exports["default"] = function (module) {
-  if (module.parent && module.parent.filename.indexOf(root) !== 0) {
-    throw new Error("Don't hotlink internal Babel files.");
-  }
-};
-
-module.exports = exports["default"];
-}).call(this,"/node_modules/babel/node_modules/babel-core/lib/babel/tools")
-},{"path":"/fieldguideguru/fieldguideguruserver/node_modules/browserify/node_modules/path-browserify/index.js"}],"/fieldguideguru/fieldguideguruserver/node_modules/babel/node_modules/babel-core/node_modules/core-js/modules/$.array-includes.js":[function(require,module,exports){
+},{"core-js/shim":"/fieldguideguru/fieldguideguruserver/node_modules/babel/node_modules/babel-core/node_modules/core-js/shim.js","regenerator/runtime":"/fieldguideguru/fieldguideguruserver/node_modules/babel/node_modules/babel-core/node_modules/regenerator/runtime.js"}],"/fieldguideguru/fieldguideguruserver/node_modules/babel/node_modules/babel-core/node_modules/core-js/modules/$.array-includes.js":[function(require,module,exports){
 // false -> Array#indexOf
 // true  -> Array#includes
 var $ = require('./$');
@@ -3663,240 +3633,12 @@ module.exports = require('./modules/$').core;
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{"_process":"/fieldguideguru/fieldguideguruserver/node_modules/browserify/node_modules/process/browser.js"}],"/fieldguideguru/fieldguideguruserver/node_modules/babel/node_modules/babel-core/polyfill.js":[function(require,module,exports){
-module.exports = require("./lib/babel/polyfill");
+module.exports = require("./lib/polyfill");
 
-},{"./lib/babel/polyfill":"/fieldguideguru/fieldguideguruserver/node_modules/babel/node_modules/babel-core/lib/babel/polyfill.js"}],"/fieldguideguru/fieldguideguruserver/node_modules/babel/polyfill.js":[function(require,module,exports){
+},{"./lib/polyfill":"/fieldguideguru/fieldguideguruserver/node_modules/babel/node_modules/babel-core/lib/polyfill.js"}],"/fieldguideguru/fieldguideguruserver/node_modules/babel/polyfill.js":[function(require,module,exports){
 module.exports = require("babel-core/polyfill");
 
-},{"babel-core/polyfill":"/fieldguideguru/fieldguideguruserver/node_modules/babel/node_modules/babel-core/polyfill.js"}],"/fieldguideguru/fieldguideguruserver/node_modules/browserify/node_modules/path-browserify/index.js":[function(require,module,exports){
-(function (process){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-// resolves . and .. elements in a path array with directory names there
-// must be no slashes, empty elements, or device names (c:\) in the array
-// (so also no leading and trailing slashes - it does not distinguish
-// relative and absolute paths)
-function normalizeArray(parts, allowAboveRoot) {
-  // if the path tries to go above the root, `up` ends up > 0
-  var up = 0;
-  for (var i = parts.length - 1; i >= 0; i--) {
-    var last = parts[i];
-    if (last === '.') {
-      parts.splice(i, 1);
-    } else if (last === '..') {
-      parts.splice(i, 1);
-      up++;
-    } else if (up) {
-      parts.splice(i, 1);
-      up--;
-    }
-  }
-
-  // if the path is allowed to go above the root, restore leading ..s
-  if (allowAboveRoot) {
-    for (; up--; up) {
-      parts.unshift('..');
-    }
-  }
-
-  return parts;
-}
-
-// Split a filename into [root, dir, basename, ext], unix version
-// 'root' is just a slash, or nothing.
-var splitPathRe =
-    /^(\/?|)([\s\S]*?)((?:\.{1,2}|[^\/]+?|)(\.[^.\/]*|))(?:[\/]*)$/;
-var splitPath = function(filename) {
-  return splitPathRe.exec(filename).slice(1);
-};
-
-// path.resolve([from ...], to)
-// posix version
-exports.resolve = function() {
-  var resolvedPath = '',
-      resolvedAbsolute = false;
-
-  for (var i = arguments.length - 1; i >= -1 && !resolvedAbsolute; i--) {
-    var path = (i >= 0) ? arguments[i] : process.cwd();
-
-    // Skip empty and invalid entries
-    if (typeof path !== 'string') {
-      throw new TypeError('Arguments to path.resolve must be strings');
-    } else if (!path) {
-      continue;
-    }
-
-    resolvedPath = path + '/' + resolvedPath;
-    resolvedAbsolute = path.charAt(0) === '/';
-  }
-
-  // At this point the path should be resolved to a full absolute path, but
-  // handle relative paths to be safe (might happen when process.cwd() fails)
-
-  // Normalize the path
-  resolvedPath = normalizeArray(filter(resolvedPath.split('/'), function(p) {
-    return !!p;
-  }), !resolvedAbsolute).join('/');
-
-  return ((resolvedAbsolute ? '/' : '') + resolvedPath) || '.';
-};
-
-// path.normalize(path)
-// posix version
-exports.normalize = function(path) {
-  var isAbsolute = exports.isAbsolute(path),
-      trailingSlash = substr(path, -1) === '/';
-
-  // Normalize the path
-  path = normalizeArray(filter(path.split('/'), function(p) {
-    return !!p;
-  }), !isAbsolute).join('/');
-
-  if (!path && !isAbsolute) {
-    path = '.';
-  }
-  if (path && trailingSlash) {
-    path += '/';
-  }
-
-  return (isAbsolute ? '/' : '') + path;
-};
-
-// posix version
-exports.isAbsolute = function(path) {
-  return path.charAt(0) === '/';
-};
-
-// posix version
-exports.join = function() {
-  var paths = Array.prototype.slice.call(arguments, 0);
-  return exports.normalize(filter(paths, function(p, index) {
-    if (typeof p !== 'string') {
-      throw new TypeError('Arguments to path.join must be strings');
-    }
-    return p;
-  }).join('/'));
-};
-
-
-// path.relative(from, to)
-// posix version
-exports.relative = function(from, to) {
-  from = exports.resolve(from).substr(1);
-  to = exports.resolve(to).substr(1);
-
-  function trim(arr) {
-    var start = 0;
-    for (; start < arr.length; start++) {
-      if (arr[start] !== '') break;
-    }
-
-    var end = arr.length - 1;
-    for (; end >= 0; end--) {
-      if (arr[end] !== '') break;
-    }
-
-    if (start > end) return [];
-    return arr.slice(start, end - start + 1);
-  }
-
-  var fromParts = trim(from.split('/'));
-  var toParts = trim(to.split('/'));
-
-  var length = Math.min(fromParts.length, toParts.length);
-  var samePartsLength = length;
-  for (var i = 0; i < length; i++) {
-    if (fromParts[i] !== toParts[i]) {
-      samePartsLength = i;
-      break;
-    }
-  }
-
-  var outputParts = [];
-  for (var i = samePartsLength; i < fromParts.length; i++) {
-    outputParts.push('..');
-  }
-
-  outputParts = outputParts.concat(toParts.slice(samePartsLength));
-
-  return outputParts.join('/');
-};
-
-exports.sep = '/';
-exports.delimiter = ':';
-
-exports.dirname = function(path) {
-  var result = splitPath(path),
-      root = result[0],
-      dir = result[1];
-
-  if (!root && !dir) {
-    // No dirname whatsoever
-    return '.';
-  }
-
-  if (dir) {
-    // It has a dirname, strip trailing slash
-    dir = dir.substr(0, dir.length - 1);
-  }
-
-  return root + dir;
-};
-
-
-exports.basename = function(path, ext) {
-  var f = splitPath(path)[2];
-  // TODO: make this comparison case-insensitive on windows?
-  if (ext && f.substr(-1 * ext.length) === ext) {
-    f = f.substr(0, f.length - ext.length);
-  }
-  return f;
-};
-
-
-exports.extname = function(path) {
-  return splitPath(path)[3];
-};
-
-function filter (xs, f) {
-    if (xs.filter) return xs.filter(f);
-    var res = [];
-    for (var i = 0; i < xs.length; i++) {
-        if (f(xs[i], i, xs)) res.push(xs[i]);
-    }
-    return res;
-}
-
-// String.prototype.substr - negative index don't work in IE8
-var substr = 'ab'.substr(-1) === 'b'
-    ? function (str, start, len) { return str.substr(start, len) }
-    : function (str, start, len) {
-        if (start < 0) start = str.length + start;
-        return str.substr(start, len);
-    }
-;
-
-}).call(this,require('_process'))
-},{"_process":"/fieldguideguru/fieldguideguruserver/node_modules/browserify/node_modules/process/browser.js"}],"/fieldguideguru/fieldguideguruserver/node_modules/browserify/node_modules/process/browser.js":[function(require,module,exports){
+},{"babel-core/polyfill":"/fieldguideguru/fieldguideguruserver/node_modules/babel/node_modules/babel-core/polyfill.js"}],"/fieldguideguru/fieldguideguruserver/node_modules/browserify/node_modules/process/browser.js":[function(require,module,exports){
 // shim for using process in browser
 
 var process = module.exports = {};
@@ -19475,12 +19217,11 @@ module.exports = Object.assign || function (target, source) {
 (function (process){
 /*!
  * Parse JavaScript SDK
- * Version: 1.4.2
- * Built: Thu Apr 09 2015 17:20:31
+ * Version: 1.5.0
+ * Built: Fri Jul 10 2015 17:05:46
  * http://parse.com
  *
- * Copyright 2015 Parse, Inc.
- * The Parse JavaScript SDK is freely distributable under the MIT license.
+ * Copyright 2015 Parse, LLC
  *
  * Includes: Underscore.js
  * Copyright 2009-2012 Jeremy Ashkenas, DocumentCloud Inc.
@@ -19488,7 +19229,7 @@ module.exports = Object.assign || function (target, source) {
  */
 (function(root) {
   root.Parse = root.Parse || {};
-  root.Parse.VERSION = "js1.4.2";
+  root.Parse.VERSION = "js1.5.0";
 }(this));
 //     Underscore.js 1.4.4
 //     http://underscorejs.org
@@ -21129,6 +20870,8 @@ module.exports = Object.assign || function (target, source) {
     dataObject._ApplicationId = Parse.applicationId;
     if (!useMasterKey) {
       dataObject._JavaScriptKey = Parse.javaScriptKey;
+    } else if (!Parse.masterKey) {
+      throw new Error('Cannot use the Master Key, it has not been provided.');
     } else {
       dataObject._MasterKey = Parse.masterKey;
     }
@@ -21140,6 +20883,9 @@ module.exports = Object.assign || function (target, source) {
 
       if (sessionToken) {
         return Parse.Promise.as({ _sessionToken: sessionToken });
+      }
+      if (!Parse.User._canUseCurrentUser()) {
+        return Parse.Promise.as(null);
       }
 
       return Parse.User._currentAsync();
@@ -21220,6 +20966,9 @@ module.exports = Object.assign || function (target, source) {
       return value.toJSON();
     }
     if (_.isDate(value)) {
+      if (isNaN(value)) {
+        throw new Error('Cannot encode invalid Date');
+      }
       return { "__type": "Date", "iso": value.toJSON() };
     }
     if (value instanceof Parse.GeoPoint) {
@@ -23770,207 +23519,6 @@ module.exports = Object.assign || function (target, source) {
     return chunks.join("");
   };
 
-  // TODO(klimt): Move this list to the server.
-  // A list of file extensions to mime types as found here:
-  // http://stackoverflow.com/questions/58510/using-net-how-can-you-find-the-
-  //     mime-type-of-a-file-based-on-the-file-signature
-  var mimeTypes = {
-    ai: "application/postscript",
-    aif: "audio/x-aiff",
-    aifc: "audio/x-aiff",
-    aiff: "audio/x-aiff",
-    asc: "text/plain",
-    atom: "application/atom+xml",
-    au: "audio/basic",
-    avi: "video/x-msvideo",
-    bcpio: "application/x-bcpio",
-    bin: "application/octet-stream",
-    bmp: "image/bmp",
-    cdf: "application/x-netcdf",
-    cgm: "image/cgm",
-    "class": "application/octet-stream",
-    cpio: "application/x-cpio",
-    cpt: "application/mac-compactpro",
-    csh: "application/x-csh",
-    css: "text/css",
-    dcr: "application/x-director",
-    dif: "video/x-dv",
-    dir: "application/x-director",
-    djv: "image/vnd.djvu",
-    djvu: "image/vnd.djvu",
-    dll: "application/octet-stream",
-    dmg: "application/octet-stream",
-    dms: "application/octet-stream",
-    doc: "application/msword",
-    docx: "application/vnd.openxmlformats-officedocument.wordprocessingml." +
-          "document",
-    dotx: "application/vnd.openxmlformats-officedocument.wordprocessingml." +
-          "template",
-    docm: "application/vnd.ms-word.document.macroEnabled.12",
-    dotm: "application/vnd.ms-word.template.macroEnabled.12",
-    dtd: "application/xml-dtd",
-    dv: "video/x-dv",
-    dvi: "application/x-dvi",
-    dxr: "application/x-director",
-    eps: "application/postscript",
-    etx: "text/x-setext",
-    exe: "application/octet-stream",
-    ez: "application/andrew-inset",
-    gif: "image/gif",
-    gram: "application/srgs",
-    grxml: "application/srgs+xml",
-    gtar: "application/x-gtar",
-    hdf: "application/x-hdf",
-    hqx: "application/mac-binhex40",
-    htm: "text/html",
-    html: "text/html",
-    ice: "x-conference/x-cooltalk",
-    ico: "image/x-icon",
-    ics: "text/calendar",
-    ief: "image/ief",
-    ifb: "text/calendar",
-    iges: "model/iges",
-    igs: "model/iges",
-    jnlp: "application/x-java-jnlp-file",
-    jp2: "image/jp2",
-    jpe: "image/jpeg",
-    jpeg: "image/jpeg",
-    jpg: "image/jpeg",
-    js: "application/x-javascript",
-    kar: "audio/midi",
-    latex: "application/x-latex",
-    lha: "application/octet-stream",
-    lzh: "application/octet-stream",
-    m3u: "audio/x-mpegurl",
-    m4a: "audio/mp4a-latm",
-    m4b: "audio/mp4a-latm",
-    m4p: "audio/mp4a-latm",
-    m4u: "video/vnd.mpegurl",
-    m4v: "video/x-m4v",
-    mac: "image/x-macpaint",
-    man: "application/x-troff-man",
-    mathml: "application/mathml+xml",
-    me: "application/x-troff-me",
-    mesh: "model/mesh",
-    mid: "audio/midi",
-    midi: "audio/midi",
-    mif: "application/vnd.mif",
-    mov: "video/quicktime",
-    movie: "video/x-sgi-movie",
-    mp2: "audio/mpeg",
-    mp3: "audio/mpeg",
-    mp4: "video/mp4",
-    mpe: "video/mpeg",
-    mpeg: "video/mpeg",
-    mpg: "video/mpeg",
-    mpga: "audio/mpeg",
-    ms: "application/x-troff-ms",
-    msh: "model/mesh",
-    mxu: "video/vnd.mpegurl",
-    nc: "application/x-netcdf",
-    oda: "application/oda",
-    ogg: "application/ogg",
-    pbm: "image/x-portable-bitmap",
-    pct: "image/pict",
-    pdb: "chemical/x-pdb",
-    pdf: "application/pdf",
-    pgm: "image/x-portable-graymap",
-    pgn: "application/x-chess-pgn",
-    pic: "image/pict",
-    pict: "image/pict",
-    png: "image/png", 
-    pnm: "image/x-portable-anymap",
-    pnt: "image/x-macpaint",
-    pntg: "image/x-macpaint",
-    ppm: "image/x-portable-pixmap",
-    ppt: "application/vnd.ms-powerpoint",
-    pptx: "application/vnd.openxmlformats-officedocument.presentationml." +
-          "presentation",
-    potx: "application/vnd.openxmlformats-officedocument.presentationml." +
-          "template",
-    ppsx: "application/vnd.openxmlformats-officedocument.presentationml." +
-          "slideshow",
-    ppam: "application/vnd.ms-powerpoint.addin.macroEnabled.12",
-    pptm: "application/vnd.ms-powerpoint.presentation.macroEnabled.12",
-    potm: "application/vnd.ms-powerpoint.template.macroEnabled.12",
-    ppsm: "application/vnd.ms-powerpoint.slideshow.macroEnabled.12",
-    ps: "application/postscript",
-    qt: "video/quicktime",
-    qti: "image/x-quicktime",
-    qtif: "image/x-quicktime",
-    ra: "audio/x-pn-realaudio",
-    ram: "audio/x-pn-realaudio",
-    ras: "image/x-cmu-raster",
-    rdf: "application/rdf+xml",
-    rgb: "image/x-rgb",
-    rm: "application/vnd.rn-realmedia",
-    roff: "application/x-troff",
-    rtf: "text/rtf",
-    rtx: "text/richtext",
-    sgm: "text/sgml",
-    sgml: "text/sgml",
-    sh: "application/x-sh",
-    shar: "application/x-shar",
-    silo: "model/mesh",
-    sit: "application/x-stuffit",
-    skd: "application/x-koan",
-    skm: "application/x-koan",
-    skp: "application/x-koan",
-    skt: "application/x-koan",
-    smi: "application/smil",
-    smil: "application/smil",
-    snd: "audio/basic",
-    so: "application/octet-stream",
-    spl: "application/x-futuresplash",
-    src: "application/x-wais-source",
-    sv4cpio: "application/x-sv4cpio",
-    sv4crc: "application/x-sv4crc",
-    svg: "image/svg+xml",
-    swf: "application/x-shockwave-flash",
-    t: "application/x-troff",
-    tar: "application/x-tar",
-    tcl: "application/x-tcl",
-    tex: "application/x-tex",
-    texi: "application/x-texinfo",
-    texinfo: "application/x-texinfo",
-    tif: "image/tiff",
-    tiff: "image/tiff",
-    tr: "application/x-troff",
-    tsv: "text/tab-separated-values",
-    txt: "text/plain",
-    ustar: "application/x-ustar",
-    vcd: "application/x-cdlink",
-    vrml: "model/vrml",
-    vxml: "application/voicexml+xml",
-    wav: "audio/x-wav",
-    wbmp: "image/vnd.wap.wbmp",
-    wbmxl: "application/vnd.wap.wbxml",
-    wml: "text/vnd.wap.wml",
-    wmlc: "application/vnd.wap.wmlc",
-    wmls: "text/vnd.wap.wmlscript",
-    wmlsc: "application/vnd.wap.wmlscriptc",
-    wrl: "model/vrml",
-    xbm: "image/x-xbitmap",
-    xht: "application/xhtml+xml",
-    xhtml: "application/xhtml+xml",
-    xls: "application/vnd.ms-excel",
-    xml: "application/xml",
-    xpm: "image/x-xpixmap",
-    xsl: "application/xml",
-    xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-    xltx: "application/vnd.openxmlformats-officedocument.spreadsheetml." +
-          "template",
-    xlsm: "application/vnd.ms-excel.sheet.macroEnabled.12",
-    xltm: "application/vnd.ms-excel.template.macroEnabled.12",
-    xlam: "application/vnd.ms-excel.addin.macroEnabled.12",
-    xlsb: "application/vnd.ms-excel.sheet.binary.macroEnabled.12",
-    xslt: "application/xslt+xml",
-    xul: "application/vnd.mozilla.xul+xml",
-    xwd: "image/x-xwindowdump",
-    xyz: "chemical/x-xyz",
-    zip: "application/zip"
-  };
-
   /**
    * Reads a File using a FileReader.
    * @param file {File} the File to read.
@@ -24048,10 +23596,10 @@ module.exports = Object.assign || function (target, source) {
     if (extension) {
       extension = extension[1].toLowerCase();
     }
-    var guessedType = type || mimeTypes[extension] || "text/plain";
+    var specifiedType = type || '';
 
     if (_.isArray(data)) {
-      this._source = Parse.Promise.as(encodeBase64(data), guessedType);
+      this._source = Parse.Promise.as(encodeBase64(data), specifiedType);
     } else if (data && data.base64) {
       // if it contains data uri, extract based64 and the type out of it.
       /*jslint maxlen: 1000*/
@@ -24065,7 +23613,7 @@ module.exports = Object.assign || function (target, source) {
           (matches.length === 4 ? matches[3] : matches[2]), matches[1]
         );
       } else {
-        this._source = Parse.Promise.as(data.base64, guessedType);
+        this._source = Parse.Promise.as(data.base64, specifiedType);
       }
     } else if (typeof(File) !== "undefined" && data instanceof File) {
       this._source = readAsync(data, type);
@@ -24247,12 +23795,15 @@ module.exports = Object.assign || function (target, source) {
    * Valid options are:<ul>
    *   <li>useMasterKey: In Cloud Code and Node only, causes the Master Key to
    *     be used for this request.
+   *   <li>sessionToken: A valid session token, used for making a request on
+   *       behalf of a specific user.
    * </ul>
    */
   Parse.Object.saveAll = function(list, options) {
     options = options || {};
     return Parse.Object._deepSaveAsync(list, {
-      useMasterKey: options.useMasterKey
+      useMasterKey: options.useMasterKey,
+      sessionToken: options.sessionToken
     })._thenRunCallbacks(options);
   };
 
@@ -24305,6 +23856,8 @@ module.exports = Object.assign || function (target, source) {
    * Valid options are:<ul>
    *   <li>useMasterKey: In Cloud Code and Node only, causes the Master Key to
    *     be used for this request.
+   *   <li>sessionToken: A valid session token, used for making a request on
+   *       behalf of a specific user.
    * </ul>
    * @return {Parse.Promise} A promise that is fulfilled when the destroyAll
    *     completes.
@@ -24326,6 +23879,7 @@ module.exports = Object.assign || function (target, source) {
             route: "batch",
             method: "POST",
             useMasterKey: options.useMasterKey,
+            sessionToken: options.sessionToken,
             data: {
               requests: _.map(batch, function(object) {
                 return {
@@ -25130,6 +24684,8 @@ module.exports = Object.assign || function (target, source) {
      *   <li>error: An Backbone-style error callback.
      *   <li>useMasterKey: In Cloud Code and Node only, causes the Master Key to
      *     be used for this request.
+     *   <li>sessionToken: A valid session token, used for making a request on
+     *       behalf of a specific user.
      * </ul>
      * @return {Parse.Promise} A promise that is fulfilled when the fetch
      *     completes.
@@ -25142,7 +24698,8 @@ module.exports = Object.assign || function (target, source) {
         route: "classes",
         className: this.className,
         objectId: this.id,
-        useMasterKey: options.useMasterKey
+        useMasterKey: options.useMasterKey,
+        sessionToken: options.sessionToken
       });
       return request.then(function(response, status, xhr) {
         self._finishFetch(self.parse(response, status, xhr), true);
@@ -25193,6 +24750,8 @@ module.exports = Object.assign || function (target, source) {
      *   <li>error: An Backbone-style error callback.
      *   <li>useMasterKey: In Cloud Code and Node only, causes the Master Key to
      *     be used for this request.
+     *   <li>sessionToken: A valid session token, used for making a request on
+     *       behalf of a specific user.
      * </ul>
      * @return {Parse.Promise} A promise that is fulfilled when the save
      *     completes.
@@ -25261,7 +24820,8 @@ module.exports = Object.assign || function (target, source) {
                                         unsavedFiles);
       if (unsavedChildren.length + unsavedFiles.length > 0) {
         return Parse.Object._deepSaveAsync(this.attributes, {
-          useMasterKey: options.useMasterKey
+          useMasterKey: options.useMasterKey,
+          sessionToken: options.sessionToken
         }).then(function() {
           return model.save(null, options);
         }, function(error) {
@@ -25291,6 +24851,7 @@ module.exports = Object.assign || function (target, source) {
           objectId: model.id,
           method: method,
           useMasterKey: options.useMasterKey,
+          sessionToken: options.sessionToken,
           data: json
         });
 
@@ -25330,6 +24891,8 @@ module.exports = Object.assign || function (target, source) {
      *   <li>error: An Backbone-style error callback.
      *   <li>useMasterKey: In Cloud Code and Node only, causes the Master Key to
      *     be used for this request.
+     *   <li>sessionToken: A valid session token, used for making a request on
+     *       behalf of a specific user.
      * </ul>
      * @return {Parse.Promise} A promise that is fulfilled when the destroy
      *     completes.
@@ -25355,7 +24918,8 @@ module.exports = Object.assign || function (target, source) {
         className: this.className,
         objectId: this.id,
         method: 'DELETE',
-        useMasterKey: options.useMasterKey
+        useMasterKey: options.useMasterKey,
+        sessionToken: options.sessionToken
       });
       return request.then(function() {
         if (options.wait) {
@@ -25918,6 +25482,7 @@ module.exports = Object.assign || function (target, source) {
             route: "batch",
             method: "POST",
             useMasterKey: options.useMasterKey,
+            sessionToken: options.sessionToken,
             data: {
               requests: _.map(batch, function(object) {
                 var json = object._getSaveJSON();
@@ -26376,6 +25941,8 @@ module.exports = Object.assign || function (target, source) {
      *   <li>error: An Backbone-style error callback.
      *   <li>useMasterKey: In Cloud Code and Node only, uses the Master Key for
      *       this request.
+     *   <li>sessionToken: A valid session token, used for making a request on
+     *       behalf of a specific user.
      * </ul>
      */
     fetch: function(options) {
@@ -26386,7 +25953,8 @@ module.exports = Object.assign || function (target, source) {
       var collection = this;
       var query = this.query || new Parse.Query(this.model);
       return query.find({
-        useMasterKey: options.useMasterKey
+        useMasterKey: options.useMasterKey,
+        sessionToken: options.sessionToken
       }).then(function(results) {
         if (options.add) {
           collection.add(results, options);
@@ -26413,6 +25981,8 @@ module.exports = Object.assign || function (target, source) {
      *   <li>error: An Backbone-style error callback.
      *   <li>useMasterKey: In Cloud Code and Node only, uses the Master Key for
      *       this request.
+     *   <li>sessionToken: A valid session token, used for making a request on
+     *       behalf of a specific user.
      * </ul>
      */
     create: function(model, options) {
@@ -27048,7 +26618,7 @@ module.exports = Object.assign || function (target, source) {
       // Overridden so that the user can be made the current user.
       var newOptions = _.clone(options);
       newOptions.success = function(model) {
-        model._handleSaveResult(true);
+        model._handleSaveResult(Parse.User._canUseCurrentUser());
         if (options.success) {
           options.success.apply(this, arguments);
         }
@@ -27071,6 +26641,11 @@ module.exports = Object.assign || function (target, source) {
      *     the login is complete.
      */
     logIn: function(options) {
+      if (!Parse.User._canUseCurrentUser()) {
+        throw new Error(
+          'It is not possible to log in on a server environment.'
+        );
+      }
       var model = this;
       options = options || {};
       var request = Parse._request({
@@ -27257,6 +26832,9 @@ module.exports = Object.assign || function (target, source) {
     // Whether to send a Revocable Session header
     _isRevocableSessionEnabled: false,
 
+    // Whether to enable a memory-unsafe current user in node.js
+    _enableUnsafeCurrentUser: false,
+
 
     // Class Methods
 
@@ -27317,6 +26895,11 @@ module.exports = Object.assign || function (target, source) {
      *     the login completes.
      */
     become: function(sessionToken, options) {
+      if (!Parse.User._canUseCurrentUser()) {
+        throw new Error(
+          'It is not secure to become a user on a node.js server environment.'
+        );
+      }
       options = options || {};
 
       var user = Parse.Object._create("_User");
@@ -27343,6 +26926,11 @@ module.exports = Object.assign || function (target, source) {
      *   destroyed on the server.
      */
     logOut: function() {
+      if (!Parse.User._canUseCurrentUser()) {
+        throw new Error(
+          'There is no current user user on a node.js server environment.'
+        );
+      }
       return Parse.User._currentAsync().then(function(currentUser) {
         var promise = Parse.Storage.removeItemAsync(
           Parse._getParsePath(Parse.User._CURRENT_USER_KEY));
@@ -27396,6 +26984,11 @@ module.exports = Object.assign || function (target, source) {
      * @return {Parse.Object} The currently logged in Parse.User.
      */
     current: function() {
+      if (!Parse.User._canUseCurrentUser()) {
+        throw new Error(
+          'There is no current user user on a node.js server environment.'
+        );
+      }
       if (Parse.Storage.async) {
         // We can't return the current user synchronously
         Parse.User._currentAsync();
@@ -27501,10 +27094,21 @@ module.exports = Object.assign || function (target, source) {
     enableRevocableSession: function(options) {
       options = options || {};
       Parse.User._isRevocableSessionEnabled = true;
-      if (!Parse._isNode && Parse.User.current()) {
+      if (Parse.User._canUseCurrentUser() && Parse.User.current()) {
         return Parse.User.current()._upgradeToRevocableSession(options);
       }
       return Parse.Promise.as()._thenRunCallbacks(options);
+    },
+
+    /**
+     *
+     */
+    enableUnsafeCurrentUser: function() {
+      Parse.User._enableUnsafeCurrentUser = true;
+    },
+
+    _canUseCurrentUser: function() {
+      return !Parse._isNode || Parse.User._enableUnsafeCurrentUser;
     },
 
     /**
@@ -27761,6 +27365,8 @@ module.exports = Object.assign || function (target, source) {
      *   <li>error: An Backbone-style error callback.
      *   <li>useMasterKey: In Cloud Code and Node only, causes the Master Key to
      *     be used for this request.
+     *   <li>sessionToken: A valid session token, used for making a request on
+     *       behalf of a specific user.
      * </ul>
      */
     get: function(objectId, options) {
@@ -27770,6 +27376,9 @@ module.exports = Object.assign || function (target, source) {
       var firstOptions = {};
       if (options && _.has(options, 'useMasterKey')) {
         firstOptions = { useMasterKey: options.useMasterKey };
+      }
+      if (options && _.has(options, 'sessionToken')) {
+        firstOptions.sessionToken = options.sessionToken;
       }
 
       return self.first(firstOptions).then(function(response) {
@@ -27827,6 +27436,8 @@ module.exports = Object.assign || function (target, source) {
      *   <li>error: Function to call when the find fails.
      *   <li>useMasterKey: In Cloud Code and Node only, causes the Master Key to
      *     be used for this request.
+     *   <li>sessionToken: A valid session token, used for making a request on
+     *       behalf of a specific user.
      * </ul>
      *
      * @return {Parse.Promise} A promise that is resolved with the results when
@@ -27841,6 +27452,7 @@ module.exports = Object.assign || function (target, source) {
         className: this.className,
         method: "GET",
         useMasterKey: options.useMasterKey,
+        sessionToken: options.sessionToken,
         data: this.toJSON()
       });
 
@@ -27869,6 +27481,8 @@ module.exports = Object.assign || function (target, source) {
      *   <li>error: Function to call when the find fails.
      *   <li>useMasterKey: In Cloud Code and Node only, causes the Master Key to
      *     be used for this request.
+     *   <li>sessionToken: A valid session token, used for making a request on
+     *       behalf of a specific user.
      * </ul>
      *
      * @return {Parse.Promise} A promise that is resolved with the count when
@@ -27886,6 +27500,7 @@ module.exports = Object.assign || function (target, source) {
         className: self.className, 
         method: "GET",
         useMasterKey: options.useMasterKey,
+        sessionToken: options.sessionToken,
         data: params
       });
 
@@ -27906,6 +27521,8 @@ module.exports = Object.assign || function (target, source) {
      *   <li>error: Function to call when the find fails.
      *   <li>useMasterKey: In Cloud Code and Node only, causes the Master Key to
      *     be used for this request.
+     *   <li>sessionToken: A valid session token, used for making a request on
+     *       behalf of a specific user.
      * </ul>
      *
      * @return {Parse.Promise} A promise that is resolved with the object when
@@ -27922,6 +27539,7 @@ module.exports = Object.assign || function (target, source) {
         className: this.className, 
         method: "GET",
         useMasterKey: options.useMasterKey,
+        sessionToken: options.sessionToken,
         data: params
       });
 
@@ -28507,6 +28125,9 @@ module.exports = Object.assign || function (target, source) {
       var findOptions = {};
       if (_.has(options, "useMasterKey")) {
         findOptions.useMasterKey = options.useMasterKey;
+      }
+      if (_.has(options, 'sessionToken')) {
+        findOptions.sessionToken = options.sessionToken;
       }
 
       var finished = false;
@@ -29150,6 +28771,7 @@ module.exports = Object.assign || function (target, source) {
         className: name,
         method: 'POST',
         useMasterKey: options.useMasterKey,
+        sessionToken: options.sessionToken,
         data: Parse._encode(data, null, true)
       });
 
@@ -32352,8 +31974,8 @@ var Select = React.createClass({
 			if (!self.state.isOpen) {
 				return;
 			}
-			var menuElem = self.refs.selectMenuContainer.getDOMNode();
-			var controlElem = self.refs.control.getDOMNode();
+			var menuElem = React.findDOMNode(self.refs.selectMenuContainer);
+			var controlElem = React.findDOMNode(self.refs.control);
 
 			var eventOccuredOutsideMenu = self.clickedOutsideElement(menuElem, event);
 			var eventOccuredOutsideControl = self.clickedOutsideElement(controlElem, event);
@@ -32407,8 +32029,8 @@ var Select = React.createClass({
 				filteredOptions: this.filterOptions(newProps.options)
 			});
 		}
-		if (newProps.value !== this.state.value) {
-			this.setState(this.getStateFromValue(newProps.value, newProps.options));
+		if (newProps.value !== this.state.value || newProps.placeholder !== this.state.placeholder) {
+			this.setState(this.getStateFromValue(newProps.value, newProps.options, newProps.placeholder));
 		}
 	},
 
@@ -32417,7 +32039,6 @@ var Select = React.createClass({
 
 		if (!this.props.disabled && this._focusAfterUpdate) {
 			clearTimeout(this._blurTimeout);
-
 			this._focusTimeout = setTimeout(function () {
 				self.getInputNode().focus();
 				self._focusAfterUpdate = false;
@@ -32426,8 +32047,8 @@ var Select = React.createClass({
 
 		if (this._focusedOptionReveal) {
 			if (this.refs.focused && this.refs.menu) {
-				var focusedDOM = this.refs.focused.getDOMNode();
-				var menuDOM = this.refs.menu.getDOMNode();
+				var focusedDOM = React.findDOMNode(this.refs.focused);
+				var menuDOM = React.findDOMNode(this.refs.menu);
 				var focusedRect = focusedDOM.getBoundingClientRect();
 				var menuRect = menuDOM.getBoundingClientRect();
 
@@ -32435,7 +32056,6 @@ var Select = React.createClass({
 					menuDOM.scrollTop = focusedDOM.offsetTop + focusedDOM.clientHeight - menuDOM.offsetHeight;
 				}
 			}
-
 			this._focusedOptionReveal = false;
 		}
 	},
@@ -32453,9 +32073,12 @@ var Select = React.createClass({
 		return true;
 	},
 
-	getStateFromValue: function getStateFromValue(value, options) {
+	getStateFromValue: function getStateFromValue(value, options, placeholder) {
 		if (!options) {
 			options = this.state.options;
+		}
+		if (!placeholder) {
+			placeholder = this.props.placeholder;
 		}
 
 		// reset internal filter string
@@ -32471,7 +32094,7 @@ var Select = React.createClass({
 			values: values,
 			inputValue: '',
 			filteredOptions: filteredOptions,
-			placeholder: !this.props.multi && values.length ? values[0].label : this.props.placeholder,
+			placeholder: !this.props.multi && values.length ? values[0].label : placeholder,
 			focusedOption: !this.props.multi && values.length ? values[0] : filteredOptions[0]
 		};
 	},
@@ -32549,7 +32172,7 @@ var Select = React.createClass({
 
 	getInputNode: function getInputNode() {
 		var input = this.refs.input;
-		return this.props.searchable ? input : input.getDOMNode();
+		return this.props.searchable ? input : React.findDOMNode(input);
 	},
 
 	fireChangeEvent: function fireChangeEvent(newState) {
@@ -32662,7 +32285,7 @@ var Select = React.createClass({
 				if (this.state.isOpen) {
 					this.resetValue();
 				} else {
-					this.clearValue();
+					this.clearValue(event);
 				}
 				break;
 
@@ -32678,7 +32301,7 @@ var Select = React.createClass({
 
 			case 188:
 				// ,
-				if (this.props.allowCreate) {
+				if (this.props.allowCreate && this.props.multi) {
 					event.preventDefault();
 					event.stopPropagation();
 					this.selectFocusedOption();
@@ -32902,17 +32525,19 @@ var Select = React.createClass({
 			focusedValue = focusedValue == null ? this.state.filteredOptions[0] : focusedValue;
 		}
 		// Add the current value to the filtered options in last resort
+		var options = this.state.filteredOptions;
 		if (this.props.allowCreate && this.state.inputValue.trim()) {
 			var inputValue = this.state.inputValue;
-			this.state.filteredOptions.unshift({
+			options = options.slice();
+			options.unshift({
 				value: inputValue,
 				label: inputValue,
 				create: true
 			});
 		}
 
-		var ops = Object.keys(this.state.filteredOptions).map(function (key) {
-			var op = this.state.filteredOptions[key];
+		var ops = Object.keys(options).map(function (key) {
+			var op = options[key];
 			var isSelected = this.state.value === op.value;
 			var isFocused = focusedValue === op.value;
 
@@ -33227,25 +32852,25 @@ var AutosizeInput = React.createClass({
 		if (!this.isMounted() || !window.getComputedStyle) {
 			return;
 		}
-		var inputStyle = window.getComputedStyle(this.refs.input.getDOMNode());
-		var widthNode = this.refs.sizer.getDOMNode();
+		var inputStyle = window.getComputedStyle(React.findDOMNode(this.refs.input));
+		var widthNode = React.findDOMNode(this.refs.sizer);
 		widthNode.style.fontSize = inputStyle.fontSize;
 		widthNode.style.fontFamily = inputStyle.fontFamily;
 		if (this.props.placeholder) {
-			var placeholderNode = this.refs.placeholderSizer.getDOMNode();
+			var placeholderNode = React.findDOMNode(this.refs.placeholderSizer);
 			placeholderNode.style.fontSize = inputStyle.fontSize;
 			placeholderNode.style.fontFamily = inputStyle.fontFamily;
 		}
 	},
 	updateInputWidth: function updateInputWidth() {
-		if (!this.isMounted() || typeof this.refs.sizer.getDOMNode().scrollWidth === 'undefined') {
+		if (!this.isMounted() || typeof React.findDOMNode(this.refs.sizer).scrollWidth === 'undefined') {
 			return;
 		}
 		var newInputWidth;
 		if (this.props.placeholder) {
-			newInputWidth = Math.max(this.refs.sizer.getDOMNode().scrollWidth, this.refs.placeholderSizer.getDOMNode().scrollWidth) + 2;
+			newInputWidth = Math.max(React.findDOMNode(this.refs.sizer).scrollWidth, React.findDOMNode(this.refs.placeholderSizer).scrollWidth) + 2;
 		} else {
-			newInputWidth = this.refs.sizer.getDOMNode().scrollWidth + 2;
+			newInputWidth = React.findDOMNode(this.refs.sizer).scrollWidth + 2;
 		}
 		if (newInputWidth < this.props.minWidth) {
 			newInputWidth = this.props.minWidth;
@@ -33260,10 +32885,10 @@ var AutosizeInput = React.createClass({
 		return this.refs.input;
 	},
 	focus: function focus() {
-		this.refs.input.getDOMNode().focus();
+		React.findDOMNode(this.refs.input).focus();
 	},
 	select: function select() {
-		this.refs.input.getDOMNode().select();
+		React.findDOMNode(this.refs.input).select();
 	},
 	render: function render() {
 		var escapedValue = (this.props.value || '').replace(/\&/g, '&amp;').replace(/ /g, '&nbsp;').replace(/\</g, '&lt;').replace(/\>/g, '&gt;');
@@ -55594,7 +55219,78 @@ module.exports = warning;
 },{"./emptyFunction":"/fieldguideguru/fieldguideguruserver/node_modules/react/lib/emptyFunction.js","_process":"/fieldguideguru/fieldguideguruserver/node_modules/browserify/node_modules/process/browser.js"}],"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js":[function(require,module,exports){
 module.exports = require('./lib/React');
 
-},{"./lib/React":"/fieldguideguru/fieldguideguruserver/node_modules/react/lib/React.js"}],"/fieldguideguru/fieldguideguruserver/react/LocationEntities.js":[function(require,module,exports){
+},{"./lib/React":"/fieldguideguru/fieldguideguruserver/node_modules/react/lib/React.js"}],"/fieldguideguru/fieldguideguruserver/react/AddEntityPage.js":[function(require,module,exports){
+'use strict';
+
+var React = require('react');
+var Paper = require('material-ui').Paper;
+var TextField = require('material-ui').TextField;
+var RaisedButton = require('material-ui').RaisedButton;
+
+mixpanel.track('Add entity page');
+
+var AddEntityPage = React.createClass({
+  displayName: 'AddEntityPage',
+
+  getInitialState: function getInitialState() {
+    return {
+      noResults: false
+    };
+  },
+
+  search: function search() {
+    var _this = this;
+
+    var q = this.refs.input.getValue();
+    var books = gapi.client.books;
+    books.volumes.list({
+      q: q
+    }).then((function (results) {
+      var result = results.result;
+      if (!result.totalItems) {
+        _this.setState({
+          noResults: true
+        });
+        return;
+      }
+      console.log(result.items);
+    }).bind(this));
+  },
+
+  render: function render() {
+    var warnings;
+    if (this.state.noResults) {
+      warnings = "No Results";
+    }
+    return React.createElement(
+      'div',
+      null,
+      React.createElement(
+        Paper,
+        { className: "main-content", zDepth: 1 },
+        warnings,
+        React.createElement(TextField, {
+          hintText: "ISBN or Book Title",
+          fullWidth: true,
+          ref: "input",
+          floatingLabelText: "ISBN or Book Title"
+        }),
+        React.createElement(RaisedButton, {
+          style: {
+            float: 'right'
+          },
+          label: "Search",
+          primary: true,
+          onClick: this.search
+        })
+      )
+    );
+  }
+});
+
+module.exports = AddEntityPage;
+
+},{"material-ui":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/index.js","react":"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js"}],"/fieldguideguru/fieldguideguruserver/react/LocationEntities.js":[function(require,module,exports){
 'use strict';
 
 var Parse = require('parse').Parse;
@@ -55649,7 +55345,7 @@ module.exports = {
 };
 
 },{"parse":"/fieldguideguru/fieldguideguruserver/node_modules/parse/build/parse-latest.js"}],"/fieldguideguru/fieldguideguruserver/react/book.js":[function(require,module,exports){
-'use strict';
+"use strict";
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -55796,8 +55492,8 @@ var Book = React.createClass({
           entity.key
         ),
         React.createElement(Select, {
-          className: 'country-select',
-          delimiter: ',',
+          className: "country-select",
+          delimiter: ",",
           multi: true,
           value: values.join(','),
           onChange: _this4.onEntityChange.bind(_this4, entity),
@@ -55819,21 +55515,21 @@ var Book = React.createClass({
       null,
       React.createElement(
         Paper,
-        { className: 'book-content', zDepth: 1 },
+        { className: "book-content", zDepth: 1 },
         React.createElement(
           'div',
-          { className: 'book-info-section' },
+          { className: "book-info-section" },
           React.createElement(
             'div',
-            { className: 'book-image-section' },
-            React.createElement('img', { className: 'book-image', src: book.get('thumbnail').url() })
+            { className: "book-image-section" },
+            React.createElement('img', { className: "book-image", src: book.get('thumbnail').url() })
           ),
           React.createElement(
             'div',
-            { className: 'book-details-section' },
+            { className: "book-details-section" },
             React.createElement(
               'div',
-              { className: 'book-title' },
+              { className: "book-title" },
               book.get('title')
             ),
             this.renderLocationEntities()
@@ -55841,10 +55537,10 @@ var Book = React.createClass({
         ),
         React.createElement(
           'div',
-          { className: 'book-other-content' },
+          { className: "book-other-content" },
           React.createElement(
             'p',
-            { className: 'book-description' },
+            { className: "book-description" },
             book.get('description')
           ),
           React.createElement(BookPreview, {
@@ -55915,8 +55611,8 @@ var BookPreview = React.createClass({
 
     return React.createElement(
       'div',
-      { className: 'preview-container' },
-      React.createElement('div', { ref: 'preview', style: style })
+      { className: "preview-container" },
+      React.createElement('div', { ref: "preview", style: style })
     );
   }
 });
@@ -55924,7 +55620,7 @@ var BookPreview = React.createClass({
 module.exports = BookPreview;
 
 },{"react":"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js"}],"/fieldguideguru/fieldguideguruserver/react/collection.js":[function(require,module,exports){
-'use strict';
+"use strict";
 var React = require('react');
 var Paper = require('material-ui').Paper;
 var Parse = require('parse').Parse;
@@ -56035,8 +55731,8 @@ var Collection = React.createClass({
           entity.key
         ),
         React.createElement(Select, {
-          className: 'country-select',
-          delimiter: ',',
+          className: "country-select",
+          delimiter: ",",
           multi: true,
           value: values.join(','),
           onChange: _this3.onEntityChange.bind(_this3, entity),
@@ -56054,10 +55750,10 @@ var Collection = React.createClass({
       null,
       React.createElement(
         Paper,
-        { className: 'book-content collection', zDepth: 1 },
+        { className: "book-content collection", zDepth: 1 },
         React.createElement(
           'div',
-          { className: 'book-title' },
+          { className: "book-title" },
           collection.get('title')
         ),
         this.renderLocationEntities()
@@ -56069,7 +55765,7 @@ var Collection = React.createClass({
 module.exports = Collection;
 
 },{"./LocationEntities.js":"/fieldguideguru/fieldguideguruserver/react/LocationEntities.js","./parsekeys.js":"/fieldguideguru/fieldguideguruserver/react/parsekeys.js","material-ui":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/index.js","parse":"/fieldguideguru/fieldguideguruserver/node_modules/parse/build/parse-latest.js","react":"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js","react-select":"/fieldguideguru/fieldguideguruserver/node_modules/react-select/lib/Select.js"}],"/fieldguideguru/fieldguideguruserver/react/collectionspage.js":[function(require,module,exports){
-'use strict';
+"use strict";
 var React = require('react');
 var Paper = require('material-ui').Paper;
 var Parse = require('parse').Parse;
@@ -56172,11 +55868,11 @@ var Collections = React.createClass({
       }),
       React.createElement(
         Paper,
-        { className: 'book-content collections-content', zDepth: 1 },
+        { className: "book-content collections-content", zDepth: 1 },
         React.createElement(TextField, {
-          hintText: 'Collection Name',
-          ref: 'title' }),
-        React.createElement(RaisedButton, { primary: true, onClick: this.createNewCollection, label: 'Create New Collection' })
+          hintText: "Collection Name",
+          ref: "title" }),
+        React.createElement(RaisedButton, { primary: true, onClick: this.createNewCollection, label: "Create New Collection" })
       )
     );
   }
@@ -56185,7 +55881,7 @@ var Collections = React.createClass({
 module.exports = Collections;
 
 },{"./LocationEntities.js":"/fieldguideguru/fieldguideguruserver/react/LocationEntities.js","./collection.js":"/fieldguideguru/fieldguideguruserver/react/collection.js","./parsekeys.js":"/fieldguideguru/fieldguideguruserver/react/parsekeys.js","material-ui":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/index.js","parse":"/fieldguideguru/fieldguideguruserver/node_modules/parse/build/parse-latest.js","react":"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js","react-select":"/fieldguideguru/fieldguideguruserver/node_modules/react-select/lib/Select.js"}],"/fieldguideguru/fieldguideguruserver/react/core.js":[function(require,module,exports){
-'use strict';
+"use strict";
 var React = require('react');
 var Search = require('./searchpage.js');
 var Book = require('./book.js');
@@ -56203,6 +55899,7 @@ var DefaultRoute = Router.DefaultRoute;
 var Navigation = Router.Navigation;
 var LocationEntities = require('./LocationEntities.js');
 var Collections = require('collectionspage');
+var AddEntityPage = require('AddEntityPage');
 
 var mui = require('material-ui');
 var ThemeManager = new mui.Styles.ThemeManager();
@@ -56243,12 +55940,12 @@ var AppBar = React.createClass({
       'div',
       null,
       React.createElement(MaterialAppBar, {
-        title: 'Field Guide Guru',
+        title: "Field Guide Guru",
         iconElementRight: React.createElement(SearchIcon, null),
         onLeftIconButtonTouchTap: this.openNav
       }),
       React.createElement(LeftNav, {
-        ref: 'leftNav',
+        ref: "leftNav",
         docked: false,
         menuItems: menuItems,
         onChange: this.onLeftNavChange
@@ -56300,10 +55997,11 @@ var routes = React.createElement(
     Route,
     { handler: App },
     React.createElement(DefaultRoute, { handler: Landing }),
-    React.createElement(Route, { name: 'search', path: 'search/:locationId', handler: Search }),
-    React.createElement(Route, { name: 'book-id', path: 'book/:bookId', handler: Book }),
-    React.createElement(Route, { name: 'collections', path: 'collections', handler: Collections }),
-    React.createElement(Route, { name: 'start', path: 'start', handler: Start })
+    React.createElement(Route, { name: "search", path: "search/:locationId", handler: Search }),
+    React.createElement(Route, { name: "book-id", path: "book/:bookId", handler: Book }),
+    React.createElement(Route, { name: "collections", path: "collections", handler: Collections }),
+    React.createElement(Route, { name: "start", path: "start", handler: Start }),
+    React.createElement(Route, { name: "add", path: "add", handler: AddEntityPage })
   )
 );
 
@@ -56317,8 +56015,8 @@ module.exports = {
   run: run
 };
 
-},{"./LocationEntities.js":"/fieldguideguru/fieldguideguruserver/react/LocationEntities.js","./book.js":"/fieldguideguru/fieldguideguruserver/react/book.js","./environmentstore.js":"/fieldguideguru/fieldguideguruserver/react/environmentstore.js","./landing.js":"/fieldguideguru/fieldguideguruserver/react/landing.js","./searchicon.js":"/fieldguideguru/fieldguideguruserver/react/searchicon.js","./searchpage.js":"/fieldguideguru/fieldguideguruserver/react/searchpage.js","./start.js":"/fieldguideguru/fieldguideguruserver/react/start.js","collectionspage":"/fieldguideguru/fieldguideguruserver/react/collectionspage.js","material-ui":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/index.js","material-ui/lib/styles/colors":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/styles/colors.js","react":"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js","react-router":"/fieldguideguru/fieldguideguruserver/node_modules/react-router/lib/index.js"}],"/fieldguideguru/fieldguideguruserver/react/environmentstore.js":[function(require,module,exports){
-'use strict';
+},{"./LocationEntities.js":"/fieldguideguru/fieldguideguruserver/react/LocationEntities.js","./book.js":"/fieldguideguru/fieldguideguruserver/react/book.js","./environmentstore.js":"/fieldguideguru/fieldguideguruserver/react/environmentstore.js","./landing.js":"/fieldguideguru/fieldguideguruserver/react/landing.js","./searchicon.js":"/fieldguideguru/fieldguideguruserver/react/searchicon.js","./searchpage.js":"/fieldguideguru/fieldguideguruserver/react/searchpage.js","./start.js":"/fieldguideguru/fieldguideguruserver/react/start.js","AddEntityPage":"/fieldguideguru/fieldguideguruserver/react/AddEntityPage.js","collectionspage":"/fieldguideguru/fieldguideguruserver/react/collectionspage.js","material-ui":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/index.js","material-ui/lib/styles/colors":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/styles/colors.js","react":"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js","react-router":"/fieldguideguru/fieldguideguruserver/node_modules/react-router/lib/index.js"}],"/fieldguideguru/fieldguideguruserver/react/environmentstore.js":[function(require,module,exports){
+"use strict";
 
 var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ('value' in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 
@@ -56326,19 +56024,19 @@ var _get = function get(_x, _x2, _x3) { var _again = true; _function: while (_ag
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) subClass.__proto__ = superClass; }
+function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Dispatcher = require('flux').Dispatcher;
 var assign = require('object-assign');
 
 var EnvironmentStore = (function (_Dispatcher) {
+  _inherits(EnvironmentStore, _Dispatcher);
+
   function EnvironmentStore() {
     _classCallCheck(this, EnvironmentStore);
 
     _get(Object.getPrototypeOf(EnvironmentStore.prototype), 'constructor', this).apply(this, arguments);
   }
-
-  _inherits(EnvironmentStore, _Dispatcher);
 
   _createClass(EnvironmentStore, [{
     key: 'setLocation',
@@ -56358,7 +56056,7 @@ var EnvironmentStore = (function (_Dispatcher) {
 module.exports = new EnvironmentStore();
 
 },{"flux":"/fieldguideguru/fieldguideguruserver/node_modules/flux/index.js","object-assign":"/fieldguideguru/fieldguideguruserver/node_modules/object-assign/index.js"}],"/fieldguideguru/fieldguideguruserver/react/landing.js":[function(require,module,exports){
-'use strict';
+"use strict";
 var React = require('react');
 var Colors = require('material-ui/lib/styles/colors');
 
@@ -56406,9 +56104,9 @@ module.exports = Main;
 },{"material-ui/lib/styles/colors":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/styles/colors.js","react":"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js"}],"/fieldguideguru/fieldguideguruserver/react/main.js":[function(require,module,exports){
 "use strict";
 require("babel/polyfill");
-var React = require("react");
-var injectTapEventPlugin = require("react-tap-event-plugin");
-var Core = require("./core.js");
+var React = require('react');
+var injectTapEventPlugin = require('react-tap-event-plugin');
+var Core = require('./core.js');
 
 (function () {
   //Needed for React Developer Tools
@@ -56424,7 +56122,7 @@ var Core = require("./core.js");
 })();
 
 },{"./core.js":"/fieldguideguru/fieldguideguruserver/react/core.js","babel/polyfill":"/fieldguideguru/fieldguideguruserver/node_modules/babel/polyfill.js","react":"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js","react-tap-event-plugin":"/fieldguideguru/fieldguideguruserver/node_modules/react-tap-event-plugin/src/injectTapEventPlugin.js"}],"/fieldguideguru/fieldguideguruserver/react/mainicon.js":[function(require,module,exports){
-'use strict';
+"use strict";
 var React = require('react');
 var SvgIcon = require('material-ui/lib/svg-icon');
 var ThemeManager = require('material-ui/lib/styles/theme-manager')();
@@ -56438,8 +56136,8 @@ var Binoculars = React.createClass({
       this.props,
       React.createElement(
         'svg',
-        { viewBox: '0 0 1024 1024' },
-        React.createElement('path', { d: 'M64 0h384v64h-384zM576 0h384v64h-384zM952 320h-56v-256h-256v256h-256v-256h-256v256h-56c-39.6 0-72 32.4-72 72v560c0 39.6 32.4 72 72 72h304c39.6 0 72-32.4 72-72v-376h128v376c0 39.6 32.4 72 72 72h304c39.6 0 72-32.4 72-72v-560c0-39.6-32.4-72-72-72zM348 960h-248c-19.8 0-36-14.4-36-32s16.2-32 36-32h248c19.8 0 36 14.4 36 32s-16.2 32-36 32zM544 512h-64c-17.6 0-32-14.4-32-32s14.4-32 32-32h64c17.6 0 32 14.4 32 32s-14.4 32-32 32zM924 960h-248c-19.8 0-36-14.4-36-32s16.2-32 36-32h248c19.8 0 36 14.4 36 32s-16.2 32-36 32z' })
+        { viewBox: "0 0 1024 1024" },
+        React.createElement('path', { d: "M64 0h384v64h-384zM576 0h384v64h-384zM952 320h-56v-256h-256v256h-256v-256h-256v256h-56c-39.6 0-72 32.4-72 72v560c0 39.6 32.4 72 72 72h304c39.6 0 72-32.4 72-72v-376h128v376c0 39.6 32.4 72 72 72h304c39.6 0 72-32.4 72-72v-560c0-39.6-32.4-72-72-72zM348 960h-248c-19.8 0-36-14.4-36-32s16.2-32 36-32h248c19.8 0 36 14.4 36 32s-16.2 32-36 32zM544 512h-64c-17.6 0-32-14.4-32-32s14.4-32 32-32h64c17.6 0 32 14.4 32 32s-14.4 32-32 32zM924 960h-248c-19.8 0-36-14.4-36-32s16.2-32 36-32h248c19.8 0 36 14.4 36 32s-16.2 32-36 32z" })
       )
     );
   }
@@ -56469,7 +56167,7 @@ var keys = {
 module.exports = keys;
 
 },{}],"/fieldguideguru/fieldguideguruserver/react/parselist.js":[function(require,module,exports){
-'use strict';
+"use strict";
 var React = require('react');
 var CircularProgress = require('material-ui/lib/circular-progress');
 var InfiniteScroll = require('react-infinite-scroll')(React);
@@ -56519,8 +56217,8 @@ var ParseList = React.createClass({
 
     var loader = React.createElement(
       'div',
-      { className: 'search-result-loader' },
-      React.createElement(CircularProgress, { mode: 'indeterminate' })
+      { className: "search-result-loader" },
+      React.createElement(CircularProgress, { mode: "indeterminate" })
     );
 
     return React.createElement(
@@ -56556,8 +56254,8 @@ var Search = React.createClass({
   render: function render() {
     return React.createElement(
       SvgIcon,
-      _extends({}, this.props, { viewBox: '0 0 24 24' }),
-      React.createElement('path', { d: 'M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z' })
+      _extends({}, this.props, { viewBox: "0 0 24 24" }),
+      React.createElement('path', { d: "M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" })
     );
   }
 });
@@ -56576,7 +56274,7 @@ var SearchIcon = React.createClass({
     return React.createElement(
       IconButton,
       {
-        tooltip: 'Search',
+        tooltip: "Search",
         onClick: this.navigate },
       React.createElement(Search, { style: { fill: fill } })
     );
@@ -56586,7 +56284,7 @@ var SearchIcon = React.createClass({
 module.exports = SearchIcon;
 
 },{"material-ui/lib/icon-button":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/icon-button.js","material-ui/lib/styles/theme-manager":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/styles/theme-manager.js","material-ui/lib/svg-icon":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/svg-icon.js","react":"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js","react-router":"/fieldguideguru/fieldguideguruserver/node_modules/react-router/lib/index.js"}],"/fieldguideguru/fieldguideguruserver/react/searchpage.js":[function(require,module,exports){
-'use strict';
+"use strict";
 var React = require('react');
 var Paper = require('material-ui/lib/paper');
 var Toolbar = require('material-ui/lib/toolbar/toolbar');
@@ -56646,28 +56344,28 @@ var Tile = React.createClass({
       var style = {
         backgroundImage: 'url(' + thumb.url() + ')'
       };
-      image = React.createElement('div', { className: 'search-result-image', style: style });
+      image = React.createElement('div', { className: "search-result-image", style: style });
     }
 
     return React.createElement(
       Paper,
       {
         zDepth: this.state.hover ? 3 : 1,
-        className: 'search-result-card',
+        className: "search-result-card",
         key: item.get('ISBN'),
         onClick: this.onClick,
         onMouseOver: this.onMouseOver,
         onMouseOut: this.onMouseOut },
       React.createElement(
         'div',
-        { className: 'search-result-image-container' },
+        { className: "search-result-image-container" },
         image,
-        React.createElement('div', { className: 'search-result-overlay' })
+        React.createElement('div', { className: "search-result-overlay" })
       ),
       React.createElement(
         'div',
         {
-          className: 'search-result-content',
+          className: "search-result-content",
           title: item.get('title') },
         item.get('title')
       )
@@ -56686,20 +56384,20 @@ var ResultList = React.createClass({
       Paper,
       {
         zDepth: 1,
-        className: 'search-result-card add-more',
-        key: 'addMore' },
+        className: "search-result-card add-more",
+        key: "addMore" },
       React.createElement(
         'h3',
         null,
         'Know a book we\'re missing?'
       ),
-      React.createElement(RaisedButton, { label: 'Add a book', primary: true }),
+      React.createElement(RaisedButton, { label: "Add a book", primary: true }),
       React.createElement(
         'h3',
         null,
         'Wished there was a book for something?'
       ),
-      React.createElement(RaisedButton, { onClick: this.showWishModal, label: 'Tell us your wish', secondary: true })
+      React.createElement(RaisedButton, { onClick: this.showWishModal, label: "Tell us your wish", secondary: true })
     );
   },
 
@@ -56738,21 +56436,21 @@ var ResultList = React.createClass({
 
   render: function render() {
     var actions = [React.createElement(FlatButton, {
-      label: 'Cancel',
-      key: 'cancel',
+      label: "Cancel",
+      key: "cancel",
       onTouchTap: this.closeWishModal
     }), React.createElement(FlatButton, {
-      label: 'Add wish',
-      key: 'add',
+      label: "Add wish",
+      key: "add",
       primary: true,
       onTouchTap: this.onAddWish
     })];
     return React.createElement(
       'div',
-      { className: 'search-results' },
+      { className: "search-results" },
       React.createElement(
         'h1',
-        { className: 'search-result-heading' },
+        { className: "search-result-heading" },
         this.props.title
       ),
       React.createElement(ParseList, {
@@ -56766,8 +56464,8 @@ var ResultList = React.createClass({
         Dialog,
         {
           autoScrollBodyContent: true,
-          ref: 'wishModal',
-          title: 'What book would you like to see?',
+          ref: "wishModal",
+          title: "What book would you like to see?",
           modal: true,
           actions: actions },
         React.createElement(
@@ -56778,25 +56476,25 @@ var ResultList = React.createClass({
               overflowX: 'hidden'
             } },
           React.createElement(TextField, {
-            hintText: 'Tell us the title or the topic',
-            ref: 'text',
+            hintText: "Tell us the title or the topic",
+            ref: "text",
             fullWidth: true,
             multiLine: true
           }),
           React.createElement(LocationTypeahead, {
-            ref: 'location'
+            ref: "location"
           }),
           React.createElement(TextField, {
-            hintText: 'email',
-            ref: 'email',
-            type: 'email'
+            hintText: "email",
+            ref: "email",
+            type: "email"
           })
         )
       ),
       React.createElement(Snackbar, {
-        ref: 'snackbar',
+        ref: "snackbar",
         autoHideDuration: 2000,
-        message: 'Your wish has been made!'
+        message: "Your wish has been made!"
       })
     );
   }
@@ -56819,13 +56517,13 @@ var FilterBar = React.createClass({
 
     return React.createElement(
       'div',
-      { className: 'toolbar' },
+      { className: "toolbar" },
       React.createElement(
         Toolbar,
         null,
         React.createElement(
           ToolbarGroup,
-          { key: 0, float: 'left' },
+          { key: 0, float: "left" },
           React.createElement(DropDownMenu, {
             menuItems: filterOptions,
             onChange: this.props.onFilterChange
@@ -56929,7 +56627,7 @@ var Search = React.createClass({
       filterBar,
       React.createElement(ResultList, {
         key: i++,
-        title: 'Books',
+        title: "Books",
         query: query
       })
     );
@@ -56939,7 +56637,7 @@ var Search = React.createClass({
 module.exports = Search;
 
 },{"./parsekeys.js":"/fieldguideguru/fieldguideguruserver/react/parsekeys.js","./parselist.js":"/fieldguideguru/fieldguideguruserver/react/parselist.js","locationTypeahead":"/fieldguideguru/fieldguideguruserver/react/typeahead/locationTypeahead.js","material-ui":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/index.js","material-ui/lib/drop-down-menu":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/drop-down-menu.js","material-ui/lib/paper":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/paper.js","material-ui/lib/toolbar/toolbar":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/toolbar/toolbar.js","material-ui/lib/toolbar/toolbar-group":"/fieldguideguru/fieldguideguruserver/node_modules/material-ui/lib/toolbar/toolbar-group.js","parse":"/fieldguideguru/fieldguideguruserver/node_modules/parse/build/parse-latest.js","react":"/fieldguideguru/fieldguideguruserver/node_modules/react/react.js","react-router":"/fieldguideguru/fieldguideguruserver/node_modules/react-router/lib/index.js","react/addons":"/fieldguideguru/fieldguideguruserver/node_modules/react/addons.js"}],"/fieldguideguru/fieldguideguruserver/react/start.js":[function(require,module,exports){
-'use strict';
+"use strict";
 var React = require('react');
 var Colors = require('material-ui/lib/styles/colors');
 var Typeahead = require('./typeahead/typeahead.js');
@@ -56981,7 +56679,7 @@ var Start = React.createClass({
 
     return React.createElement(
       'div',
-      { className: 'start-page', style: {
+      { className: "start-page", style: {
           width: '100%',
           height: '100%'
         } },
@@ -57166,7 +56864,7 @@ var LocationTypeahead = React.createClass({
       'div',
       { className: searchClasses.join(' ') },
       React.createElement(Typeahead, {
-        placeholder: 'Location',
+        placeholder: "Location",
         autoFocus: true,
         onChange: this.onTextChange,
         inputValue: this.state.value,
@@ -57294,6 +56992,7 @@ module.exports = React.createClass({
             'div',
             {
                 style: {
+                    backgroundColor: '#fff',
                     position: 'relative'
                 } },
             this.renderInput(),
@@ -57385,7 +57084,6 @@ module.exports = React.createClass({
             'div',
             {
                 style: {
-                    backgroundColor: '#fff',
                     width: '100%',
                     display: isDropdownVisible ? 'block' : 'none'
                 } },
