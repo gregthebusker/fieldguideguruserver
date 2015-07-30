@@ -2,3 +2,5 @@ node_modules
 newrelic_agent.log
 react/parsecloud/config
 react/scrapers/parsekeys.js
+public/js
+public/stylesheets
