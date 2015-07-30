@@ -8,6 +8,7 @@ var source = require('vinyl-source-stream');
 var less = require('gulp-less');
 var cssnano = require('cssnano');
 var uglifyify = require('uglifyify');
+var gutil = require('gulp-util');
 
 gulp.task('default', ['scripts', 'less']);
 
@@ -41,7 +42,10 @@ gulp.task('watch', ['watchScripts', 'watchStyles']);
 
 function scripts(watch) {
   var bundler, rebundle;
-  bundler = browserify('./react/main.js', {
+  bundler = browserify([
+    './react/main.js',
+    './react/dev.js'
+  ], {
     cache: {}, // required for watchify
     packageCache: {}, // required for watchify
     fullPaths: watch, // required to be true only for watchify
@@ -53,7 +57,7 @@ function scripts(watch) {
   if(watch) {
     bundler = watchify(bundler);
     bundler.on('update', function() {
-      console.log('Browserify Updated');
+      gutil.log(gutil.colors.green('Reloading...'));
     });
   }
  
@@ -65,6 +69,9 @@ function scripts(watch) {
     ],
   }));
 
+  bundler.require('./react/main.js', { expose: 'main'});
+  bundler.require('./react/dev.js', { expose: 'dev'});
+
   if (!watch) {
     bundler.transform({
       global: true
@@ -74,7 +81,7 @@ function scripts(watch) {
   rebundle = function() {
     var stream = bundler.bundle();
     stream.on('error', function(e) {
-      console.log('Browserify Failed', e.message);
+      gutil.log(gutil.colors.magenta('Browserify Failed', e.message));
     });
     stream = stream.pipe(source('index.js'));
     return stream.pipe(gulp.dest('./public/js'));

@@ -3,9 +3,12 @@ var Paper = require('material-ui').Paper;
 var TextField = require('material-ui').TextField;
 var RaisedButton = require('material-ui').RaisedButton;
 
-mixpanel.track('Add entity page');
 
 var AddEntityPage = React.createClass({
+  componentWillMount() {
+    mixpanel.track('Add entity page');
+  },
+
   getInitialState() {
     return {
       noResults: false,

@@ -13,10 +13,10 @@ for (var key in LocationEntities.Entities) {
   Locations.push(LocationEntities.Entities[key]);
 }
 
-mixpanel.track('Book');
 
 var Book = React.createClass({
   componentWillMount() {
+    mixpanel.track('Book');
     var Book = Parse.Object.extend('fieldguide');
     var query = new Parse.Query(Book);
     query.equalTo('objectId', this.props.params.bookId);

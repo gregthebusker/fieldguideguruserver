@@ -20,7 +20,6 @@ var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
-mixpanel.track('Search Results');
 
 var Tile = React.createClass({
   mixins: [Navigation],
@@ -227,6 +226,8 @@ var i = 0;
 
 var Search = React.createClass({
   componentWillMount() {
+    mixpanel.track('Search Results');
+
     var Subject = Parse.Object.extend('subject');
     var query = new Parse.Query(Subject);
     query.ascending('text');

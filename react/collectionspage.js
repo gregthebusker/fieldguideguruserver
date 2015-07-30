@@ -16,10 +16,10 @@ for (var key in LocationEntities.Entities) {
   Locations.push(LocationEntities.Entities[key]);
 }
 
-mixpanel.track('Collections');
 
 var Collections = React.createClass({
   componentWillMount() {
+    mixpanel.track('Collections');
     var Collection = Parse.Object.extend('collection');
     var query = new Parse.Query(Collection);
     query.include('children');

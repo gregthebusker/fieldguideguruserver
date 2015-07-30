@@ -2,9 +2,11 @@
 var React = require('react');
 var Colors = require('material-ui/lib/styles/colors');
 
-mixpanel.track('Landing Page');
-
 var Main = React.createClass({
+  componentWillMount() {
+    mixpanel.track('Landing Page');
+  },
+
   render: function() {
     var containerStyle = {
       textAlign: 'center',

@@ -10,8 +10,6 @@ var LocationTypeahead = require('locationTypeahead');
 
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
-mixpanel.track('Start Page');
-
 var Start = React.createClass({
   onSelectLocation: function(loc) {
     if (!loc) {
@@ -23,6 +21,7 @@ var Start = React.createClass({
   },
 
   componentDidMount() {
+    mixpanel.track('Start Page');
     document.body.style.backgroundColor = Colors.green500;
   },
 

@@ -41,6 +41,8 @@
     "watchify": "~3.2.3",
     "gulp-less": "~3.0.3",
     "gulp-postcss": "~5.1.9",
-    "uglifyify": "~3.0.1"
+    "uglifyify": "~3.0.1",
+    "gulp-util": "~3.0.6",
+    "mixpanel": "~0.2.1"
   }
 }
