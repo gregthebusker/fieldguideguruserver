@@ -1,6 +1,5 @@
 var getByParse = require('./locationentities.js').getByParse;
 var ByArray = require('./locationentities.js').ByArray;
-var Entities = require('./locationentities.js').Entities;
 
 var callOnEach = require('./utility.js').callOnEach;
 var parseKeys = require('./parsekeys.js');

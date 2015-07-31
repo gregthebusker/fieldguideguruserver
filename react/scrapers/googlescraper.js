@@ -1,6 +1,5 @@
 var callOnEach = require('./utility.js').callOnEach;
 var parseLimiter = require('./utility.js').parseLimiter;
-var saveImage = require('./utility.js').saveImage;
 var googleKeys = require('./googlekeys.js');
 var google = require('googleapis');
 var books = google.books('v1');
@@ -18,7 +17,9 @@ var flattenObject = function(ob) {
     if ((typeof ob[i]) == 'object') {
       var flatObject = flattenObject(ob[i]);
       for (var x in flatObject) {
-        if (!flatObject.hasOwnProperty(x)) continue;
+        if (!flatObject.hasOwnProperty(x)) {
+          continue;
+        }
         
         toReturn[i + '_' + x] = flatObject[x];
       }

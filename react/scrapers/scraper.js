@@ -114,7 +114,6 @@ function saveToParse(data, cb) {
 
 function main() {
   var i = 1;
-  var j = 1;
   getNumberOfPages(function(pages) {
     console.log("Found pages: " + pages);
     parsePages(pages, function(href) {

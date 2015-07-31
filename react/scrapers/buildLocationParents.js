@@ -1,6 +1,4 @@
-var getByParse = require('./locationentities.js').getByParse;
 var ByArray = require('./locationentities.js').ByArray;
-var Entites = require('./locationentities.js').Entities;
 
 var callOnEach = require('./utility.js').callOnEach;
 var parseLimiter = require('./utility.js').parseLimiter;

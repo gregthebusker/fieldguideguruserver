@@ -1,5 +1,24 @@
 var LIMIT = 5;
 
+var search = function(str, className) {
+  var Obj = Parse.Object.extend(className);
+  var query = new Parse.Query(Obj);
+  query.contains('searchable_text', str);
+  query.include('location');
+  query.descending('clicks');
+  query.limit(LIMIT);
+  return query.find();
+};
+
+var searchCountry = function(str) {
+  return search(str, 'country');
+};
+
+
+var searchState = function(str) {
+  return search(str, 'state');
+};
+
 var autoCompleteLocation = function(request, response) {
   var text = request.params.text;
 
@@ -39,22 +58,5 @@ var autoCompleteLocation = function(request, response) {
   });
 };
 
-var searchCountry = function(str) {
-  return search(str, 'country');
-}
-
-var search = function(str, className, matches) {
-  var Obj = Parse.Object.extend(className);
-  var query = new Parse.Query(Obj);
-  query.contains('searchable_text', str);
-  query.include('location');
-  query.descending('clicks');
-  query.limit(LIMIT);
-  return query.find();
-}
-
-var searchState = function(str) {
-  return search(str, 'state');
-}
 
 module.exports = autoCompleteLocation;
