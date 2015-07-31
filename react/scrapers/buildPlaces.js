@@ -42,8 +42,8 @@ function saveToParse(data, className, idKey, cb) {
 function fetchAndBuild(param, cb) {
   var url = baseUrl + param;
   request(url, function(err, response, html) {
-    rows = html.split("\n");
-    header = rows.shift();
+    var rows = html.split("\n");
+    var header = rows.shift();
     var keys = header.split(',');
     rows.forEach(function(row) {
       var values = row.split(',');

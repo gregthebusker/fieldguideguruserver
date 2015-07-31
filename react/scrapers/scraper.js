@@ -36,7 +36,7 @@ function parsePages(pages, cb) {
   };
 
   for (var i = 1; i <= pages; i++) {
-    url = urlTemplate + i;
+    var url = urlTemplate + i;
     bibLimiter.removeTokens(1, go(url));
   }
 }
@@ -48,15 +48,15 @@ function parseBookPage(href, cb) {
       var $ = cheerio.load(html);
       var data = {};
       var doc = $('#document').first();
-      title = doc.find('h1').text();
+      var title = doc.find('h1').text();
       if (!title) {
         return;
       }
 
       data.title = title;
 
-      keys = [];
-      values = [];
+      var keys = [];
+      var values = [];
       doc.find('dt').each(function() {
         var text = $(this).text();
         text = text.replace(/:/, '');
