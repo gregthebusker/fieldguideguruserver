@@ -54,7 +54,7 @@ function saveImage(obj, url, cb) {
     if (!error && response.statusCode == 200) {
       var data = "data:" + response.headers["content-type"] + ";base64," + new Buffer(body).toString('base64');
       var file = new Parse.File('thumbnail.jpg', { base64: data});
-      obj.set('thumbnail', file);
+      obj.set('fgg_thumbnail', file);
       parseLimiter.removeTokens(1, function() {
         obj.save(null, {
           success: function(o) {
@@ -73,10 +73,36 @@ function saveImage(obj, url, cb) {
       });
     }
   });
-}
+};
+
+
+var flattenObject = function(ob) {
+  var toReturn = {};
+
+  for (var i in ob) {
+    if (!ob.hasOwnProperty(i)) {
+      continue;
+    }
+
+    if ((typeof ob[i]) == 'object' && !(ob[i] instanceof Array)) {
+      var flatObject = flattenObject(ob[i]);
+      for (var x in flatObject) {
+        if (!flatObject.hasOwnProperty(x)) {
+          continue;
+        }
+
+        toReturn[i + '_' + x] = flatObject[x];
+      }
+    } else {
+      toReturn[i] = ob[i];
+    }
+  }
+  return toReturn;
+};
 
 module.exports = {
   callOnEach: callOnEach,
   saveImage: saveImage,
-  parseLimiter: parseLimiter
+  parseLimiter: parseLimiter,
+  flattenObject: flattenObject,
 };

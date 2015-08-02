@@ -75,14 +75,14 @@ function parseWorldCatData(obj, cb) {
 
 function main() {
   var FieldGuide = Parse.Object.extend("fieldguide");
+  var WorldCat = Parse.Object.extend("worldcat");
 
   var query = new Parse.Query(FieldGuide);
-  query.doesNotExist("imagehref");
   query.exists("URL");
+  query.doesNotExist("worldcat");
   callOnEach(query, function(obj) {
     parseWorldCatData(obj, function(data) {
       obj.set(data);
-      saveImage(obj, data.imagehref);
       getPriceMap(data.oclcno, function(priceData) {
         obj.set('prices', priceData);
         parseLimiter.removeTokens(1, function() {

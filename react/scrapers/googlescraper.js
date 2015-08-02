@@ -1,5 +1,6 @@
 var callOnEach = require('./utility.js').callOnEach;
 var parseLimiter = require('./utility.js').parseLimiter;
+var flattenObject = require('./utility.js').flattenObject;
 var googleKeys = require('./googlekeys.js');
 var google = require('googleapis');
 var books = google.books('v1');
@@ -7,32 +8,6 @@ var parseKeys = require('./parsekeys.js');
 var Parse = require('parse').Parse;
 
 Parse.initialize(parseKeys.appId, parseKeys.jsKey, parseKeys.masterKey);
-
-var flattenObject = function(ob) {
-  var toReturn = {};
-  
-  for (var i in ob) {
-    if (!ob.hasOwnProperty(i)) {
-      continue;
-    }
-    
-    if ((typeof ob[i]) == 'object') {
-      var flatObject = flattenObject(ob[i]);
-      for (var x in flatObject) {
-        if (!flatObject.hasOwnProperty(x)) {
-          continue;
-        }
-        
-        toReturn[i + '_' + x] = flatObject[x];
-      }
-    } else {
-      toReturn[i] = ob[i];
-    }
-  }
-  return toReturn;
-};
-
-
 
 function parseGoogleBooksData(obj, cb) {
   books.volumes.list({
@@ -44,7 +19,7 @@ function parseGoogleBooksData(obj, cb) {
       // More details at https://developers.google.com/books/docs/v1/reference/volumes#resource
       var data = flattenObject(book);
       if (book.volumeInfo.imageLinks) {
-        data['imagehref'] = book.volumeInfo.imageLinks.thumbnail;
+        data['fgg_imagehref'] = book.volumeInfo.imageLinks.thumbnail;
       }
       data.googleBookId = data.id;
       delete data.id;
