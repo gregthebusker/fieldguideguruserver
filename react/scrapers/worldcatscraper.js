@@ -12,14 +12,14 @@ var rateLimit = 1000 / 15;
 var wcLimiter = new RateLimiter(1, 1000 / 10);
 var parseLimiter = new RateLimiter(1, rateLimit); 
 
-function getPriceMap(oclcno, cb) {
+function getPriceMap(data, cb) {
+  data.prices = {};
   var buyingLinksBase = "http://www.worldcat.org/wcpa/servlet/org.oclc.lac.ui.buying.AjaxBuyingLinksServlet?serviceCommand=getBuyingLinks&oclcno=";
 
-  var url = buyingLinksBase + oclcno;
+  var url = buyingLinksBase + data.oclcno;
   wcLimiter.removeTokens(1, function() {
     request(url, function(error, response, html) {
       var $ = cheerio.load(html);
-      var data = {};
       var sellers = [];
       var prices = [];
       $('.seller a').each(function() {
@@ -34,7 +34,7 @@ function getPriceMap(oclcno, cb) {
 
       sellers.forEach(function(v, i) {
         if (prices[i] && v) {
-          data[v] = prices[i];
+          data.prices[v] = prices[i];
         }
       });
 
@@ -62,8 +62,25 @@ function parseWorldCatData(obj, cb) {
         var src = $('img.cover').first().attr('src');
         if (src) {
           var imagehref = 'https:' + src;
-          data.imagehref = imagehref;
+          data.ffg_imagehref = imagehref;
         }
+
+
+
+        var details = $('#details').find('tr').each(function() {
+          var tr = $(this);
+          var id = tr.attr('id');
+          if (!id) {
+            return;
+          }
+          var key = id.replace('-', '_');
+          var d = {
+            label: tr.find('th').text(),
+            value: tr.find('td').text()
+          };
+          data[key] = d;
+        });
+
         cb(data);
       } else {
         console.error("Can't get url");
@@ -80,28 +97,39 @@ function main() {
   var query = new Parse.Query(FieldGuide);
   query.exists("URL");
   query.doesNotExist("worldcat");
-  callOnEach(query, function(obj) {
+  callOnEach(query, function(obj, cb) {
     parseWorldCatData(obj, function(data) {
-      obj.set(data);
-      getPriceMap(data.oclcno, function(priceData) {
-        obj.set('prices', priceData);
+      getPriceMap(data, function(data) {
+        var wc = new WorldCat();
         parseLimiter.removeTokens(1, function() {
-          obj.save(null, {
-            success: function(o) {
-              console.log('Saved: ' + obj.id);
+          wc.save(data, {
+            success: function(w) {
+              obj.set({
+                worldcat: w,
+              });
+              parseLimiter.removeTokens(1, function() {
+                obj.save(null, {
+                  success: function(o) {
+                    console.log('Saved: ' + obj.id);
+                    cb();
+                  },
+                  error: function(o, e) {
+                    console.error(e)
+                    cb();
+                  }
+                });
+              });
             },
-            error: function(o, e) {
-              console.error(e);
-              // Over Request Limit
-              if (e.code == 155) {
-                process.exit();
-              }
+            error: function(g, e) {
+              console.error(e)
+              process.exit();
+              cb();
             }
           });
         });
       });
     });
-  });
+  }, true, false);
 }
 
 main();
