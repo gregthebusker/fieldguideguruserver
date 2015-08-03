@@ -27,7 +27,7 @@ function parsePages(pages, cb) {
     return function() {
       request(url, function(error, response, html) {
         var $ = cheerio.load(html);
-        $("#documents .document").each(function(node) {
+        $("#documents .document").each(function() {
           var href = $(this).find('a').first().attr('href');
           cb(href);
         });

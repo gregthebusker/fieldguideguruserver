@@ -1,5 +1,4 @@
 var callOnEach = require('./utility.js').callOnEach;
-var saveImage = require('./utility.js').saveImage;
 var parseLimiter = require('./utility.js').parseLimiter;
 var parseKeys = require('./parsekeys.js');
 var Parse = require('parse').Parse;
@@ -63,7 +62,7 @@ function parseWorldCatData(obj, cb) {
 
 
 
-        var details = $('#details').find('tr').each(function() {
+        $('#details').find('tr').each(function() {
           var tr = $(this);
           var id = tr.attr('id');
           if (!id) {
@@ -105,7 +104,7 @@ function main() {
               });
               parseLimiter.removeTokens(1, function() {
                 obj.save(null, {
-                  success: function(o) {
+                  success: function() {
                     console.log('Saved: ' + obj.id);
                     cb();
                   },
