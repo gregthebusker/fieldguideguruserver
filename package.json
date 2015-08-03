@@ -43,6 +43,7 @@
     "gulp-postcss": "~5.1.9",
     "uglifyify": "~3.0.1",
     "gulp-util": "~3.0.6",
-    "mixpanel": "~0.2.1"
+    "mixpanel": "~0.2.1",
+    "jquery": "~2.1.4"
   }
 }

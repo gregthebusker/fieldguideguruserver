@@ -3,6 +3,8 @@ require("babel/polyfill");
 var React = require('react');
 var injectTapEventPlugin = require('react-tap-event-plugin');
 
+var FieldGuide = require('FieldGuide');
+
 //Needed for React Developer Tools
 window.React = React;
 
@@ -14,10 +16,18 @@ injectTapEventPlugin();
 
 
 var DevPage = React.createClass({
+  fetchBook() {
+    FieldGuide.fetch('bXfOVrSxG9', (fg) => {
+      console.log(fg);
+    });
+  },
+
   render() {
     return (
       <div>
         Dev Page
+        <br/>
+        <button onClick={this.fetchBook}>Get FieldGuide for bXfOVrSxG9</button>
       </div>
     );
   },
