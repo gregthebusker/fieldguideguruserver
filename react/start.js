@@ -29,12 +29,12 @@ var Start = React.createClass({
       <div className="start-page">
         <div className="start-hero">
           <div>
-            <h1 style={{
+            <h3 style={{
               textAlign: 'center',
             }}>
               <MainIcon />
               Where do you need a field guide to?
-            </h1>
+            </h3>
             <LocationTypeahead
               onSelect={this.onSelectLocation}
             />
