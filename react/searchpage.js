@@ -90,13 +90,13 @@ var ResultList = React.createClass({
         zDepth={1}
         className="search-result-card add-more"
         key="addMore">
-        <h3>
+        <h6>
           Know a book we're missing?
-        </h3>
+        </h6>
         <RaisedButton label="Add a book" primary={true} />
-        <h3>
+        <h6>
           Wished there was a book for something?
-        </h3>
+        </h6>
         <RaisedButton onClick={this.showWishModal} label="Tell us your wish" secondary={true} />
       </Paper>
     );
@@ -149,7 +149,7 @@ var ResultList = React.createClass({
     ];
     return (
       <div className="search-results">
-        <h1 className="search-result-heading">{this.props.title}</h1>
+        <h3 className="search-result-heading">{this.props.title}</h3>
         <ParseList
           query={this.props.query}
           renderFunction={(item) => {

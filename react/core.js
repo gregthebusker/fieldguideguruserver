@@ -17,6 +17,7 @@ var Navigation = Router.Navigation;
 var LocationEntities = require('./LocationEntities.js');
 var Collections = require('collectionspage');
 var AddEntityPage = require('AddEntityPage');
+var Footer = require('./Footer.js');
 
 var mui = require('material-ui');
 var ThemeManager = new mui.Styles.ThemeManager();
@@ -27,6 +28,7 @@ var App = React.createClass({
       <div>
         <AppBar />
         <RouteHandler />
+        <Footer />
       </div>
     );
   }

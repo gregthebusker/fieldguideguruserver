@@ -20,10 +20,15 @@ body {
 @search-card-width: 172px;
 @search-card-margin: 5px;
 
+.parse-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
 .search-result-card {
   height: 300px;
   width: @search-card-width;
-  float: left;
   margin: @search-card-margin;
   cursor: pointer;
   border: 1px solid #e5e5e5;
@@ -94,11 +99,25 @@ body {
   width: 300px;
 }
 
-.start-page .search-box-container {
-  background-color: #fff;
-  margin: auto;
-  border-radius: 5px;
-  padding: 5px;
+.start-page {
+  .search-box-container {
+    background-color: #fff;
+    margin: auto;
+    border-radius: 5px;
+    padding: 5px;
+  }
+
+  .start-hero {
+    background-image: url(/images/mountains.png);
+    background-size: cover;
+    background-position-y: 100%;
+    width: 100%;
+    height: 400px;
+    color: rgba(255, 255, 255, 0.87);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .book-content {
@@ -164,6 +183,8 @@ body {
   padding: 0 25px 25px 25px;
   overflow: hidden;
 }
+
+
 
 @media (max-width: 450px) {
   .start-page {

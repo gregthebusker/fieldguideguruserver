@@ -22,34 +22,23 @@ var Start = React.createClass({
 
   componentDidMount() {
     mixpanel.track('Start Page');
-    document.body.style.backgroundColor = Colors.green500;
-  },
-
-  componentWillUnmount() {
-    document.body.style.backgroundColor = '#fff';
   },
 
   render: function() {
-    var containerStyle = {
-      paddingTop: '100px',
-      color: Colors.darkWhite
-    };
-
     return (
-      <div className="start-page" style={{
-        width: '100%',
-        height: '100%',
-      }}>
-        <div style={containerStyle}>
-          <h1 style={{
-            textAlign: 'center',
-          }}>
-            <MainIcon />
-            Where do you need a field guide to?
-          </h1>
-          <LocationTypeahead
-            onSelect={this.onSelectLocation}
-          />
+      <div className="start-page">
+        <div className="start-hero">
+          <div>
+            <h1 style={{
+              textAlign: 'center',
+            }}>
+              <MainIcon />
+              Where do you need a field guide to?
+            </h1>
+            <LocationTypeahead
+              onSelect={this.onSelectLocation}
+            />
+          </div>
         </div>
       </div>
     );

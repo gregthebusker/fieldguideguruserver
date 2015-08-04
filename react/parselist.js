@@ -58,7 +58,9 @@ var ParseList = React.createClass({
         hasMore={this.state.hasMore}
         loader={loader}
       >
-        {papers}
+        <div className="parse-list">
+          {papers}
+        </div>
       </InfiniteScroll>
     );
   }
