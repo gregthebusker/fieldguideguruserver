@@ -19,12 +19,18 @@ var Main = React.createClass({
         width: '100%',
         bottom: '0',
         top: '0',
+        fontWeight: 'bold',
         position: 'absolute',
+        textAlign: 'center',
         backgroundColor: Colors.green500
       }}>
-        <div style={containerStyle}>
-          <h1>Field Guide Guru</h1>
-          <h2>Coming Soon...</h2>
+        <div className="start-page" style={{ height: '100%' }}>
+          <div className="start-hero" style={{ height: '100%' }}>
+            <div>
+               <h1>Field Guide Guru</h1>
+               <h2>Coming Soon...</h2>
+            </div>
+          </div>
         </div>
       </div>
     );
