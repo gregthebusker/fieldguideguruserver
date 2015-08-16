@@ -39,6 +39,18 @@ var Start = React.createClass({
               onSelect={this.onSelectLocation}
             />
           </div>
+          <video
+            style={{
+              width: '100%',
+              height: '100%',
+              position: 'absolute',
+              top: 0,
+              left: 0
+            }}
+            autPplay={true}
+            controls={true} >
+            <source src="/images/forest.mp4" />
+          </video>
         </div>
       </div>
     );
