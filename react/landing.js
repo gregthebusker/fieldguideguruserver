@@ -25,7 +25,7 @@ var Main = React.createClass({
         backgroundColor: Colors.green500
       }}>
         <div className="start-page" style={{ height: '100%' }}>
-          <div className="start-hero" style={{ height: '100%' }}>
+          <div className="start-hero hero-background" style={{ height: '100%' }}>
             <div>
                <h1>Field Guide Guru</h1>
                <h2>Coming Soon...</h2>

@@ -21,14 +21,24 @@ var Start = React.createClass({
   },
 
   componentDidMount() {
+    var timer = window.setInterval(this.playVideo, 20 * 1000);
     mixpanel.track('Start Page');
+  },
+
+  playVideo() {
+    React.findDOMNode(this.refs.video).play();
   },
 
   render: function() {
     return (
       <div className="start-page">
         <div className="start-hero">
-          <div>
+          <video
+            ref="video"
+            className="start-hero-video">
+            <source src="/images/forest.mp4" />
+          </video>
+          <div className="start-hero-overlay">
             <h3 style={{
               textAlign: 'center',
             }}>
@@ -39,18 +49,6 @@ var Start = React.createClass({
               onSelect={this.onSelectLocation}
             />
           </div>
-          <video
-            style={{
-              width: '100%',
-              height: '100%',
-              position: 'absolute',
-              top: 0,
-              left: 0
-            }}
-            autPplay={true}
-            controls={true} >
-            <source src="/images/forest.mp4" />
-          </video>
         </div>
       </div>
     );
