@@ -46,6 +46,7 @@ var Start = React.createClass({
               Where do you need a field guide to?
             </h3>
             <LocationTypeahead
+              autoFocus={true}
               onSelect={this.onSelectLocation}
             />
           </div>

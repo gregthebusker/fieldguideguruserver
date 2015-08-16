@@ -6,6 +6,7 @@ var google = require('googleapis');
 var books = google.books('v1');
 var parseKeys = require('./parsekeys.js');
 var Parse = require('parse').Parse;
+var googleutils = require('./googleutils.js');
 
 Parse.initialize(parseKeys.appId, parseKeys.jsKey, parseKeys.masterKey);
 
@@ -16,14 +17,7 @@ function parseGoogleBooksData(obj, cb) {
   }, function(err, books) {
     if (books && books.totalItems) {
       var book = books.items[0];
-      // More details at https://developers.google.com/books/docs/v1/reference/volumes#resource
-      var data = flattenObject(book);
-      if (book.volumeInfo.imageLinks) {
-        data['fgg_imagehref'] = book.volumeInfo.imageLinks.thumbnail;
-      }
-      data.googleBookId = data.id;
-      delete data.id;
-      cb(data);
+      cb(googleutils.googleToParse(book));
     } else if (err) {
       console.error(err);
       // Hit rate limit
@@ -38,14 +32,12 @@ function parseGoogleBooksData(obj, cb) {
 
 function main() {
   var FieldGuide = Parse.Object.extend("fieldguide");
-  var GoogleBook = Parse.Object.extend("googlebook");
 
   var query = new Parse.Query(FieldGuide);
   query.exists("ISBN");
   query.doesNotExist("googlebook");
   callOnEach(query, function(obj, cb) {
-    parseGoogleBooksData(obj, function(data) {
-      var goog = new GoogleBook();
+    parseGoogleBooksData(obj, function(goog) {
       parseLimiter.removeTokens(1, function() {
         goog.save(data, {
           success: function(g) {

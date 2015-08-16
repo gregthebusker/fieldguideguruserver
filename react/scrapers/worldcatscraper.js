@@ -57,7 +57,7 @@ function parseWorldCatData(obj, cb) {
         var src = $('img.cover').first().attr('src');
         if (src) {
           var imagehref = 'https:' + src;
-          data.ffg_imagehref = imagehref;
+          data.fgg_imagehref = imagehref;
         }
 
 

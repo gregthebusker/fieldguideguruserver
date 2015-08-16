@@ -149,7 +149,7 @@ var LocationTypeahead = React.createClass({
       <div className={searchClasses.join(' ')}>
         <Typeahead
           placeholder="Location"
-          autoFocus={true}
+          autoFocus={this.props.autoFocus}
           onChange={this.onTextChange}
           inputValue={this.state.value}
           options={this.getOptions()}

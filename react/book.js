@@ -6,6 +6,7 @@ var parseKeys = require('./parsekeys.js');
 var BookPreview = require('./bookpreview.js');
 var Select = require('react-select');
 var LocationEntities = require('./LocationEntities.js');
+var FieldGuide = require('FieldGuide');
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
 var Locations = [];
@@ -17,20 +18,12 @@ for (var key in LocationEntities.Entities) {
 var Book = React.createClass({
   componentWillMount() {
     mixpanel.track('Book');
-    var Book = Parse.Object.extend('fieldguide');
-    var query = new Parse.Query(Book);
-    query.equalTo('objectId', this.props.params.bookId);
-    query.include('locations');
-    query.find().then(results => {
-      var book;
-      if (results.length) {
-        book = results[0];
-      }
+    FieldGuide.fetch(this.props.params.bookId, (fg) => {
       this.setState({
-        book: book,
+        book: fg,
       });
 
-      var locations = book.get('locations');
+      var locations = fg.get('locations');
       if (!locations) {
         return;
       }
@@ -58,11 +51,11 @@ var Book = React.createClass({
     });
 
     toAdd.forEach(obj => {
-      this.state.book.add('locations', obj);
+      this.state.book.parseObject.add('locations', obj);
     });
 
     toRemove.forEach(obj => {
-      this.state.book.remove('locations', obj);
+      this.state.book.parseObject.remove('locations', obj);
     });
 
     this.state.book.save();
@@ -142,12 +135,16 @@ var Book = React.createClass({
     }
 
     var book = this.state.book;
+    var image; 
+    if (book.get('thumbnail')) {
+      image = <img className="book-image" src={book.get('thumbnail').url()} />
+    }
     return (
       <div>
         <Paper className="book-content" zDepth={1}>
           <div className="book-info-section">
             <div className="book-image-section">
-              <img className="book-image" src={book.get('thumbnail').url()} />
+              {image}
             </div>
             <div className="book-details-section">
               <div className="book-title">

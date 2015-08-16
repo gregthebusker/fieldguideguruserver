@@ -15,6 +15,7 @@ var ParseList = require('./parselist.js');
 var Router = require('react-router');
 var Navigation = Router.Navigation;
 var LocationTypeahead = require('locationTypeahead');
+var FieldGuide = require('./FieldGuide.js');
 
 var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
 
@@ -153,7 +154,8 @@ var ResultList = React.createClass({
         <ParseList
           query={this.props.query}
           renderFunction={(item) => {
-            return <Tile key={item.id} item={item} />;
+            var fg = new FieldGuide(item);
+            return <Tile key={item.id} item={fg} />;
           }}
           addMoreFunction={this.addMore}
         />
@@ -292,6 +294,8 @@ var Search = React.createClass({
 
     var FieldGuide = Parse.Object.extend('fieldguide');
     var query = new Parse.Query(FieldGuide);
+    query.include('googlebook');
+    query.include('worldcat');
 
     query.containedIn('locations', this.state.parents);
 

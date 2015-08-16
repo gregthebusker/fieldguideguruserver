@@ -7,20 +7,11 @@ var Book = Parse.Object.extend('fieldguide');
 class FieldGuide {
   constructor(parseObject) {
     this.parseObject = parseObject;
-    this.transferParse();
     this.editMode = false;
-  }
-
-  transferParse() {
-    if (!this.parseObject) {
-      return;
-    }
-
-    var attributes = this.parseObject.attributes;
-    for (var key in attributes) {
-      if (attributes[key] instanceof Parse.Object) {
-        attributes[key].fetch();
-      }
+    if (parseObject) {
+      this.id = parseObject.id;
+      this.googleBook = parseObject.get('googlebook');
+      this.worldCat = parseObject.get('worldcat');
     }
   }
 
@@ -50,6 +41,26 @@ class FieldGuide {
     this.editMode = mode;
   }
 
+  getThumbnail() {
+    var thumb = this.parseObject && this.parseObject.get('fgg_thumbnail');
+    if (!thumb) {
+      thumb = this.googleBook && this.googleBook.get('fgg_thumbnail');
+    }
+    if (!thumb) {
+      thumb = this.worldCat && this.worldCat.get('fgg_thumbnail');
+    }
+
+    return thumb;
+  }
+
+  get(key) {
+    var capKey = key.charAt(0).toUpperCase() + key.slice(1);
+    if (this[`get${capKey}`]) {
+      return this[`get${capKey}`](); 
+    }
+    return this.parseObject.get(key);
+  }
+
   static fetch(id, cb) {
     var query = new Parse.Query(Book);
     query.equalTo('objectId', id);
@@ -59,6 +70,7 @@ class FieldGuide {
     query.find().then(results => {
       if (results) {
         cb(new FieldGuide(results[0]));
+        return;
       }
       cb(null);
     });

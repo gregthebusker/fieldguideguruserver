@@ -2,7 +2,7 @@ var React = require('react');
 var Paper = require('material-ui').Paper;
 var TextField = require('material-ui').TextField;
 var RaisedButton = require('material-ui').RaisedButton;
-
+var FieldGuide = require('FieldGuide');
 
 var AddEntityPage = React.createClass({
   componentWillMount() {
@@ -28,8 +28,15 @@ var AddEntityPage = React.createClass({
         });
         return;
       }
-      console.log(result.items);
-
+      var googleBooks = results.items.map(googleutils.googToParse);
+      var guides = googleBooks.map(gb => {
+        var guide = new FieldGuide();
+        guide.googleBook = googleBooks;
+      });
+      
+      this.setState({
+        fieldGuides: guides,
+      });
     }.bind(this));
   },
 
