@@ -87,20 +87,25 @@ var AddEntityPage = React.createClass({
       <div>
         <Paper className="main-content" zDepth={1}>
           {warnings}
-          <TextField
-            hintText="ISBN or Book Title"
-            fullWidth={true}
-            ref="input"
-            floatingLabelText="ISBN or Book Title"
-          />
-          <RaisedButton
-            style={{
-              float: 'right',
-            }}
-            label="Search"
-            primary={true}
-            onClick={this.search}
-          />
+          <div style={
+            overflow: 'hidden',
+            marginBottom: '25px',
+          }}>
+            <TextField
+              hintText="ISBN or Book Title"
+              fullWidth={true}
+              ref="input"
+              floatingLabelText="ISBN or Book Title"
+            />
+            <RaisedButton
+              style={{
+                float: 'right',
+              }}
+              label="Search"
+              primary={true}
+              onClick={this.search}
+            />
+          </div>
           {results}
         </Paper>
       </div>
