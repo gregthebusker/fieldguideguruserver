@@ -1,4 +1,4 @@
-var parseKeys = require('./parsekeys.js');
+var parseKeys = require('../parsekeys.js');
 var Parse = require('parse').Parse;
 var RateLimiter = require('limiter').RateLimiter;
 
