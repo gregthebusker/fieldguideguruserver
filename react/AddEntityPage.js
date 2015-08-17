@@ -87,7 +87,7 @@ var AddEntityPage = React.createClass({
       <div>
         <Paper className="main-content" zDepth={1}>
           {warnings}
-          <div style={
+          <div style={{
             overflow: 'hidden',
             marginBottom: '25px',
           }}>
