@@ -42,23 +42,59 @@ class FieldGuide {
   }
 
   getThumbnail() {
-    var thumb = this.parseObject && this.parseObject.get('fgg_thumbnail');
-    if (!thumb) {
-      thumb = this.googleBook && this.googleBook.get('fgg_thumbnail');
+    return this.getProp('fgg_thumbnail', 'fgg_thumbnail', 'fgg_thumbnail');
+  }
+
+  getProp(key, googleKey, worldCatKey) {
+    var prop = this.parseObject && this.parseObject.get(key);
+    if (!prop) {
+      prop = this.googleBook && this.googleBook.get(googleKey);
     }
-    if (!thumb) {
-      thumb = this.worldCat && this.worldCat.get('fgg_thumbnail');
+    if (!prop) {
+      prop = this.worldCat && this.worldCat.get(worldCatKey);
     }
 
-    return thumb;
+    return prop;
+  }
+
+  getThumbUrl() {
+    var thumb = this.getThumbnail();
+    if (thumb) {
+      return thumb.url();
+    }
+
+    return this.getProp('fgg_imagehref', 'fgg_imagehref', 'fgg_imagehref');
+  }
+
+  getDescription() {
+    return this.getProp('description', 'volumeInfo_description');
+  }
+
+  getTitle() {
+    var title = this.parseObject && this.parseObject.get('title');
+    if (!title) {
+      title = this.googleBook && this.googleBook.get('volumeInfo_title');
+    }
+
+    return title;
+  }
+
+  getId() {
+    return (this.parseObject && this.parseObject.id) || (this.googleBook && this.googleBook.get('googleBookId')) || Math.random();
   }
 
   get(key) {
+    var result = this.parseObject && this.parseObject.get(key);
+    if (result) {
+      return result;
+    }
+
     var capKey = key.charAt(0).toUpperCase() + key.slice(1);
     if (this[`get${capKey}`]) {
       return this[`get${capKey}`](); 
     }
-    return this.parseObject.get(key);
+
+    return;
   }
 
   static fetch(id, cb) {

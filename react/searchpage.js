@@ -84,6 +84,10 @@ var Tile = React.createClass({
 var ResultList = React.createClass({
   mixins: [Navigation, PureRenderMixin],
     
+  onAdd() {
+    this.transitionTo('add');
+  },
+
   addMore() {
     console.log('adding more');
     return (
@@ -94,7 +98,7 @@ var ResultList = React.createClass({
         <h6>
           Know a book we're missing?
         </h6>
-        <RaisedButton label="Add a book" primary={true} />
+        <RaisedButton onClick={this.onAdd} label="Add a book" primary={true} />
         <h6>
           Wished there was a book for something?
         </h6>

@@ -203,7 +203,8 @@ module.exports = React.createClass({
         <div
           style={{
             width: '100%',
-            display: isDropdownVisible ? 'block' : 'none'
+            display: isDropdownVisible ? 'block' : 'none',
+            position: 'absolute',
           }}>
           {lists}
         </div>

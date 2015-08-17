@@ -2,7 +2,7 @@ var parseKeys = require('./parsekeys.js');
 var Parse = require('parse').Parse;
 var RateLimiter = require('limiter').RateLimiter;
 
-Parse.initialize(parseKeys.appId, parseKeys.jsKey, parseKeys.masterKey);
+Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
 var rateLimit = 1000/10;
 var parseLimiter = new RateLimiter(1, rateLimit);
