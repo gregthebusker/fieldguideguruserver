@@ -14,13 +14,16 @@ var AddEntityPage = React.createClass({
   getInitialState() {
     return {
       noResults: false,
+      fieldGuides: null,
     };
   },
 
   search() {
     this.setState({
       noResults: false,
+      fieldGuides: null,
     });
+
     var q = this.refs.input.getValue();
     var books = gapi.client.books;
     books.volumes.list({
@@ -78,10 +81,8 @@ var AddEntityPage = React.createClass({
       });
     }
 
-
-    var warnings;
     if (this.state.noResults) {
-      warnings = "No Results";
+      results = "No Results";
     }
     return (
       <div>
