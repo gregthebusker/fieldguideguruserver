@@ -37,6 +37,20 @@ class FieldGuide {
     }
   }
 
+  saveNew(cb=(()=>{})) {
+    var book = new Book();
+    this.googleBook.save().then(gb => {
+      book.set({
+        googlebook: gb,
+        ISBN: gb.get(''),
+        approved: false,
+      });
+      return book.save()
+    }).then(() => {
+        cb(book);
+    });
+  }
+
   setEditMode(mode) {
     this.editMode = mode;
   }

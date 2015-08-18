@@ -5,8 +5,13 @@ var RaisedButton = require('material-ui').RaisedButton;
 var FieldGuide = require('FieldGuide');
 var FieldGuideCard = require('FieldGuideCard');
 var googleutils = require('scrapers/googleutils.js');
+var Dialog = require('material-ui').Dialog;
+var Loader = require('./Loader.js');
+var Router = require('react-router');
 
 var AddEntityPage = React.createClass({
+  mixins: [Router.Navigation],
+
   componentWillMount() {
     mixpanel.track('Add entity page');
   },
@@ -15,6 +20,8 @@ var AddEntityPage = React.createClass({
     return {
       noResults: false,
       fieldGuides: null,
+      saving: false,
+      selected: null,
     };
   },
 
@@ -52,18 +59,55 @@ var AddEntityPage = React.createClass({
   },
 
   onAccept(fieldguide) {
-    console.log(fieldguide);
     this.setState({
-      toSave: fieldguide,
+      saving: true,
+    });
+
+    fieldguide.saveNew(() => {
+      this.setState({
+        selected: fieldguide,
+        saving: false,
+      });
     });
   },
 
+  addAnother() {
+    this.setState(this.getInitialState());
+  },
+
+  goToStart() {
+    this.transitionTo('start');
+  },
+
   render() {
-    if (this.state.toSave) {
-      return (
-          <div>
-            Saving...
-          </div>
+    var modal;
+    if (this.state.saving) {
+      modal = (
+          <Dialog
+            title="Saving Field Guide"
+            modal={true}
+            openImmediately={true}>
+            <div style={{
+              position: 'relative',
+              width: '100%',
+              height: '150px',
+            }}>
+              <Loader />
+            </div>
+          </Dialog>
+      );
+    } else if (this.state.selected) {
+      var actions = [
+        { text: 'Add Another', onTouchTap: this.addAnother},
+        { text: 'Go Back', onTouchTap: this.goToStart}
+      ];
+      modal = (
+          <Dialog
+            title="What location is this book for?"
+            actions={actions}
+            modal={true}
+            openImmediately={true}>
+          </Dialog>
       );
     }
 
@@ -95,6 +139,7 @@ var AddEntityPage = React.createClass({
               hintText="ISBN or Book Title"
               fullWidth={true}
               ref="input"
+              onEnterKeyDown={this.search}
               floatingLabelText="ISBN or Book Title"
             />
             <RaisedButton
@@ -107,6 +152,7 @@ var AddEntityPage = React.createClass({
             />
           </div>
           {results}
+          {modal}
         </Paper>
       </div>
     );
