@@ -21,8 +21,12 @@ var Start = React.createClass({
   },
 
   componentDidMount() {
-    var timer = window.setInterval(this.playVideo, 20 * 1000);
+    this.timer = window.setInterval(this.playVideo, 20 * 1000);
     mixpanel.track('Start Page');
+  },
+
+  componentWillUnmount() {
+    window.clearInterval(this.timer);
   },
 
   playVideo() {
