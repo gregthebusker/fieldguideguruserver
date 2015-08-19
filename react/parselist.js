@@ -1,6 +1,6 @@
 "use strict";
 var React = require('react');
-var CircularProgress = require('material-ui/lib/circular-progress');
+var CircularProgress = require('material-ui').CircularProgress;
 var InfiniteScroll = require('react-infinite-scroll')(React);
 
 

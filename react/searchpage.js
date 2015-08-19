@@ -1,9 +1,9 @@
 "use strict";
 var React = require('react');
-var Paper = require('material-ui/lib/paper');
-var Toolbar = require('material-ui/lib/toolbar/toolbar');
-var ToolbarGroup = require('material-ui/lib/toolbar/toolbar-group');
-var DropDownMenu = require('material-ui/lib/drop-down-menu');
+var Paper = require('material-ui').Paper;
+var Toolbar = require('material-ui').Toolbar.Toolbar;
+var ToolbarGroup = require('material-ui').Toolbar.ToolbarGroup;
+var DropDownMenu = require('material-ui').DropDownMenu;
 var RaisedButton = require('material-ui').RaisedButton;
 var FlatButton = require('material-ui').FlatButton;
 var Dialog = require('material-ui').Dialog;

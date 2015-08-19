@@ -1,7 +1,7 @@
 var React = require('react');
-var SvgIcon = require('material-ui/lib/svg-icon');
-var IconButton = require('material-ui/lib/icon-button');
-var ThemeManager = require('material-ui/lib/styles/theme-manager')()
+var SvgIcon = require('material-ui').SvgIcon;
+var IconButton = require('material-ui').IconButton;
+var ThemeManager = require('material-ui').Styles.ThemeManager();
 var Router = require('react-router');
 var Navigation = Router.Navigation;
 

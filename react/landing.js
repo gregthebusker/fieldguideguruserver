@@ -1,6 +1,6 @@
 "use strict";
 var React = require('react');
-var Colors = require('material-ui/lib/styles/colors');
+var Colors = require('material-ui').Styles.Colors;
 
 var Main = React.createClass({
   componentWillMount() {

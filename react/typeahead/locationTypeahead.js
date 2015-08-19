@@ -1,5 +1,5 @@
 var React = require('react');
-var Colors = require('material-ui/lib/styles/colors');
+var Colors = require('material-ui').Styles.Colors;
 var Typeahead = require('typeahead');
 var Parse = require('parse').Parse;
 var parseKeys = require('parsekeys');
