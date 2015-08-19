@@ -1,6 +1,6 @@
 "use strict";
 var React = require('react');
-var SvgIcon = require('material-ui'.SvgIcon;
+var SvgIcon = require('material-ui').SvgIcon;
 var ThemeManager = require('material-ui').Styles.ThemeManager();
 
 var Binoculars = React.createClass({
