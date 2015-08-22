@@ -33,7 +33,9 @@ var Start = React.createClass({
   render: function() {
     return (
       <div className="start-page">
-        <div className="start-hero">
+        <div className="start-hero" style={{
+          backgroundImage: '/images/forest.jpg',
+        }}>
           <video
             ref="video"
             className="start-hero-video">
