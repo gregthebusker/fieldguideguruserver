@@ -34,7 +34,8 @@ var Start = React.createClass({
     return (
       <div className="start-page">
         <div className="start-hero" style={{
-          backgroundImage: '/images/forest.jpg',
+          backgroundImage: 'url(/images/forest.jpg)',
+          backgroundSize: 'cover',
         }}>
           <video
             ref="video"
