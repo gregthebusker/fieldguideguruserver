@@ -8,7 +8,7 @@ Parse.initialize(parseKeys.appId, parseKeys.jsKey, parseKeys.masterKey);
 var rateLimit = 1000 / 20;
 var parseLimiter = new RateLimiter(1, rateLimit); 
 
-var baseUrl = "http://ebird.org/ws1.1/ref/location/list?rtype=";
+var baseUrl = 'http://ebird.org/ws1.1/ref/location/list?rtype=';
 
 function saveToParse(data, className, idKey, cb) {
   var CN = Parse.Object.extend(className);
@@ -42,7 +42,7 @@ function saveToParse(data, className, idKey, cb) {
 function fetchAndBuild(param, cb) {
   var url = baseUrl + param;
   request(url, function(err, response, html) {
-    var rows = html.split("\n");
+    var rows = html.split('\n');
     var header = rows.shift();
     var keys = header.split(',');
     rows.forEach(function(row) {

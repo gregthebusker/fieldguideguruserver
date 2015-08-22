@@ -9,9 +9,9 @@ var rateLimit = 1000/15;
 var parseLimiter = new RateLimiter(1, rateLimit); 
 
 function main() {
-  var Country = Parse.Object.extend("country");
-  var State = Parse.Object.extend("state");
-  var County = Parse.Object.extend("county");
+  var Country = Parse.Object.extend('country');
+  var State = Parse.Object.extend('state');
+  var County = Parse.Object.extend('county');
 
   var query = new Parse.Query(County);
   query.doesNotExist('countries');

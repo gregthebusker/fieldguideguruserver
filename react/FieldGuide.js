@@ -16,7 +16,7 @@ class FieldGuide {
   }
 
   set(key, value) {
-    this.parseObject.set(key, value)
+    this.parseObject.set(key, value);
   }
 
   save(cb=(()=>{})) {
@@ -45,9 +45,9 @@ class FieldGuide {
         ISBN: gb.get(''),
         approved: false,
       });
-      return book.save()
+      return book.save();
     }).then(() => {
-        cb(book);
+      cb(book);
     });
   }
 
@@ -125,6 +125,6 @@ class FieldGuide {
       cb(null);
     });
   }
-};
+}
 
 module.exports = FieldGuide;

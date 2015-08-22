@@ -9,15 +9,16 @@ var less = require('gulp-less');
 var cssnano = require('cssnano');
 var uglifyify = require('uglifyify');
 var gutil = require('gulp-util');
+var eslint = require('gulp-eslint');
 
 gulp.task('default', ['scripts', 'less']);
 
 gulp.task('scripts', function() {
-  return scripts(false);
+  return scripts(false, true);
 });
  
 gulp.task('watchScripts', function() {
-  return scripts(true);
+  return scripts(true, false);
 });
 
 gulp.task('watchStyles', function() {
@@ -37,10 +38,30 @@ gulp.task('less', function() {
     .pipe(gulp.dest('./public/stylesheets/'));
 });
 
-gulp.task('watch', ['watchScripts', 'watchStyles']);
+gulp.task('lint', function () {
+    return gulp.src([
+          './react/**/*.js',
+          '!./react/parsecloud/**/*.js',
+          '!./react/typeahead/typeahead.js',
+          '!./react/typeahead/aria_status.js'
+        ])
+        // eslint() attaches the lint output to the eslint property
+        // of the file object so it can be used by other modules.
+        .pipe(eslint())
+        // eslint.format() outputs the lint results to the console.
+        // Alternatively use eslint.formatEach() (see Docs).
+        .pipe(eslint.format())
+        // To have the process exit with an error code (1) on
+        // lint error, return the stream and pipe to failOnError last.
+        //.pipe(eslint.failOnError());
+});
 
+gulp.task('watch', function() {
+  gulp.start(['watchScripts', 'watchStyles']);
+  //gulp.watch(['./react/**'], ['lint']);
+});
 
-function scripts(watch) {
+function scripts(watch, compact) {
   var bundler, rebundle;
   bundler = browserify([
     './react/main.js',
@@ -63,6 +84,7 @@ function scripts(watch) {
  
   bundler.transform(babelify.configure({
     stage: 1,
+    compact: compact,
     optional: [
       "minification.memberExpressionLiterals",
       "minification.propertyLiterals"

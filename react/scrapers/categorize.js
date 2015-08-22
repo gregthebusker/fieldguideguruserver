@@ -20,7 +20,7 @@ function saveObject(name, text, cb) {
   var Obj = Parse.Object.extend(name);
 
   var query = new Parse.Query(Obj);
-  query.equalTo("text", text);
+  query.equalTo('text', text);
   parseLimiter.removeTokens(1, function() {
     query.find({
       success: function(results) {
@@ -47,10 +47,10 @@ function saveObject(name, text, cb) {
 }
 
 function main() {
-  var FieldGuide = Parse.Object.extend("fieldguide");
+  var FieldGuide = Parse.Object.extend('fieldguide');
 
   var query = new Parse.Query(FieldGuide);
-  query.doesNotExist("category_location");
+  query.doesNotExist('category_location');
   callOnEach(query, function(obj, cb) {
     var st = obj.get('Subject_Term');
     var groups = st.split(',');
@@ -80,7 +80,7 @@ function main() {
               cb();
             },
             error: function(o, e) {
-              console.error(e)
+              console.error(e);
             }
           });
         });

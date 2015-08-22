@@ -55,7 +55,7 @@ var AddEntityPage = React.createClass({
       this.setState({
         fieldGuides: guides,
       });
-    }.bind(this));
+    });
   },
 
   onAccept(fieldguide) {
@@ -114,7 +114,7 @@ var AddEntityPage = React.createClass({
 
     var results;
     if (this.state.fieldGuides) {
-      var results = this.state.fieldGuides.map(fg => {
+      results = this.state.fieldGuides.map(fg => {
         return (
           <FieldGuideCard
             key={fg.get('id')}
@@ -126,7 +126,7 @@ var AddEntityPage = React.createClass({
     }
 
     if (this.state.noResults) {
-      results = "No Results";
+      results = 'No Results';
     }
     return (
       <div>

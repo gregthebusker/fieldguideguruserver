@@ -1,5 +1,4 @@
 var React = require('react');
-var Colors = require('material-ui').Styles.Colors;
 var Typeahead = require('typeahead');
 var Parse = require('parse').Parse;
 var parseKeys = require('parsekeys');
@@ -72,7 +71,7 @@ var LocationTypeahead = React.createClass({
       success: (results) => {
         this.cacheOptions(value, results);
         this.forceUpdate();
-      }.bind(this),
+      },
       error: (error) => {
         console.log(error);
       }
@@ -132,8 +131,6 @@ var LocationTypeahead = React.createClass({
   },
 
   render: function() {
-    var options = this.getOptions();
-
     var searchClasses = [
       'search-box-container'
     ];

@@ -1,4 +1,3 @@
-"use strict";
 var Dispatcher = require('flux').Dispatcher;
 
 class EnvironmentStore extends Dispatcher {
@@ -8,6 +7,6 @@ class EnvironmentStore extends Dispatcher {
       data: obj
     });
   }
-};
+}
 
 module.exports = new EnvironmentStore();

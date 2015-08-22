@@ -1,6 +1,5 @@
 var callOnEach = require('./utility.js').callOnEach;
 var parseLimiter = require('./utility.js').parseLimiter;
-var flattenObject = require('./utility.js').flattenObject;
 var googleKeys = require('./googlekeys.js');
 var google = require('googleapis');
 var books = google.books('v1');
@@ -31,15 +30,15 @@ function parseGoogleBooksData(obj, cb) {
 }
 
 function main() {
-  var FieldGuide = Parse.Object.extend("fieldguide");
+  var FieldGuide = Parse.Object.extend('fieldguide');
 
   var query = new Parse.Query(FieldGuide);
-  query.exists("ISBN");
-  query.doesNotExist("googlebook");
+  query.exists('ISBN');
+  query.doesNotExist('googlebook');
   callOnEach(query, function(obj, cb) {
     parseGoogleBooksData(obj, function(goog) {
       parseLimiter.removeTokens(1, function() {
-        goog.save(data, {
+        goog.save(null, {
           success: function(g) {
             obj.set({
               googlebook: g,
@@ -51,14 +50,14 @@ function main() {
                   cb();
                 },
                 error: function(o, e) {
-                  console.error(e)
+                  console.error(e);
                   cb();
                 }
               });
             });
           },
           error: function(g, e) {
-            console.error(e)
+            console.error(e);
             process.exit();
             cb();
           }

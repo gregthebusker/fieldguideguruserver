@@ -1,5 +1,3 @@
-'use strict';
-
 var React = require('react'),
     noop = function() {};
 
@@ -11,7 +9,7 @@ var TextField = require('material-ui').TextField;
 module.exports = React.createClass({
     displayName: 'Typeahead',
 
-    propTypes: process.env.NODE_ENV === 'production' ? {} : {
+    propTypes: {
         inputId: React.PropTypes.string,
         className: React.PropTypes.string,
         autoFocus: React.PropTypes.bool,

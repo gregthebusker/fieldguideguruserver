@@ -1,4 +1,3 @@
-"use strict";
 var React = require('react');
 var Search = require('./searchpage.js');
 var Book = require('./book.js');
@@ -14,7 +13,6 @@ var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 var DefaultRoute = Router.DefaultRoute;
 var Navigation = Router.Navigation;
-var LocationEntities = require('./LocationEntities.js');
 var Collections = require('collectionspage');
 var AddEntityPage = require('AddEntityPage');
 var Footer = require('./Footer.js');
@@ -56,12 +54,12 @@ var AppBar = React.createClass({
     return (
       <div>
         <MaterialAppBar
-          title="Field Guide Guru"
+          title='Field Guide Guru'
           iconElementRight={<SearchIcon />}
           onLeftIconButtonTouchTap={this.openNav}
         />
         <LeftNav
-          ref="leftNav"
+          ref='leftNav'
           docked={false}
           menuItems={menuItems}
           onChange={this.onLeftNavChange}
@@ -101,7 +99,7 @@ var Core = React.createClass({
   },
 
   render: function() {
-    return <RouteHandler />
+    return <RouteHandler />;
   }
 });
 
@@ -109,18 +107,18 @@ var routes = (
   <Route handler={Core}>
     <Route handler={App}>
       <DefaultRoute handler={Landing}/>
-      <Route name="search" path="search/:locationId" handler={Search} />
-      <Route name="book-id" path="book/:bookId" handler={Book} />
-      <Route name="collections" path="collections" handler={Collections} />
-      <Route name="start" path="start" handler={Start} />
-      <Route name="add" path="add" handler={AddEntityPage} />
+      <Route name='search' path='search/:locationId' handler={Search} />
+      <Route name='book-id' path='book/:bookId' handler={Book} />
+      <Route name='collections' path='collections' handler={Collections} />
+      <Route name='start' path='start' handler={Start} />
+      <Route name='add' path='add' handler={AddEntityPage} />
     </Route>
   </Route>
 );
 
 function run() {
   Router.run(routes, Router.HistoryLocation, function(Root) {
-      React.render(<Root/>, document.body);
+    React.render(<Root/>, document.body);
   });
 }
 

@@ -1,9 +1,7 @@
-"use strict";
 var React = require('react');
 var Paper = require('material-ui').Paper;
 var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
-var Select = require('react-select');
 var LocationEntities = require('./LocationEntities.js');
 var Collection = require('./collection.js');
 var TextField = require('material-ui').TextField;
@@ -33,7 +31,7 @@ var Collections = React.createClass({
       this.setState({
         collections: results,
       });
-    }.bind(this));
+    });
   },
 
   getInitialState() {

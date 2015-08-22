@@ -15,21 +15,21 @@ var Location = Parse.Object.extend('location');
 
 
 var process = function(obj) {
-    var loc = new Location();
-    var entity = getByParse(obj);
-    loc.set({
-      label: entity.getLabel(obj),
-      type: entity.key,
+  var loc = new Location();
+  var entity = getByParse(obj);
+  loc.set({
+    label: entity.getLabel(obj),
+    type: entity.key,
+  });
+  loc.set(entity.key, obj);
+  obj.set('location', loc);
+  parseLimiter.removeTokens(1, function() {
+    Parse.Object.saveAll([loc, obj], {
+      success: function(list) {
+        console.log('Saved ', list.map(function(o) { o = o || {}; return o.id; }).join(', '));
+      } 
     });
-    loc.set(entity.key, obj);
-    obj.set('location', loc);
-    parseLimiter.removeTokens(1, function() {
-      Parse.Object.saveAll([loc, obj], {
-        success: function(list) {
-          console.log('Saved ', list.map(function(o) { o = o || {}; return o.id; }).join(', '));
-        } 
-      });
-    });
+  });
 };
 
 

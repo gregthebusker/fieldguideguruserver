@@ -1,6 +1,6 @@
 var flattenObject = require('./utility.js').flattenObject;
 var Parse = require('parse').Parse;
-var GoogleBook = Parse.Object.extend("googlebook");
+var GoogleBook = Parse.Object.extend('googlebook');
 
 module.exports = {
   // More details at https://developers.google.com/books/docs/v1/reference/volumes#resource

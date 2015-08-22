@@ -9,7 +9,7 @@ Parse.initialize(parseKeys.appId, parseKeys.jsKey, parseKeys.masterKey);
 
 function getPriceMap(data, cb) {
   data.prices = {};
-  var buyingLinksBase = "http://www.worldcat.org/wcpa/servlet/org.oclc.lac.ui.buying.AjaxBuyingLinksServlet?serviceCommand=getBuyingLinks&oclcno=";
+  var buyingLinksBase = 'http://www.worldcat.org/wcpa/servlet/org.oclc.lac.ui.buying.AjaxBuyingLinksServlet?serviceCommand=getBuyingLinks&oclcno=';
 
   var url = buyingLinksBase + data.oclcno;
   parseLimiter.removeTokens(1, function() {
@@ -39,7 +39,7 @@ function getPriceMap(data, cb) {
 }
 
 function parseWorldCatData(obj, cb) {
-  var url = obj.get("URL");
+  var url = obj.get('URL');
   if (!url) {
     return;
   }
@@ -86,12 +86,12 @@ function parseWorldCatData(obj, cb) {
 }
 
 function main() {
-  var FieldGuide = Parse.Object.extend("fieldguide");
-  var WorldCat = Parse.Object.extend("worldcat");
+  var FieldGuide = Parse.Object.extend('fieldguide');
+  var WorldCat = Parse.Object.extend('worldcat');
 
   var query = new Parse.Query(FieldGuide);
-  query.exists("URL");
-  query.doesNotExist("worldcat");
+  query.exists('URL');
+  query.doesNotExist('worldcat');
   callOnEach(query, function(obj, cb) {
     parseWorldCatData(obj, function(data) {
       getPriceMap(data, function(data) {
@@ -109,14 +109,14 @@ function main() {
                     cb();
                   },
                   error: function(o, e) {
-                    console.error(e)
+                    console.error(e);
                     cb();
                   }
                 });
               });
             },
             error: function(g, e) {
-              console.error(e)
+              console.error(e);
               process.exit();
               cb();
             }

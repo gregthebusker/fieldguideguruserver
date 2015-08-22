@@ -10,13 +10,13 @@ var rateLimit = 1000 / 25;
 var bibLimiter = new RateLimiter(1, rateLimit); 
 var parseLimiter = new RateLimiter(1, rateLimit); 
 
-var urlRoot = "http://bibleaves.library.illinois.edu";
-var urlTemplate = urlRoot + "/catalog?f%5Bcollection_facet%5D%5B%5D=fldg&search_field=all_fields&page=";
+var urlRoot = 'http://bibleaves.library.illinois.edu';
+var urlTemplate = urlRoot + '/catalog?f%5Bcollection_facet%5D%5B%5D=fldg&search_field=all_fields&page=';
 
 function getNumberOfPages(cb) {
   request(urlTemplate, function(error, response, html) {
     var $ = cheerio.load(html);
-    var last = $("ul.pagination li a").last();
+    var last = $('ul.pagination li a').last();
     var pages = last.text();
     cb(pages);
   });
@@ -27,7 +27,7 @@ function parsePages(pages, cb) {
     return function() {
       request(url, function(error, response, html) {
         var $ = cheerio.load(html);
-        $("#documents .document").each(function() {
+        $('#documents .document').each(function() {
           var href = $(this).find('a').first().attr('href');
           cb(href);
         });
@@ -78,14 +78,14 @@ function parseBookPage(href, cb) {
 }
 
 function saveToParse(data, cb) {
-  var FieldGuide = Parse.Object.extend("fieldguide");
+  var FieldGuide = Parse.Object.extend('fieldguide');
 
   var query = new Parse.Query(FieldGuide);
   // Match on ISBN and if that doesn't exist match on title.
   if (data.ISBN) {
-    query.equalTo("ISBN", data.ISBN);
+    query.equalTo('ISBN', data.ISBN);
   } else {
-    query.equalTo("title", data.title);
+    query.equalTo('title', data.title);
   }
   parseLimiter.removeTokens(1, function() {
     query.find({
@@ -115,13 +115,13 @@ function saveToParse(data, cb) {
 function main() {
   var i = 1;
   getNumberOfPages(function(pages) {
-    console.log("Found pages: " + pages);
+    console.log('Found pages: ' + pages);
     parsePages(pages, function(href) {
-      //console.log("Parsing: " + href);
+      //console.log('Parsing: ' + href);
       parseBookPage(href, function(data) {
-        //console.log("Bib Data: " + JSON.stringify(data));
+        //console.log('Bib Data: ' + JSON.stringify(data));
         saveToParse(data, function(result) {
-          console.log("Saved " + i + ": " + result.id);
+          console.log('Saved ' + i + ': ' + result.id);
           i++;
         });
       });

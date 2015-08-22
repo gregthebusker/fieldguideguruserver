@@ -1,4 +1,3 @@
-"use strict";
 var React = require('react');
 var Paper = require('material-ui').Paper;
 var Parse = require('parse').Parse;
@@ -36,7 +35,7 @@ var Book = React.createClass({
         state[type] = a;
       });
       this.setState(state);
-    }.bind(this));
+    });
   },
 
   onEntityChange(entity, newValue, options) {
@@ -99,7 +98,7 @@ var Book = React.createClass({
 
         options = options.concat(moreOptions.map(r => {
           return this.makeOption(r.get('location'));
-        }.bind(this)));
+        }));
 
         callback(null, {
           options: options,
@@ -137,7 +136,7 @@ var Book = React.createClass({
     var book = this.state.book;
     var image; 
     if (book.get('thumbnail')) {
-      image = <img className="book-image" src={book.get('thumbnail').url()} />
+      image = <img className="book-image" src={book.get('thumbnail').url()} />;
     }
     return (
       <div>

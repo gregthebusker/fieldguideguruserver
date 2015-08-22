@@ -1,4 +1,3 @@
-"use strict";
 var React = require('react');
 var Paper = require('material-ui').Paper;
 var Parse = require('parse').Parse;
@@ -64,7 +63,7 @@ var Collection = React.createClass({
 
         options = options.concat(moreOptions.map(r => {
           return this.makeOption(r.get('location'));
-        }.bind(this)));
+        }));
 
         callback(null, {
           options: options,
@@ -74,11 +73,11 @@ var Collection = React.createClass({
   },
 
   getListForEntity(entity) {
-      var list = this.props.collection.get('children') || [];
-      list = list.filter(obj => {
-        return obj.get('type') == entity.key;
-      });
-      return list;
+    var list = this.props.collection.get('children') || [];
+    list = list.filter(obj => {
+      return obj.get('type') == entity.key;
+    });
+    return list;
   },
 
   renderLocationEntities() {

@@ -43,7 +43,7 @@ var callOnEach = function(query, cb, shouldWait, withSkip) {
         }
       });
     });
-  }
+  };
   go();
 };
 
@@ -52,7 +52,7 @@ function saveImage(obj, url, cb) {
 
   request.get(url, function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      var data = "data:" + response.headers["content-type"] + ";base64," + new Buffer(body).toString('base64');
+      var data = 'data:' + response.headers['content-type'] + ';base64,' + new Buffer(body).toString('base64');
       var file = new Parse.File('thumbnail.jpg', { base64: data});
       obj.set('fgg_thumbnail', file);
       parseLimiter.removeTokens(1, function() {
@@ -73,7 +73,7 @@ function saveImage(obj, url, cb) {
       });
     }
   });
-};
+}
 
 
 var flattenObject = function(ob) {

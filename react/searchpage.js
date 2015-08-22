@@ -1,4 +1,3 @@
-"use strict";
 var React = require('react');
 var Paper = require('material-ui').Paper;
 var Toolbar = require('material-ui').Toolbar;
@@ -132,7 +131,7 @@ var ResultList = React.createClass({
         success: (o) => {
           this.refs.text.clearValue();
           this.refs.snackbar.show();
-        }.bind(this),
+        },
       });
     }
     this.closeWishModal();
@@ -242,7 +241,7 @@ var Search = React.createClass({
         this.setState({
           subjects: results,
         });
-      }.bind(this)
+      }
     });
 
     var Location = Parse.Object.extend('location');
@@ -273,7 +272,7 @@ var Search = React.createClass({
         this.setState({
           parents: locations,
         });
-      }.bind(this)
+      }
     });
   },
 

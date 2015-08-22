@@ -1,4 +1,3 @@
-"use strict";
 var React = require('react');
 var Colors = require('material-ui').Styles.Colors;
 
@@ -8,12 +7,6 @@ var Main = React.createClass({
   },
 
   render: function() {
-    var containerStyle = {
-      textAlign: 'center',
-      paddingTop: '200px',
-      color: Colors.darkWhite
-    };
-
     return (
       <div style={{
         width: '100%',
