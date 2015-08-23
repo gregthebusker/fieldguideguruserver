@@ -3,6 +3,8 @@ var React = require('react');
 var injectTapEventPlugin = require('react-tap-event-plugin');
 
 var FieldGuide = require('FieldGuide');
+var LocationEntities = require('LocationEntities').Entities;
+var LocationSelector = require('LocationSelector');
 
 //Needed for React Developer Tools
 window.React = React;
@@ -15,10 +17,40 @@ injectTapEventPlugin();
 
 
 var DevPage = React.createClass({
+  getInitialState() {
+    return {
+      fieldguide: null,
+    };
+  },
+
   fetchBook() {
     FieldGuide.fetch('bXfOVrSxG9', (fg) => {
       console.log(fg);
+      this.setState({
+        fieldguide: fg,
+      });
     });
+  },
+
+  renderSelectors() {
+    if (!this.state.fieldguide) {
+      return;
+    }
+
+    return (
+      <div>
+        <LocationSelector
+          fieldguide={this.state.fieldguide}
+          location={LocationEntities.State}
+          autoSave={false}
+        />
+        <LocationSelector
+          fieldguide={this.state.fieldguide}
+          location={LocationEntities.Collection}
+          autoSave={false}
+        />
+      </div>
+    );
   },
 
   render() {
@@ -27,6 +59,8 @@ var DevPage = React.createClass({
         Dev Page
         <br/>
         <button onClick={this.fetchBook}>Get FieldGuide for bXfOVrSxG9</button>
+        <br/>
+        {this.renderSelectors()}
       </div>
     );
   },

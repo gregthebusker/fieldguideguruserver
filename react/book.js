@@ -6,6 +6,7 @@ var BookPreview = require('./bookpreview.js');
 var Select = require('react-select');
 var LocationEntities = require('./LocationEntities.js');
 var FieldGuide = require('FieldGuide');
+var LocationSelector = require('LocationSelector');
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
 var Locations = [];
@@ -21,46 +22,6 @@ var Book = React.createClass({
       this.setState({
         book: fg,
       });
-
-      var locations = fg.get('locations');
-      if (!locations) {
-        return;
-      }
-
-      var state = {};
-      locations.forEach(obj => {
-        var type = obj.get('type');
-        var a = state[type] || [];
-        a.push(obj);
-        state[type] = a;
-      });
-      this.setState(state);
-    });
-  },
-
-  onEntityChange(entity, newValue, options) {
-    var current = this.state[entity.key] || [];
-    var nextSet = options.map(o => o.obj) || [];
-
-    var toRemove = current.filter(o => {
-      return nextSet.indexOf(o) == -1;
-    });
-    var toAdd = nextSet.filter(o => {
-      return current.indexOf(o) == -1;
-    });
-
-    toAdd.forEach(obj => {
-      this.state.book.parseObject.add('locations', obj);
-    });
-
-    toRemove.forEach(obj => {
-      this.state.book.parseObject.remove('locations', obj);
-    });
-
-    this.state.book.save();
-
-    this.setState({
-      [entity.key]: nextSet,
     });
   },
 
@@ -69,61 +30,18 @@ var Book = React.createClass({
       book: null,
     };
 
-    Locations.forEach(entity => {
-      state[entity.key] = [];
-    });
     return state;
-  },
-
-  makeOption(r) {
-    return {
-      value: r.id,
-      label: r.get('label'),
-      obj: r,
-    };
-  },
-
-  getEntity(entity, input, callback) {
-    var query = new Parse.Query(entity.parse);
-    query.contains('searchable_text', input.toLowerCase());
-    query.include('location');
-    query.find({
-      success: (results) => {
-        var selected = this.state[entity.key];
-        var options = selected.map(this.makeOption);
-        var ids = options.map(o => o.value);
-        var moreOptions = results.filter(r => {
-          return ids.indexOf(r.get('location').id) == -1;
-        });
-
-        options = options.concat(moreOptions.map(r => {
-          return this.makeOption(r.get('location'));
-        }));
-
-        callback(null, {
-          options: options,
-        });
-      }
-    });
   },
 
   renderLocationEntities() {
     return Locations.map(entity => {
-      var values = this.state[entity.key].map(obj => obj.id);
-      var options = this.state[entity.key].map(this.makeOption);
       return (
-        <div key={entity.key}>
-          <h3>{entity.key}</h3>
-          <Select
-            className="country-select"
-            delimiter=","
-            multi={true}
-            value={values.join(',')}
-            onChange={this.onEntityChange.bind(this, entity)}
-            options={options}
-            asyncOptions={this.getEntity.bind(this, entity)} 
-          />
-        </div>
+        <LocationSelector
+          fieldguide={this.state.book}
+          location={entity}
+          autoSave={true}
+          key={entity.key}
+        />
       );
     });
   },

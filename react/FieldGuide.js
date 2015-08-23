@@ -1,11 +1,14 @@
 var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
+var EventEmitter = require('events').EventEmitter;
+
 
 var Book = Parse.Object.extend('fieldguide');
 
-class FieldGuide {
+class FieldGuide extends EventEmitter {
   constructor(parseObject) {
+    super();
     this.parseObject = parseObject;
     this.editMode = false;
     if (parseObject) {
@@ -17,6 +20,7 @@ class FieldGuide {
 
   set(key, value) {
     this.parseObject.set(key, value);
+    this.emit('change');
   }
 
   save(cb=(()=>{})) {
@@ -109,6 +113,20 @@ class FieldGuide {
     }
 
     return;
+  }
+
+  addLocations(locations) {
+    locations.forEach(location => { 
+      this.parseObject.add('locations', location);
+    });
+    this.emit('change');
+  }
+
+  removeLocations(locations) {
+    locations.forEach(location => {
+      this.parseObject.remove('locations', location);
+    });
+    this.emit('change');
   }
 
   static fetch(id, cb) {
