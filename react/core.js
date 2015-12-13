@@ -8,7 +8,7 @@ var MaterialAppBar = require('material-ui').AppBar;
 var LeftNav = require('material-ui').LeftNav;
 var SearchIcon = require('./searchicon.js');
 var EnvironmentStore = require('./environmentstore.js');
-var { Router, Route, IndexRoute, History } = require('react-router');
+var { Router, Route, History } = require('react-router');
 var Collections = require('collectionspage');
 var AddEntityPage = require('AddEntityPage');
 var Footer = require('./Footer.js');
@@ -86,7 +86,11 @@ var Core = React.createClass({
 var routes = (
   <Route component={Core}>
     <Route component={App}>
+      <Route name='search' path='search/:locationId' component={Search} />
+      <Route name='book-id' path='book/:bookId' component={Book} />
+      <Route name='collections' path='collections' component={Collections} />
       <Route name='start' path='start' component={Start} />
+      <Route name='add' path='add' component={AddEntityPage} />
     </Route>
     <Route path="*" component={Landing} />
   </Route>

@@ -3,9 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "gulp && node ./bin/www",
     "preinstall": "npm install -g gulp",
-    "postinstall": "gulp"
   },
   "dependencies": {
     "autoprefixer-core": "6.0.1",
