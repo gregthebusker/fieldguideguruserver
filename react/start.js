@@ -49,13 +49,10 @@ var Start = React.createClass({
               <MainIcon />
               Where do you need a field guide to?
             </h3>
-            {/*
-                <LocationTypeahead
-                  autoFocus={true}
-                  onSelect={this.onSelectLocation}
-                />
-            */}
-
+            <LocationTypeahead
+              autoFocus={true}
+              onSelect={this.onSelectLocation}
+            />
           </div>
         </div>
       </div>
