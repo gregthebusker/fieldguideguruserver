@@ -7,7 +7,7 @@
     "preinstall": "npm install -g gulp"
   },
   "dependencies": {
-    "autoprefixer-core": "6.0.1",
+    "autoprefixer": "6.1.2",
     "babel": "6.3.13",
     "babel-core": "6.3.17",
     "babel-loader": "6.2.0",
@@ -64,8 +64,8 @@
   },
   "devDependencies": {
     "eslint-plugin-react": "^3.2.3"
-},
-"engines": {
+  },
+  "engines": {
     "node": ">=5.2.0"
   }
 }
