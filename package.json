@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "gulp && node ./bin/www",
-    "preinstall": "npm install -g gulp",
+    "preinstall": "npm install -g gulp"
   },
   "dependencies": {
     "autoprefixer-core": "6.0.1",
