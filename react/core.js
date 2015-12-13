@@ -14,18 +14,6 @@ var AddEntityPage = require('AddEntityPage');
 var Footer = require('./Footer.js');
 var { createHistory } = require('history');
 
-var App = React.createClass({
-  render: function() {
-    return (
-      <div>
-        <AppBar />
-        {this.props.children}
-        <Footer />
-      </div>
-    );
-  }
-});
-
 var AppBar = React.createClass({
   mixins: [History],
 
@@ -58,6 +46,19 @@ var AppBar = React.createClass({
           menuItems={menuItems}
           onChange={this.onLeftNavChange}
         />
+      </div>
+    );
+  }
+});
+
+
+var App = React.createClass({
+  render: function() {
+    return (
+      <div>
+        <AppBar />
+        {this.props.children}
+        <Footer />
       </div>
     );
   }
