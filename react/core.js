@@ -86,13 +86,13 @@ var Core = React.createClass({
 var routes = (
   <Route component={Core}>
     <Route component={App}>
-      <IndexRoute component={Landing} />
       <Route name='search' path='search/:locationId' component={Search} />
       <Route name='book-id' path='book/:bookId' component={Book} />
       <Route name='collections' path='collections' component={Collections} />
       <Route name='start' path='start' component={Start} />
       <Route name='add' path='add' component={AddEntityPage} />
     </Route>
+    <Route path="*" component={Landing} />
   </Route>
 );
 
