@@ -12,17 +12,17 @@ var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
 var ParseList = require('./parselist.js');
 var Router = require('react-router');
-var Navigation = Router.Navigation;
+var History = Router.History;
 var LocationTypeahead = require('locationTypeahead');
 var FieldGuide = require('./FieldGuide.js');
 
-var PureRenderMixin = require('react/addons').addons.PureRenderMixin;
+var PureRenderMixin = require('react-addons-pure-render-mixin');
 
 Parse.initialize(parseKeys.appId, parseKeys.jsKey);
 
 
 var Tile = React.createClass({
-  mixins: [Navigation],
+  mixins: [History],
 
   getInitialState() {
     return {
@@ -30,8 +30,8 @@ var Tile = React.createClass({
     };
   },
   onClick() {
-    this.transitionTo('book-id', {
-      bookId: this.props.item.id,
+    this.history.push({
+        pathname: `book-id/${this.props.item.id}`,
     });
   },
 
@@ -81,10 +81,12 @@ var Tile = React.createClass({
 });
 
 var ResultList = React.createClass({
-  mixins: [Navigation, PureRenderMixin],
-    
+  mixins: [History, PureRenderMixin],
+
   onAdd() {
-    this.transitionTo('add');
+    this.history.push({
+        pathname: 'add',
+    });
   },
 
   addMore() {
@@ -283,7 +285,7 @@ var Search = React.createClass({
       parents: null,
     };
   },
- 
+
   onFilterChange(e, selectedIndex, menuItem) {
     this.setState({
       filter: menuItem.id,

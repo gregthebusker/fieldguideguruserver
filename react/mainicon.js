@@ -1,6 +1,6 @@
 var React = require('react');
 var SvgIcon = require('material-ui').SvgIcon;
-var ThemeManager = require('material-ui').Styles.ThemeManager();
+let Colors = require('material-ui/lib/styles/colors');
 
 var Binoculars = React.createClass({
   render: function() {
@@ -15,15 +15,13 @@ var Binoculars = React.createClass({
 });
 
 var MainIcon = React.createClass({
-  render: function() {
-    var fill = ThemeManager.getCurrentTheme()
-      .component.appBar.textColor;
-    return (
-      <Binoculars color={fill} style={{
-        marginRight: '5px'
-      }}/>
-    );
-  }
+    render: function() {
+        return (
+            <Binoculars color={Colors.cyan500} style={{
+                marginRight: '5px'
+            }} />
+        );
+    }
 });
 
 module.exports = MainIcon;

@@ -49,10 +49,10 @@ html
       }
     script(type="text/javascript" src="https://apis.google.com/js/client.js?onload=onGAPILoad")
 
+    #react-body
 
     block content
-      script(src='/js/index.js')
+      script(src='/js/App.react.js')
       script(type='text/javascript').
-        var Main = require('main');
-        Main.run();
+        Client.run();
 

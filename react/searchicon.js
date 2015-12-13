@@ -1,9 +1,10 @@
 var React = require('react');
 var SvgIcon = require('material-ui').SvgIcon;
 var IconButton = require('material-ui').IconButton;
-var ThemeManager = require('material-ui').Styles.ThemeManager();
 var Router = require('react-router');
-var Navigation = Router.Navigation;
+var History = Router.History;
+let Colors = require('material-ui/lib/styles/colors');
+
 
 var Search = React.createClass({
   render: function() {
@@ -16,20 +17,24 @@ var Search = React.createClass({
 });
 
 var SearchIcon = React.createClass({
-  mixins: [Navigation],
+  mixins: [History],
+
+  contextTypes: {
+      muiTheme: React.PropTypes.object.isRequired,
+  },
 
   navigate() {
-    this.transitionTo('start');
+    this.history.push({
+        pathname: 'start',
+    });
   },
 
   render: function() {
-    var fill = ThemeManager.getCurrentTheme()
-      .component.appBar.textColor;
     return (
       <IconButton
         tooltip="Search"
         onClick={this.navigate}>
-        <Search style={{fill: fill}}/>
+        <Search style={{fill: Colors.cyan500}}/>
       </IconButton>
     );
   }

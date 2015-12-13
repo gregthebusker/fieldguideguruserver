@@ -10,7 +10,7 @@ var Loader = require('./Loader.js');
 var Router = require('react-router');
 
 var AddEntityPage = React.createClass({
-  mixins: [Router.Navigation],
+  mixins: [Router.History],
 
   componentWillMount() {
     mixpanel.track('Add entity page');
@@ -76,7 +76,7 @@ var AddEntityPage = React.createClass({
   },
 
   goToStart() {
-    this.transitionTo('start');
+    this.history.push({ pathname: 'start'});
   },
 
   render() {

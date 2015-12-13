@@ -1,5 +1,6 @@
-require('babel/polyfill');
+require('babel-polyfill');
 var React = require('react');
+var ReactDOM = require('react-dom');
 var injectTapEventPlugin = require('react-tap-event-plugin');
 
 var FieldGuide = require('FieldGuide');
@@ -68,7 +69,7 @@ var DevPage = React.createClass({
 
 
 var run = () => {
-  React.render(<DevPage />, document.body);
+  ReactDOM.render(<DevPage />, document.getElementById('react-body'));
 };
 
 module.exports = {

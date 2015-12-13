@@ -1,31 +1,25 @@
 var React = require('react');
+var ReactDOM = require('react-dom');
 var Search = require('./searchpage.js');
 var Book = require('./book.js');
 var Landing = require('./landing.js');
 var Start = require('./start.js');
 var MaterialAppBar = require('material-ui').AppBar;
 var LeftNav = require('material-ui').LeftNav;
-var Colors = require('material-ui').Styles.Colors;
 var SearchIcon = require('./searchicon.js');
 var EnvironmentStore = require('./environmentstore.js');
-var Router = require('react-router');
-var Route = Router.Route;
-var RouteHandler = Router.RouteHandler;
-var DefaultRoute = Router.DefaultRoute;
-var Navigation = Router.Navigation;
+var { Router, Route, IndexRoute, History } = require('react-router');
 var Collections = require('collectionspage');
 var AddEntityPage = require('AddEntityPage');
 var Footer = require('./Footer.js');
-
-var mui = require('material-ui');
-var ThemeManager = new mui.Styles.ThemeManager();
+var { createHistory } = require('history');
 
 var App = React.createClass({
   render: function() {
     return (
       <div>
         <AppBar />
-        <RouteHandler />
+        {this.props.children}
         <Footer />
       </div>
     );
@@ -33,7 +27,7 @@ var App = React.createClass({
 });
 
 var AppBar = React.createClass({
-  mixins: [Navigation],
+  mixins: [History],
 
   openNav() {
     this.refs.leftNav.toggle();
@@ -41,7 +35,7 @@ var AppBar = React.createClass({
 
   onLeftNavChange(e, index, payload) {
     this.refs.leftNav.close();
-    this.transitionTo(payload.route);
+    this.history.push({ pathname: payload.route});
   },
 
   render: function() {
@@ -70,56 +64,46 @@ var AppBar = React.createClass({
 });
 
 var Core = React.createClass({
-  mixins: [Navigation],
-
-  childContextTypes: {
-    muiTheme: React.PropTypes.object
-  },
-
-  getChildContext: function() {
-    return {
-      muiTheme: ThemeManager.getCurrentTheme()
-    };
-  },
+  mixins: [History],
 
   componentWillMount: function() {
-    ThemeManager.setPalette({
-      primary1Color: Colors.green500
-    });
-
     EnvironmentStore.register(function(payload) {
       if (payload.action == 'new_location') {
         var obj = payload.data;
-  
-        this.transitionTo('search', {
-          locationId: obj.get('location').id
+
+        this.history.push({
+            pathname: `search/${obj.get('location').id}`,
         });
       }
     }.bind(this));
   },
 
   render: function() {
-    return <RouteHandler />;
+    return this.props.children;
   }
 });
 
 var routes = (
-  <Route handler={Core}>
-    <Route handler={App}>
-      <DefaultRoute handler={Landing}/>
-      <Route name='search' path='search/:locationId' handler={Search} />
-      <Route name='book-id' path='book/:bookId' handler={Book} />
-      <Route name='collections' path='collections' handler={Collections} />
-      <Route name='start' path='start' handler={Start} />
-      <Route name='add' path='add' handler={AddEntityPage} />
+  <Route component={Core}>
+    <Route component={App}>
+      <IndexRoute component={Landing} />
+      <Route name='search' path='search/:locationId' component={Search} />
+      <Route name='book-id' path='book/:bookId' component={Book} />
+      <Route name='collections' path='collections' component={Collections} />
+      <Route name='start' path='start' component={Start} />
+      <Route name='add' path='add' component={AddEntityPage} />
     </Route>
   </Route>
 );
 
 function run() {
-  Router.run(routes, Router.HistoryLocation, function(Root) {
-    React.render(<Root/>, document.body);
-  });
+    var history = createHistory();
+
+    ReactDOM.render(
+        <Router history={history}>
+            {routes}
+        </Router>
+    , document.getElementById('react-body'));
 }
 
 module.exports = {

@@ -1,25 +1,12 @@
 var gulp = require('gulp');
 var postcss = require('gulp-postcss');
 var autoprefixer = require('autoprefixer-core');
-var browserify = require('browserify');
-var watchify = require('watchify');
-var babelify = require('babelify');
-var source = require('vinyl-source-stream');
 var less = require('gulp-less');
 var cssnano = require('cssnano');
-var uglifyify = require('uglifyify');
 var gutil = require('gulp-util');
-var eslint = require('gulp-eslint');
+var webpack = require('webpack');
 
-gulp.task('default', ['scripts', 'less']);
-
-gulp.task('scripts', function() {
-  return scripts(false, true);
-});
- 
-gulp.task('watchScripts', function() {
-  return scripts(true, false);
-});
+gulp.task('default', ['webpack', 'less']);
 
 gulp.task('watchStyles', function() {
   gulp.watch('./less/**/*', ['less']);
@@ -38,77 +25,54 @@ gulp.task('less', function() {
     .pipe(gulp.dest('./public/stylesheets/'));
 });
 
-gulp.task('lint', function () {
-    return gulp.src([
-          './react/**/*.js',
-          '!./react/parsecloud/**/*.js',
-          '!./react/typeahead/typeahead.js',
-          '!./react/typeahead/aria_status.js'
-        ])
-        // eslint() attaches the lint output to the eslint property
-        // of the file object so it can be used by other modules.
-        .pipe(eslint())
-        // eslint.format() outputs the lint results to the console.
-        // Alternatively use eslint.formatEach() (see Docs).
-        .pipe(eslint.format())
-        // To have the process exit with an error code (1) on
-        // lint error, return the stream and pipe to failOnError last.
-        //.pipe(eslint.failOnError());
+
+var startWebpackDev = (opts) => {
+    var WebpackDevServer = require('webpack-dev-server');
+    var config = opts && opts.https ? require('./webpack.hotssl.config.js') : require('./webpack.hot.config.js');
+
+    opts = opts || {};
+    opts.publicPath = config.output.publicPath;
+    opts.hot = true;
+    opts.historyApiFallback = true;
+
+    new WebpackDevServer(webpack(config), opts)
+    .listen(8080, 'localhost', (err, result) => {
+        if (err) {
+            console.log(err);
+        }
+
+        console.log('Listening at localhost:8080');
+    });
+};
+
+gulp.task('webpack-dev', (callback) => {
+    startWebpackDev();
 });
 
-gulp.task('watch', function() {
-  gulp.start(['watchScripts', 'watchStyles']);
-  //gulp.watch(['./react/**'], ['lint']);
+gulp.task('webpack-dev-ssl', () => {
+    startWebpackDev({ https: true });
 });
 
-function scripts(watch, compact) {
-  var bundler, rebundle;
-  bundler = browserify([
-    './react/main.js',
-    './react/dev.js'
-  ], {
-    cache: {}, // required for watchify
-    packageCache: {}, // required for watchify
-    fullPaths: watch, // required to be true only for watchify
-    paths: [
-      './react',
-      './react/typeahead'
-    ]
-  });
-  if(watch) {
-    bundler = watchify(bundler);
-    bundler.on('update', function() {
-      gutil.log(gutil.colors.green('Reloading...'));
+gulp.task('webpack', (callback) => {
+    webpack(require('./webpack.config.js'), (err, stats) => {
+        if (err) {
+            throw new gutil.PluginError('webpack', err);
+        }
+        gutil.log('[webpack]', stats.toString({
+            chunkModules: false,
+        }));
+        callback();
     });
-  }
- 
-  bundler.transform(babelify.configure({
-    stage: 1,
-    compact: compact,
-    optional: [
-      "minification.memberExpressionLiterals",
-      "minification.propertyLiterals"
-    ],
-  }));
+});
 
-  bundler.require('./react/main.js', { expose: 'main'});
-  bundler.require('./react/dev.js', { expose: 'dev'});
-
-  if (!watch) {
-    bundler.transform({
-      global: true
-    }, uglifyify);
-  }
- 
-  rebundle = function() {
-    var stream = bundler.bundle();
-    stream.on('error', function(e) {
-      gutil.log(gutil.colors.magenta('Browserify Failed', e.message));
+gulp.task('webpack-deploy', (callback) => {
+    webpack(require('./webpack.prod.config.js'), (err, stats) => {
+        if (err) {
+            throw new gutil.PluginError('webpack', err);
+        }
+        gutil.log('[webpack]', stats.toString({
+            chunkModules: false,
+        }));
+        callback();
     });
-    stream = stream.pipe(source('index.js'));
-    return stream.pipe(gulp.dest('./public/js'));
-  };
- 
-  bundler.on('update', rebundle);
-  return rebundle();
-} 
+});
