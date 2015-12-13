@@ -49,10 +49,6 @@ gulp.task('webpack-dev', (callback) => {
     startWebpackDev();
 });
 
-gulp.task('webpack-dev-ssl', () => {
-    startWebpackDev({ https: true });
-});
-
 gulp.task('webpack', (callback) => {
     webpack(require('./webpack.config.js'), (err, stats) => {
         if (err) {

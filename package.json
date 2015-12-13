@@ -65,5 +65,8 @@
   },
   "devDependencies": {
     "eslint-plugin-react": "^3.2.3"
+},
+"engines": {
+    "node": ">=5.2.0"
   }
 }
