@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 var postcss = require('gulp-postcss');
-var autoprefixer = require('autoprefixer-core');
+var autoprefixer = require('autoprefixer');
 var less = require('gulp-less');
 var cssnano = require('cssnano');
 var gutil = require('gulp-util');
@@ -28,7 +28,7 @@ gulp.task('less', function() {
 
 var startWebpackDev = (opts) => {
     var WebpackDevServer = require('webpack-dev-server');
-    var config = opts && opts.https ? require('./webpack.hotssl.config.js') : require('./webpack.hot.config.js');
+    var config = require('./webpack.hot.config.js');
 
     opts = opts || {};
     opts.publicPath = config.output.publicPath;
