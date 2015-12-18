@@ -1,5 +1,5 @@
 var flattenObject = require('./utility.js').flattenObject;
-var Parse = require('parse/node').Parse;
+var Parse = require('parse').Parse;
 var GoogleBook = Parse.Object.extend('googlebook');
 
 module.exports = {

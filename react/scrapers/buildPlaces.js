@@ -1,6 +1,6 @@
 var request = require('request');
 var RateLimiter = require('limiter').RateLimiter;
-var Parse = require('parse/node').Parse;
+var Parse = require('parse').Parse;
 var parseKeys = require('./parsekeys.js');
 
 Parse.initialize(parseKeys.appId, parseKeys.jsKey, parseKeys.masterKey);

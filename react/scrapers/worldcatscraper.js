@@ -1,7 +1,7 @@
 var callOnEach = require('./utility.js').callOnEach;
 var parseLimiter = require('./utility.js').parseLimiter;
 var parseKeys = require('./parsekeys.js');
-var Parse = require('parse/node').Parse;
+var Parse = require('parse').Parse;
 var request = require('request');
 var cheerio = require('cheerio');
 

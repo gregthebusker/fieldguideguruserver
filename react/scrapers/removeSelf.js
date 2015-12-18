@@ -1,7 +1,7 @@
 var callOnEach = require('./utility.js').callOnEach;
 var parseLimiter = require('./utility.js').parseLimiter;
 var parseKeys = require('./parsekeys.js');
-var Parse = require('parse/node').Parse;
+var Parse = require('parse').Parse;
 
 Parse.initialize(parseKeys.appId, parseKeys.jsKey, parseKeys.masterKey);
 
