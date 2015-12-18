@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var bodyParser = require('body-parser');
-var Parse = require('parse').Parse;
+var Parse = require('parse/node').Parse;
 
 Parse.initialize("iGJkfcqcNFcg2r537QG49nZzL3WhDuSNMm6KgsQM", "nKYTEfMzToWqiM7B8lt54DkbESAhj44taQuacmWm");
 
@@ -28,7 +28,7 @@ router.all('/', function(req, res) {
     }
 
     var emails = [];
-    
+
 
     texts.forEach(function(text) {
       var matches = text.match(/\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/gi);
@@ -39,7 +39,7 @@ router.all('/', function(req, res) {
             str.indexOf('LISTSERV@') == 0 ||
             str.indexOf('lists.ctbirding.org') > 0 ||
             str.indexOf('envirolink.org') > 0 ||
-            emails.indexOf(str) > 0) { 
+            emails.indexOf(str) > 0) {
             return;
           }
           emails.push(str);

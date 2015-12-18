@@ -1,7 +1,7 @@
 var callOnEach = require('./utility.js').callOnEach;
 var saveImage = require('./utility.js').saveImage;
 var parseKeys = require('./parsekeys.js');
-var Parse = require('parse').Parse;
+var Parse = require('parse/node').Parse;
 
 Parse.initialize(parseKeys.appId, parseKeys.jsKey, parseKeys.masterKey);
 function main() {

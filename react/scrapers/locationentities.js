@@ -1,4 +1,4 @@
-var Parse = require('parse').Parse;
+var Parse = require('parse/node').Parse;
 
 var Entities = {
   Country: {

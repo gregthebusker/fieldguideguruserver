@@ -4,7 +4,7 @@ var googleKeys = require('./googlekeys.js');
 var google = require('googleapis');
 var books = google.books('v1');
 var parseKeys = require('./parsekeys.js');
-var Parse = require('parse').Parse;
+var Parse = require('parse/node').Parse;
 var googleutils = require('./googleutils.js');
 
 Parse.initialize(parseKeys.appId, parseKeys.jsKey, parseKeys.masterKey);

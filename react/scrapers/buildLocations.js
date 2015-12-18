@@ -3,7 +3,7 @@ var ByArray = require('./locationentities.js').ByArray;
 
 var callOnEach = require('./utility.js').callOnEach;
 var parseKeys = require('./parsekeys.js');
-var Parse = require('parse').Parse;
+var Parse = require('parse/node').Parse;
 var RateLimiter = require('limiter').RateLimiter;
 
 Parse.initialize(parseKeys.appId, parseKeys.jsKey, parseKeys.masterKey);
