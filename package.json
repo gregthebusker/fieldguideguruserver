@@ -36,7 +36,7 @@
     "gulp-less": "~3.0.3",
     "gulp-postcss": "^6.0.0",
     "gulp-util": "~3.0.6",
-    "history": "1.16.0",
+    "history": "1.17.0",
     "jade": "~1.11.0",
     "jquery": "~2.1.4",
     "json-loader": "0.5.4",
