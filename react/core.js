@@ -4,8 +4,7 @@ var Search = require('./searchpage.js');
 var Book = require('./book.js');
 var Landing = require('./landing.js');
 var Start = require('./start.js');
-var MaterialAppBar = require('material-ui').AppBar;
-var LeftNav = require('material-ui').LeftNav;
+var { LeftNav, MenuItem, AppBar} = require('material-ui');
 var SearchIcon = require('./searchicon.js');
 var EnvironmentStore = require('./environmentstore.js');
 var { Router, Route, History } = require('react-router');
@@ -14,28 +13,22 @@ var AddEntityPage = require('AddEntityPage');
 var Footer = require('./Footer.js');
 var { createHistory } = require('history');
 
-var AppBar = React.createClass({
+var BaseAppBar = React.createClass({
   mixins: [History],
 
   openNav() {
     this.refs.leftNav.toggle();
   },
 
-  onLeftNavChange(e, index, payload) {
+  routeTo(route) {
     this.refs.leftNav.close();
-    this.history.push({ pathname: payload.route});
+    this.history.push({ pathname: route});
   },
 
   render: function() {
-    var menuItems = [
-      {
-        route: 'start',
-        text: 'Search',
-      },
-    ];
     return (
       <div>
-        <MaterialAppBar
+        <AppBar
           title='Field Guide Guru'
           iconElementRight={<SearchIcon />}
           onLeftIconButtonTouchTap={this.openNav}
@@ -43,9 +36,11 @@ var AppBar = React.createClass({
         <LeftNav
           ref='leftNav'
           docked={false}
-          menuItems={menuItems}
-          onChange={this.onLeftNavChange}
-        />
+          onChange={this.onLeftNavChange}>
+            <MenuItem onClick={this.routeTo.bind(this, 'start')}>
+                Search
+            </MenuItem>
+        </LeftNav>
       </div>
     );
   }
@@ -56,7 +51,7 @@ var App = React.createClass({
   render: function() {
     return (
       <div>
-        <AppBar />
+        <BaseAppBar />
         {this.props.children}
         <Footer />
       </div>
