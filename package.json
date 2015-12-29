@@ -48,7 +48,7 @@
     "newrelic": "^1.22.0",
     "parse": "~1.5.0",
     "react": "^0.14.3",
-    "react-addons-pure-render-mixin": "0.14.3",
+    "react-addons-pure-render-mixin": "0.14.4",
     "react-dom": "0.14.3",
     "react-infinite-scroll": "^0.1.5",
     "react-input-autosize": "0.6.6",
