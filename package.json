@@ -10,7 +10,7 @@
     "autoprefixer": "6.2.3",
     "babel": "6.3.26",
     "babel-core": "6.3.26",
-    "babel-loader": "6.2.0",
+    "babel-loader": "6.2.1",
     "babel-plugin-transform-proto-to-assign": "6.3.13",
     "babel-plugin-transform-react-constant-elements": "6.3.13",
     "babel-plugin-transform-react-inline-elements": "6.3.13",
