@@ -1,0 +1,86 @@
+{ "results": [
+	{
+        "createdAt": "2015-07-20T13:42:47.788Z",
+        "objectId": "6BCcOaY24n",
+        "text": "AUSTRALASIA",
+        "updatedAt": "2015-07-20T13:42:47.788Z"
+    },
+	{
+        "createdAt": "2015-07-20T13:45:47.887Z",
+        "objectId": "FKtFl8zDGV",
+        "text": "CENTRAL AND SOUTH AMERICA",
+        "updatedAt": "2015-07-20T13:45:47.887Z"
+    },
+	{
+        "createdAt": "2015-07-20T13:45:33.743Z",
+        "objectId": "J84mSVLD6I",
+        "text": "AFRICA",
+        "updatedAt": "2015-07-20T13:45:33.743Z"
+    },
+	{
+        "createdAt": "2015-07-20T13:50:56.760Z",
+        "objectId": "NEbCjBNP7z",
+        "text": "PACIFIC OCEAN",
+        "updatedAt": "2015-07-20T13:59:08.782Z"
+    },
+	{
+        "createdAt": "2015-07-20T13:47:19.943Z",
+        "objectId": "NPyLQWveVA",
+        "text": "INDO-PACIFIC OCEAN",
+        "updatedAt": "2015-07-20T13:47:19.943Z"
+    },
+	{
+        "createdAt": "2015-07-20T14:01:32.146Z",
+        "objectId": "RHHNygomhg",
+        "text": "TAXONOMIC GUIDES",
+        "updatedAt": "2015-07-20T14:01:32.146Z"
+    },
+	{
+        "createdAt": "2015-07-20T13:45:51.759Z",
+        "objectId": "ZjvYIm7mZy",
+        "text": "NORTH AMERICA",
+        "updatedAt": "2015-07-20T13:45:51.759Z"
+    },
+	{
+        "createdAt": "2015-07-20T13:46:01.772Z",
+        "objectId": "e8s9DbX4Ee",
+        "text": "WORLDWIDE",
+        "updatedAt": "2015-07-20T13:46:01.772Z"
+    },
+	{
+        "createdAt": "2015-07-20T13:43:07.912Z",
+        "objectId": "kC5ulSrrjE",
+        "text": "EUROPE",
+        "updatedAt": "2015-07-20T13:43:07.912Z"
+    },
+	{
+        "createdAt": "2015-07-20T13:48:43.779Z",
+        "objectId": "qzG74oh69z",
+        "text": "ANTARCTICA",
+        "updatedAt": "2015-07-20T13:48:43.779Z"
+    },
+	{
+        "createdAt": "2015-07-20T13:45:48.255Z",
+        "objectId": "rtYjs5dKWF",
+        "text": "ASIA",
+        "updatedAt": "2015-07-20T13:45:48.255Z"
+    },
+	{
+        "createdAt": "2015-07-20T13:45:32.806Z",
+        "objectId": "s1lDWg4lmy",
+        "text": "NORTH AMERICA, WESTERN",
+        "updatedAt": "2015-07-20T13:45:32.806Z"
+    },
+	{
+        "createdAt": "2015-07-20T13:45:45.049Z",
+        "objectId": "ss6YfmNkM8",
+        "text": "NORTH AMERICA, EASTERN",
+        "updatedAt": "2015-07-20T13:45:45.049Z"
+    },
+	{
+        "createdAt": "2015-07-20T13:45:52.112Z",
+        "objectId": "wVLfHtLg3L",
+        "text": "PACIFIC ISLANDS",
+        "updatedAt": "2015-07-20T13:45:52.112Z"
+    }
+] }
